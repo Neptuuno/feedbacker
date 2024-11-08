@@ -1,18 +1,27 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { Project } from "../../projects/entities/project.entity";
+import {Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert, Unique} from "typeorm";
+import {Project} from "../../projects/entities/project.entity";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number
+    @PrimaryGeneratedColumn()
+    id: number
 
-  @Column()
-  username: string
+    @Column({unique: true})
+    username: string
 
-  @Column()
-  email: string
+    @Column()
+    password: string
 
-  @OneToMany(() => Project, (project) => project.user)
-  projects: Project[]
+    @Column({unique: true})
+    email: string
 
+    @OneToMany(() => Project, (project) => project.user)
+    projects: Project[]
+
+    @BeforeInsert()
+    setUsername() {
+        if (!this.username) {
+            this.username = this.email;
+        }
+    }
 }
