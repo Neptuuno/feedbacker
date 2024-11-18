@@ -1,5 +1,6 @@
 import {Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert, Unique} from "typeorm";
 import {Project} from "../../projects/entities/project.entity";
+import {IsEmail} from "class-validator";
 
 @Entity()
 export class User {
@@ -13,6 +14,7 @@ export class User {
     password: string
 
     @Column({unique: true})
+    @IsEmail()
     email: string
 
     @OneToMany(() => Project, (project) => project.user)
