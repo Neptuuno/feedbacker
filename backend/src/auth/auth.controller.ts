@@ -1,6 +1,6 @@
 import {Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards} from '@nestjs/common';
 import {AuthService} from "./auth.service";
-import {AuthDto} from "./dto/authDto";
+import {AuthDto} from "./dto/auth.dto";
 import {AuthGuard} from "./auth.guard";
 import {Public} from "../custom-decorators/isPublic";
 
