@@ -16,6 +16,7 @@ async function bootstrap() {
     customSiteTitle: 'Feedbacker API',
   });
 
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
