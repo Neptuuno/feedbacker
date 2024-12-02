@@ -27,9 +27,9 @@ export default function Login() {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        // const data = await response.json();
         // Store the token in localStorage or cookies
-        setAccessToken(data.access_token);
+        // setAccessToken(data.access_token);
         router.push("/"); // Redirect after successful login
       } else {
         const errorData = await response.json();
