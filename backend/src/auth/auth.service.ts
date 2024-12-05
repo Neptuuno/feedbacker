@@ -11,20 +11,22 @@ export class AuthService {
     constructor(private usersService: UsersService, private jwtService: JwtService) {
     }
 
-    async signIn(email: string, pass: string, response: Response): Promise<void> {
+    async signIn(email: string, pass: string, response: Response): Promise<{access_token: string}> {
         const user = await this.usersService.findOneByEmail(email);
         if (!user || !await argon2.verify(user.password, pass)) {
             throw new UnauthorizedException();
         }
-        const payload = {sub: user.id, email: user.email};
+        const payload = {sub: user.id, username: user.username};
         const accessToken = await this.jwtService.signAsync(payload, { expiresIn: '15m' });
 
         response.cookie('access_token', accessToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
+            // secure: true,
             maxAge: 15 * 60 * 1000,
         });
+        return {
+            access_token: accessToken
+        };
     }
 
     async signUp(email: string, pass: string) {

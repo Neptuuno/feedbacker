@@ -3,8 +3,10 @@ import {Response} from 'express'
 import {AuthService} from "./auth.service";
 import {AuthDto} from "./dto/auth.dto";
 import {Public} from "../custom-decorators/isPublic";
+import {ApiBearerAuth} from "@nestjs/swagger";
 
 @Controller('auth')
+@ApiBearerAuth()
 export class AuthController {
     constructor(private authService: AuthService) {
     }
