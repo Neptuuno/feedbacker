@@ -36,7 +36,6 @@ import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet"
 import {useAuthStore} from "@/stores/authStore";
 
 export default function Dashboard() {
-
     const { accessToken } = useAuthStore();
 
     return (
