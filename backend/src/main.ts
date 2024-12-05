@@ -17,7 +17,10 @@ async function bootstrap() {
     customSiteTitle: 'Feedbacker API',
   });
 
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:4000',
+    credentials: true,
+  });
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
