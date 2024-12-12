@@ -1,10 +1,12 @@
-import {Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpStatus, Post, Res, Request} from '@nestjs/common';
+import {Response} from 'express'
 import {AuthService} from "./auth.service";
 import {AuthDto} from "./dto/auth.dto";
-import {AuthGuard} from "./auth.guard";
 import {Public} from "../custom-decorators/isPublic";
+import {ApiBearerAuth} from "@nestjs/swagger";
 
 @Controller('auth')
+@ApiBearerAuth()
 export class AuthController {
     constructor(private authService: AuthService) {
     }
@@ -12,8 +14,8 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @Post('login')
     @Public()
-    signIn(@Body() authDto: AuthDto) {
-        return this.authService.signIn(authDto.email, authDto.password);
+    signIn(@Body() authDto: AuthDto, @Res({passthrough: true}) response: Response) {
+        return this.authService.signIn(authDto.email, authDto.password, response);
     }
 
     @HttpCode(HttpStatus.OK)
