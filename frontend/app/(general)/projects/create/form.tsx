@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -16,8 +15,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
+import {useState} from "react";
 
-// Define the schema based on the Project entity
+
+
 const formSchema = z.object({
     name: z.string().min(2, {
         message: "Name must be at least 2 characters.",
@@ -28,7 +29,8 @@ const formSchema = z.object({
 });
 
 export function CreateProjectForm() {
-    // 1. Define your form.
+    const [error, setError] = useState<string | null>(null);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -37,10 +39,31 @@ export function CreateProjectForm() {
         },
     });
 
-    // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Simulate form submission
+   async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log("Form submitted:", values);
+
+        try {
+            const response = await fetch("http://localhost:3000/projects", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            });
+
+            console.log(response)
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            } else {
+                const errorData = await response.json();
+                setError(errorData.message || "Login failed");
+            }
+        } catch (error: unknown) {
+            setError(error.message || "Login failed");
+            console.log(error)
+        }
     }
 
     return (
@@ -81,6 +104,9 @@ export function CreateProjectForm() {
                         </FormItem>
                     )}
                 />
+
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+                {/*<p className="text-red-500 text-sm">test</p>*/}
 
                 {/* Submit Button */}
                 <Button type="submit">Create Project</Button>
