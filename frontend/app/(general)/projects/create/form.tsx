@@ -49,6 +49,7 @@ export function CreateProjectForm() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(values),
+                credentials: 'include'
             });
 
             console.log(response)
