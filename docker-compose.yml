@@ -33,6 +33,7 @@ services:
     container_name: next-frontend
     environment:
       - PORT=4000
+      - WATCHPACK_POLLING=true
     ports:
       - '4000:4000'
     depends_on:
