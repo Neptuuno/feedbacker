@@ -7,6 +7,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import {Project} from "@/lib/Entities/Project";
 
 
 export default async function Projects() {
@@ -17,10 +18,10 @@ export default async function Projects() {
     return (
         <div>
         {
-            projects.map((project) => (
+            projects.map((project: Project) => (
                 <Card key={project.id} className="w-[350px]">
                     <CardHeader>
-                        <CardTitle>{project.title}</CardTitle>
+                        <CardTitle>{project.name}</CardTitle>
                         <CardDescription>{project.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
