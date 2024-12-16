@@ -32,7 +32,7 @@ export default function Sidebar() {
                     </Link>
                     <Link
                         href="/projects"
-                        className={`${currentPath === '/projects' ? 'text-primary' : 'text-muted-foreground'} flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary`}
+                        className={`${currentPath.includes('/projects') ? 'text-primary' : 'text-muted-foreground'} flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary`}
                     >
                         <PanelsTopLeft className="h-4 w-4"/>
                         Projects

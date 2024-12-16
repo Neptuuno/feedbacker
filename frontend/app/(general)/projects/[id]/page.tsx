@@ -1,8 +1,20 @@
-export default async function Page({
-params,
- }: {
+import {Project} from "@/lib/Entities/Project";
+import {fetchWrapper} from "@/lib/fetchwrapper";
+
+async function getData(params: Promise<{ id: number }>) {
+
+    const url = `${process.env.API_URL}/projects/${(await params).id}`;
+    return await fetchWrapper(url);
+}
+
+export default async function ProjectDetail({
+                                                params,
+                                            }: {
     params: Promise<{ id: number }>
 }) {
-    const id = (await params).id
-    return <div>Project id: {id}</div>
+    const project: Project = getData(params);
+
+    return (<div>
+        <h1>{project.name}</h1>
+    </div>)
 }
