@@ -9,23 +9,15 @@ import {
 } from "@/components/ui/card"
 import {Project} from "@/lib/Entities/Project";
 import Link from "next/link";
+import {fetchWrapper} from "@/lib/fetchwrapper";
 
-async function getData() {
-    const res = await fetch('http://172.17.0.1:3000/projects',{
-        headers: {
-            Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoic3RyaW5nQHN0cmluZy5jeiIsImlhdCI6MTczNDI5OTg4NywiZXhwIjoxNzM0MzAwNzg3fQ.2n9CTu6DjXNhKDpMdLdz5yXl2_MSUB3M7tTlYS77q5A"
-        }
-    })
-
-    if (!res.ok) {
-        throw new Error('Failed to fetch data')
-    }
-
-    return res.json()
+async function getProjectData(): Promise<Project[]> {
+    const url = `${process.env.API_URL}/projects`;
+    return await fetchWrapper(url);
 }
 
 export default async function Projects() {
-    const projects = await getData()
+    const projects = await getProjectData()
     return (
         <div>
         {

@@ -1,9 +1,9 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useForm} from "react-hook-form";
+import {z} from "zod";
+import {Button} from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -13,10 +13,12 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"
+import {Input} from "@/components/ui/input";
+import {Textarea} from "@/components/ui/textarea"
 import {useState} from "react";
-
+import {useToast} from "@/hooks/use-toast";
+import {fetchWrapper} from "@/lib/fetchwrapper";
+import { useRouter } from 'next/navigation'
 
 
 const formSchema = z.object({
@@ -30,6 +32,8 @@ const formSchema = z.object({
 
 export function CreateProjectForm() {
     const [error, setError] = useState<string | null>(null);
+    const {toast} = useToast();
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -39,30 +43,21 @@ export function CreateProjectForm() {
         },
     });
 
-   async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("Form submitted:", values);
-
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            const response = await fetch("http://localhost:3000/projects", {
+            const url = `${process.env.API_URL}/projects`;
+            await fetchWrapper(url, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
                 body: JSON.stringify(values),
-                credentials: 'include'
             });
+            toast({
+                title: "Project created",
+                description: "Your project has been created successfully.",
+            })
+            router.push("/projects")
 
-            console.log(response)
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data);
-            } else {
-                const errorData = await response.json();
-                setError(errorData.message || "Login failed");
-            }
         } catch (error: unknown) {
-            setError(error.message || "Login failed");
+            setError("Something went wrong when creating a new project");
             console.log(error)
         }
     }
@@ -74,7 +69,7 @@ export function CreateProjectForm() {
                 <FormField
                     control={form.control}
                     name="name"
-                    render={({ field }) => (
+                    render={({field}) => (
                         <FormItem>
                             <FormLabel>Project Name</FormLabel>
                             <FormControl>
@@ -83,7 +78,7 @@ export function CreateProjectForm() {
                             <FormDescription>
                                 The name of your project.
                             </FormDescription>
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}
                 />
@@ -92,7 +87,7 @@ export function CreateProjectForm() {
                 <FormField
                     control={form.control}
                     name="description"
-                    render={({ field }) => (
+                    render={({field}) => (
                         <FormItem>
                             <FormLabel>Project Description</FormLabel>
                             <FormControl>
@@ -101,7 +96,7 @@ export function CreateProjectForm() {
                             <FormDescription>
                                 A detailed description of your project.
                             </FormDescription>
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}
                 />
