@@ -1,22 +1,15 @@
-"use client"
 
 import Link from "next/link";
-import {CircleUser, Home, Menu, MessageSquareDiff, PanelsTopLeft, Search} from "lucide-react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {Home, Menu, MessageSquareDiff, PanelsTopLeft, Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import {Input} from "@/components/ui/input";
-import {
-    DropdownMenu,
-    DropdownMenuContent, DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import {usePathname} from "next/navigation";
+import AccountMenu from "@/components/AccountMenu";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import {NavLink} from "@/components/NavLink";
 
 export default function Header() {
-    const currentPath = usePathname();
-
     return (
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
             <Sheet>
@@ -39,20 +32,16 @@ export default function Header() {
                             <MessageSquareDiff className="h-6 w-6"/>
                             <span className="sr-only">Feedbacker</span>
                         </Link>
-                        <Link
-                            href="/"
-                            className={`${currentPath === '/' ? 'text-primary' : 'text-muted-foreground'} mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground`}
-                        >
-                            <Home className="h-5 w-5"/>
-                            Dashboard
-                        </Link>
-                        <Link
-                            href="#"
-                            className={`${currentPath === '/projects' ? 'text-primary' : 'text-muted-foreground'} mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 hover:text-foreground`}
-                        >
-                            <PanelsTopLeft className="h-5 w-5"/>
-                            Projects
-                        </Link>
+                        <NavLink
+                            href={"/"}
+                            name={"Dashboard"}
+                            icon={<Home className="h-5 w-5"/>}
+                        />
+                        <NavLink
+                            href={"/projects"}
+                            name={"Projects"}
+                            icon={<PanelsTopLeft className="h-5 w-5"/>}
+                        />
                     </nav>
                     <div className="mt-auto">
                     </div>
@@ -70,22 +59,7 @@ export default function Header() {
                     </div>
                 </form>
             </div>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="secondary" size="icon" className="rounded-full">
-                        <CircleUser className="h-5 w-5"/>
-                        <span className="sr-only">Toggle user menu</span>
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator/>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                    <DropdownMenuItem>Support</DropdownMenuItem>
-                    <DropdownMenuSeparator/>
-                    <DropdownMenuItem>Logout</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
+        <AccountMenu/>
         </header>
     )
 }
