@@ -17,7 +17,6 @@ async function getUserData(): Promise<User> {
 
 export default async function AccountMenu() {
     const userData = await getUserData();
-    console.log(userData)
 
     return (
         <DropdownMenu>
@@ -28,7 +27,7 @@ export default async function AccountMenu() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>{userData.username}</DropdownMenuLabel>
                 <DropdownMenuSeparator/>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>

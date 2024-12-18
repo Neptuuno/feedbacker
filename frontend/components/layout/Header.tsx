@@ -1,12 +1,10 @@
 
 import Link from "next/link";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {Home, Menu, MessageSquareDiff, PanelsTopLeft, Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import {Input} from "@/components/ui/input";
 import AccountMenu from "@/components/AccountMenu";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {NavLink} from "@/components/NavLink";
 
 export default function Header() {
