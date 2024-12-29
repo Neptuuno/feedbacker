@@ -19,6 +19,7 @@ services:
     container_name: nest-backend
     environment:
       - PORT=3000
+      - WATCHPACK_POLLING=true
     ports:
       - '3000:3000'
     depends_on:
