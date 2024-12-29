@@ -1,13 +1,9 @@
 "use client";
 
-import {Button, buttonVariants} from "@/components/ui/button"
-import {useAuthStore} from "@/stores/authStore";
+import {buttonVariants} from "@/components/ui/button"
 import Link from "next/link";
 
 export default function Dashboard() {
-
-    const { accessToken } = useAuthStore();
-
     return (
         <div
             className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
@@ -21,7 +17,6 @@ export default function Dashboard() {
                     You can start collecting feedback as soon as you add a project.
                 </p>
                 <Link href="/projects/create/" className={`${buttonVariants({ variant: "default" })} mt-4`}>Add Project</Link>
-                <h1>token: {accessToken}</h1>
             </div>
         </div>
     )

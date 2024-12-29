@@ -17,8 +17,10 @@ import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea"
 import {useState} from "react";
 import {useToast} from "@/hooks/use-toast";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import { useRouter } from 'next/navigation'
+import {createProject} from "@/app/(general)/projects/create/actions";
 
 
 const formSchema = z.object({
@@ -42,14 +44,14 @@ export function CreateProjectForm() {
             description: "",
         },
     });
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            const url = `${process.env.API_URL}/projects`;
-            await fetchWrapper(url, {
-                method: "POST",
-                body: JSON.stringify(values),
-            });
+            // const url = `${process.env.API_URL}/projects`;
+            // await fetchWrapper(url, {
+            //     method: "POST",
+            //     body: JSON.stringify(values),
+            // });
             toast({
                 title: "Project created",
                 description: "Your project has been created successfully.",
@@ -64,7 +66,7 @@ export function CreateProjectForm() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form action={createProject}  className="space-y-8">
                 {/* Project Name */}
                 <FormField
                     control={form.control}
