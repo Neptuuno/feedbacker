@@ -21,8 +21,8 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @Post('register')
     @Public()
-    signUp(@Body() authDto: AuthDto) {
-        return this.authService.signUp(authDto.email, authDto.password);
+    signUp(@Body() authDto: AuthDto, @Res({passthrough: true}) response: Response) {
+        return this.authService.signUp(authDto.email, authDto.password, response);
     }
 
     @Get('profile')

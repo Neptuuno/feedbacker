@@ -22,19 +22,17 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password }),
+        credentials: "include",
       });
 
       if (response.ok) {
-        const data = await response.json();
-        // Store the token in localStorage or cookies
-        localStorage.setItem("token", data.token);
-        router.push("/"); // Redirect after successful login
+        router.push("/");
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Login failed");
+        setError(errorData.message || "Registration failed");
       }
     } catch (error) {
-      setError(error.message || "Login failed");
+      setError(error.message || "Registration failed");
       console.log(error)
     }
   };
@@ -44,9 +42,9 @@ export default function Login() {
         <div className="flex items-center justify-center py-12">
           <form className="mx-auto grid w-[350px] gap-6" onSubmit={handleRegistration}>
             <div className="grid gap-2 text-center">
-              <h1 className="text-3xl font-bold">Login</h1>
+              <h1 className="text-3xl font-bold">Register</h1>
               <p className="text-balance text-muted-foreground">
-                Enter your email below to login to your account
+                Enter your email below to create a new account
               </p>
             </div>
             {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -75,7 +73,7 @@ export default function Login() {
                 />
               </div>
               <Button type="submit" className="w-full">
-                Login
+                Register
               </Button>
             </div>
           </form>

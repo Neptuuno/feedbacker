@@ -6,10 +6,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {useAuthStore} from "@/stores/authStore";
 
 export default function Login() {
-  const { setAccessToken } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string>(null);
@@ -28,10 +26,7 @@ export default function Login() {
       });
 
       if (response.ok) {
-        // const data = await response.json();
-        // Store the token in localStorage or cookies
-        // setAccessToken(data.access_token);
-        router.push("/"); // Redirect after successful login
+        router.push("/");
       } else {
         const errorData = await response.json();
         setError(errorData.message || "Login failed");
