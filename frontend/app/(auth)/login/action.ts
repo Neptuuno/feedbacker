@@ -3,8 +3,10 @@
 import {loginFormSchema} from "@/lib/definitions";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import {redirect} from "next/navigation";
+import {cookies} from "next/headers";
 
 export async function login(prevState: any, formData: FormData) {
+    const cookieStore = await cookies()
     const validatedFields = loginFormSchema.safeParse({
         email: formData.get('email'),
         password: formData.get('password'),
@@ -20,10 +22,11 @@ export async function login(prevState: any, formData: FormData) {
     let success = false;
     try {
         const url = `${process.env.API_URL}/auth/login`;
-        await fetchWrapper(url, {
+        const data: { access_token: string } = await fetchWrapper(url, {
             method: 'POST',
-            body: JSON.stringify(validatedFields.data)
+            body: JSON.stringify(validatedFields.data),
         });
+        cookieStore.set('access_token', data.access_token)
         success = true;
     } catch (e: unknown) {
         let errorMessage = "An unexpected error occurred.";
