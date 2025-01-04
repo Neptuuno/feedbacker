@@ -13,7 +13,7 @@ import {
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea"
 import {useActionState} from "react";
-import {createProject} from "@/app/(general)/projects/create/actions";
+import {createProject} from "@/app/(general)/projects/create/action";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
