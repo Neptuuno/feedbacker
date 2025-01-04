@@ -26,7 +26,9 @@ export async function login(prevState: any, formData: FormData) {
             method: 'POST',
             body: JSON.stringify(validatedFields.data),
         });
-        cookieStore.set('access_token', data.access_token)
+        cookieStore.set('access_token', data.access_token, {
+            maxAge: 1000 * 60 * 15
+        })
         success = true;
     } catch (e: unknown) {
         let errorMessage = "An unexpected error occurred.";
