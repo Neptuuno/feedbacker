@@ -23,8 +23,19 @@ export async function createProject(prevState: any, formData: FormData) {
             body: JSON.stringify(validatedFields.data)
         })
     }
-    catch (e) {
-        console.log(e)
+    catch (e: unknown) {
+        let errorMessage = "An unexpected error occurred.";
+
+        if (e instanceof Error) {
+            errorMessage = e.message;
+        } else if (typeof e === "string") {
+            errorMessage = e;
+        }
+
+        return {
+            errors: undefined,
+            message: errorMessage,
+        };
     }
 
 
