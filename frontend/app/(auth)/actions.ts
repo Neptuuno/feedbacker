@@ -43,6 +43,10 @@ export async function login(prevState: any, formData: FormData) {
         };
     }
     if (success) redirect('/')
+}
 
-
+export async function logout() {
+    const cookieStore = await cookies()
+    cookieStore.delete('access_token');
+    redirect('/login')
 }
