@@ -1,10 +1,23 @@
-'use server'
+'use server';
 
-export async function createProject(formData: FormData){
-    const rawFormData = {
+import {createProjectFormSchema} from "@/lib/definitions";
+
+export async function createProject(prevState: any, formData: FormData) {
+    const validatedFields = createProjectFormSchema.safeParse({
         name: formData.get('name'),
         description: formData.get('description'),
+    })
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: undefined
+        }
     }
 
-    console.log(rawFormData)
+    return {message: 'Please enter a valid name'}
+
+    // Return early if the form data is invalid
+
+
 }

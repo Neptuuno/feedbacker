@@ -1,8 +1,5 @@
 "use client";
 
-import {zodResolver} from "@hookform/resolvers/zod";
-import {useForm} from "react-hook-form";
-import {z} from "zod";
 import {Button} from "@/components/ui/button";
 import {
     Form,
@@ -15,63 +12,39 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea"
-import {useState} from "react";
+import {useActionState} from "react";
+import {createProject} from "@/app/(general)/projects/create/actions";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {z} from "zod";
+import {createProjectFormSchema} from "@/lib/definitions";
 
-
-const formSchema = z.object({
-    name: z.string().min(2, {
-        message: "Name must be at least 2 characters.",
-    }),
-    description: z.string().min(10, {
-        message: "Description must be at least 10 characters.",
-    }),
-});
+const initialState = {
+    errors: {
+        name: undefined,
+        description: undefined
+    },
+    message: undefined
+};
 
 export function CreateProjectForm() {
-    const [error, setError] = useState<string | null>(null);
+    const [state, formAction, pending] = useActionState(createProject, initialState)
+    
+    const initialValues = {
+        name: "",
+        description: "",
+    };
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: "",
-            description: "",
-        },
+    const form = useForm<z.infer<typeof createProjectFormSchema>>({
+        resolver: zodResolver(createProjectFormSchema),
+        defaultValues: initialValues,
     });
 
-    async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("Form submitted:", values);
-
-        try {
-            const response = await fetch("http://localhost:3000/projects", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(values),
-                credentials: 'include'
-            });
-
-            console.log(response)
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data);
-            } else {
-                const errorData = await response.json();
-                setError(errorData.message || "Login failed");
-            }
-        } catch (error: unknown) {
-            setError(error.message || "Login failed");
-            console.log(error)
-        }
-    }
-
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <Form {...form} >
+            <form action={formAction} className="space-y-8">
                 {/* Project Name */}
                 <FormField
-                    control={form.control}
                     name="name"
                     render={({field}) => (
                         <FormItem>
@@ -89,7 +62,6 @@ export function CreateProjectForm() {
 
                 {/* Project Description */}
                 <FormField
-                    control={form.control}
                     name="description"
                     render={({field}) => (
                         <FormItem>
@@ -105,11 +77,10 @@ export function CreateProjectForm() {
                     )}
                 />
 
-                {error && <p className="text-red-500 text-sm">{error}</p>}
-                {/*<p className="text-red-500 text-sm">test</p>*/}
+                {state?.message && <p className="text-red-500 text-sm">{state?.message}</p>}
 
                 {/* Submit Button */}
-                <Button type="submit">Create Project</Button>
+                <Button disabled={pending} type="submit">Create Project</Button>
             </form>
         </Form>
     );
