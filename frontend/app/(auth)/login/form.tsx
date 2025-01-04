@@ -4,14 +4,12 @@ import {Button} from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea"
 import {useActionState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -63,7 +61,7 @@ export function LoginForm() {
                         <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="******" {...field} />
+                                <Input type="password" placeholder="******" {...field} />
                             </FormControl>
                             <FormMessage>{state?.errors?.password}</FormMessage>
                         </FormItem>

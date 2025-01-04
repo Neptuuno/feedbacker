@@ -2,6 +2,7 @@
 
 import {loginFormSchema} from "@/lib/definitions";
 import {fetchWrapper} from "@/lib/fetchwrapper";
+import {redirect} from "next/navigation";
 
 export async function login(prevState: any, formData: FormData) {
     const validatedFields = loginFormSchema.safeParse({
@@ -16,16 +17,29 @@ export async function login(prevState: any, formData: FormData) {
         }
     }
 
+    let success = false;
     try {
         const url = `${process.env.API_URL}/auth/login`;
-        await fetchWrapper(url,{
+        await fetchWrapper(url, {
             method: 'POST',
             body: JSON.stringify(validatedFields.data)
-        })
+        });
+        success = true;
+    } catch (e: unknown) {
+        let errorMessage = "An unexpected error occurred.";
+
+        if (e instanceof Error) {
+            errorMessage = e.message;
+        } else if (typeof e === "string") {
+            errorMessage = e;
+        }
+
+        return {
+            errors: undefined,
+            message: errorMessage,
+        };
     }
-    catch (e) {
-        console.log(e)
-    }
+    if (success) redirect('/')
 
 
 }
