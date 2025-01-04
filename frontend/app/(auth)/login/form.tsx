@@ -15,7 +15,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {loginFormSchema} from "@/lib/definitions";
-import {login} from "@/app/(auth)/login/action";
+import {login} from "@/app/(auth)/actions";
 
 const initialState = {
     errors: {

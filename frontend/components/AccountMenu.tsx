@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import {User} from "@/lib/Entities/User";
+import LogoutMenuItem from "@/components/LogoutMenuItem";
 
 async function getUserData(): Promise<User> {
     const url = `${process.env.API_URL}/auth/profile`;
@@ -32,7 +33,7 @@ export default async function AccountMenu() {
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator/>
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <LogoutMenuItem/>
             </DropdownMenuContent>
         </DropdownMenu>
     )
