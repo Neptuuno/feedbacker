@@ -7,11 +7,12 @@ async function getData(params: Promise<{ id: number }>): Promise<Project> {
     return await fetchWrapper(url);
 }
 
-export default async function ProjectDetail({
-                                                params,
-                                            }: {
-    params: Promise<{ id: number }>
-}) {
+export default async function ProjectDetail(
+    props: {
+        params: Promise<{ id: number }>
+    }
+) {
+    const params = await props.params;
     const project: Project = await getData(params);
 
     return (<div>

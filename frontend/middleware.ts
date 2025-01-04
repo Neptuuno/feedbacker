@@ -1,11 +1,11 @@
 import {NextResponse} from 'next/server'
 import type {NextRequest} from 'next/server'
-import {cookies} from "next/headers";
+import { cookies } from "next/headers";
 
 // This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     // Read the token from cookies
-    const cookie = cookies().get('access_token');
+    const cookie = (await cookies()).get('access_token');
     const accessToken = cookie?.value;
 
     if (!accessToken) {
