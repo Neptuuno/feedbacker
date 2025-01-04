@@ -55,7 +55,7 @@ export function CreateProjectForm() {
                             <FormDescription>
                                 The name of your project.
                             </FormDescription>
-                            <FormMessage/>
+                            <FormMessage>{state?.errors?.name}</FormMessage>
                         </FormItem>
                     )}
                 />
@@ -72,7 +72,7 @@ export function CreateProjectForm() {
                             <FormDescription>
                                 A detailed description of your project.
                             </FormDescription>
-                            <FormMessage/>
+                            <FormMessage>{state?.errors?.description}</FormMessage>
                         </FormItem>
                     )}
                 />

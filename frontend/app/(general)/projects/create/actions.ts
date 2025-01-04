@@ -1,6 +1,7 @@
 'use server';
 
 import {createProjectFormSchema} from "@/lib/definitions";
+import {fetchWrapper} from "@/lib/fetchwrapper";
 
 export async function createProject(prevState: any, formData: FormData) {
     const validatedFields = createProjectFormSchema.safeParse({
@@ -15,9 +16,16 @@ export async function createProject(prevState: any, formData: FormData) {
         }
     }
 
-    return {message: 'Please enter a valid name'}
-
-    // Return early if the form data is invalid
+    try {
+        const url = `${process.env.API_URL}/projects`;
+        await fetchWrapper(url,{
+            method: 'POST',
+            body: JSON.stringify(validatedFields.data)
+        })
+    }
+    catch (e) {
+        console.log(e)
+    }
 
 
 }

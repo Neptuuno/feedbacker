@@ -9,7 +9,7 @@ export const fetchWrapper = async <T>(
     options: FetchOptions = {}
 ): Promise<T> => {
     const { headers, ...restOptions } = options;
-    const token = cookies().get("access_token");
+    const token = (await cookies()).get("access_token");
 
     const defaultHeaders: HeadersInit = {
         "Content-Type": "application/json",
