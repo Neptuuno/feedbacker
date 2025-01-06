@@ -2,6 +2,9 @@
 
 import {createProjectFormSchema} from "@/lib/definitions";
 import {fetchWrapper} from "@/lib/fetchwrapper";
+import {redirect} from "next/navigation";
+import {revalidatePath} from "next/cache";
+import {Project} from "@/lib/Entities/Project";
 
 export async function createProject(prevState: any, formData: FormData) {
     const validatedFields = createProjectFormSchema.safeParse({
@@ -16,12 +19,14 @@ export async function createProject(prevState: any, formData: FormData) {
         }
     }
 
+    let projectId: number | null = null;
     try {
         const url = `${process.env.API_URL}/projects`;
-        await fetchWrapper(url,{
+        const data: Project = await fetchWrapper(url,{
             method: 'POST',
             body: JSON.stringify(validatedFields.data)
         })
+        projectId = data.id;
     }
     catch (e: unknown) {
         let errorMessage = "An unexpected error occurred.";
@@ -38,5 +43,9 @@ export async function createProject(prevState: any, formData: FormData) {
         };
     }
 
+    if (projectId) {
+        revalidatePath('projects');
+        redirect(`/projects/${projectId}`);
+    }
 
 }
