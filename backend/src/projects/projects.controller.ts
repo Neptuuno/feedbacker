@@ -15,6 +15,7 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import {FileInterceptor} from "@nestjs/platform-express";
 import {ApiBody, ApiConsumes} from "@nestjs/swagger";
+import {CreateProjectWithImageDto} from "./dto/create-project-with-image.dto";
 
 @Controller('projects')
 export class ProjectsController {
@@ -23,7 +24,7 @@ export class ProjectsController {
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
-  @ApiBody({type: FileUploadDto})
+  @ApiBody({type: CreateProjectWithImageDto})
   create(
       @UploadedFile() file: Express.Multer.File,
       @Body() createProjectDto: CreateProjectDto,
