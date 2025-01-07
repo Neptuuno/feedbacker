@@ -17,9 +17,9 @@ export class ProjectsService {
     }
 
 
-    async create(createProjectDto: CreateProjectDto, userId: number): Promise<Project> {
+    async create(createProjectDto: CreateProjectDto, userId: number, imagepath: string): Promise<Project> {
         const user = await this.usersService.findOne(userId);
-        const project = this.projectsRepository.create({...createProjectDto, user: user});
+        const project = this.projectsRepository.create({...createProjectDto, user: user, imagePath: imagepath});
         return this.projectsRepository.save(project);
     }
 

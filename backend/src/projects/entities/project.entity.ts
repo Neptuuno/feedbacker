@@ -13,6 +13,9 @@ export class Project {
   @Column('text')
   description: string
 
+  @Column({ nullable: true })
+  imagePath: string;
+
   @ManyToOne(() => User, (user) => user.projects)
   user: User
 
