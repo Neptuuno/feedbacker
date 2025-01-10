@@ -18,6 +18,8 @@ export default async function ProjectDetail(
     return (<div>
         <h1>{project.name}</h1>
         <p>{project.description}</p>
-        {project.imagePath && <Image src={`${process.env.API_URL}/${project.imagePath}`} alt="project image" width={500} height={500}/>}
+        {project.imagePath &&
+            <Image className="rounded-xl" src={`${process.env.API_URL}/${project.imagePath}`} alt="project image"
+                   width={500} height={500}/>}
     </div>)
 }
