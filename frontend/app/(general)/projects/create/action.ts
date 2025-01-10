@@ -10,6 +10,7 @@ export async function createProject(prevState: any, formData: FormData) {
     const validatedFields = createProjectFormSchema.safeParse({
         name: formData.get('name'),
         description: formData.get('description'),
+        image: formData.get('image'),
     })
 
     if (!validatedFields.success) {
@@ -19,12 +20,19 @@ export async function createProject(prevState: any, formData: FormData) {
         }
     }
 
+    const newFormData = new FormData();
+    newFormData.append("name",validatedFields.data.name)
+    newFormData.append("description",validatedFields.data.description)
+    newFormData.append("file",validatedFields.data.image)
+
+    console.log(newFormData)
+
     let projectId: number | null = null;
     try {
         const url = `${process.env.API_URL}/projects`;
         const data: Project = await fetchWrapper(url,{
             method: 'POST',
-            body: JSON.stringify(validatedFields.data)
+            body: newFormData,
         })
         projectId = data.id;
     }
