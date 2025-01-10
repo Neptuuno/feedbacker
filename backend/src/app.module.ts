@@ -25,7 +25,7 @@ import {ServeStaticModule } from '@nestjs/serve-static';
         }),
         ServeStaticModule.forRoot({
             rootPath: './upload-images',
-            serveRoot: '/uploads'
+            serveRoot: '/upload-images'
         }),
         AuthModule
     ],
