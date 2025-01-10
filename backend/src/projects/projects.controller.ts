@@ -31,7 +31,7 @@ export class ProjectsController {
       @Request() req
   ) {
       console.log(file)
-    return this.projectsService.create(createProjectDto, req.user.sub, file.path);
+    return this.projectsService.create(createProjectDto, req.user.sub, file?.path);
   }
 
   @Get()
