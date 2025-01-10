@@ -25,8 +25,6 @@ export async function createProject(prevState: any, formData: FormData) {
     newFormData.append("description",validatedFields.data.description)
     newFormData.append("file",validatedFields.data.image)
 
-    console.log(newFormData)
-
     let projectId: number | null = null;
     try {
         const url = `${process.env.API_URL}/projects`;
