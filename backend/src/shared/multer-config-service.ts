@@ -15,13 +15,13 @@ export class MulterConfigService implements MulterOptionsFactory {
                 callback(null, true);
             },
             storage: diskStorage({
-                destination: './upload',
+                destination: './upload-images',
                 filename: (req, file, callback) => {
                     const uniqueSuffix = `${uuidv4()}${extname(file.originalname)}`;
                     callback(null, uniqueSuffix);
                 },
             }),
-            dest: './upload',
+            dest: './upload-images',
         };
     }
 }
