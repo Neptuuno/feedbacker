@@ -1,9 +1,9 @@
 import {Project} from "@/lib/Entities/Project";
 import {fetchWrapper} from "@/lib/fetchwrapper";
+import Image from "next/image";
 
-async function getData(params: Promise<{ id: number }>): Promise<Project> {
-
-    const url = `${process.env.API_URL}/projects/${(await params).id}`;
+async function getData(params: { id: number }): Promise<Project> {
+    const url = `${process.env.API_URL}/projects/${(params).id}`;
     return await fetchWrapper(url);
 }
 
@@ -18,5 +18,6 @@ export default async function ProjectDetail(
     return (<div>
         <h1>{project.name}</h1>
         <p>{project.description}</p>
+        {project.imagePath && <Image src={`${process.env.API_URL}/${project.imagePath}`} alt="project image" width={500} height={500}/>}
     </div>)
 }

@@ -4,5 +4,6 @@ export interface Project {
     id: number
     name: string
     description: string
+    imagePath: string,
     user: User
 }
