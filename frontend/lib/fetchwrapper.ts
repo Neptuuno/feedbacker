@@ -12,7 +12,7 @@ export const fetchWrapper = async <T>(
     const token = (await cookies()).get("access_token");
 
     const defaultHeaders: HeadersInit = {
-        "Content-Type": "application/json",
+        ...(options?.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
         ...(token?.value && { Authorization: `Bearer ${token.value}` }),
     };
 

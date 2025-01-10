@@ -22,17 +22,19 @@ import {createProjectFormSchema} from "@/lib/definitions";
 const initialState = {
     errors: {
         name: undefined,
-        description: undefined
+        description: undefined,
+        image: undefined
     },
     message: undefined
 };
 
 export function CreateProjectForm() {
     const [state, formAction, pending] = useActionState(createProject, initialState)
-    
+
     const initialValues = {
         name: "",
         description: "",
+        image: undefined,
     };
 
     const form = useForm<z.infer<typeof createProjectFormSchema>>({
@@ -73,6 +75,32 @@ export function CreateProjectForm() {
                                 A detailed description of your project.
                             </FormDescription>
                             <FormMessage>{state?.errors?.description}</FormMessage>
+                        </FormItem>
+                    )}
+                />
+
+                {/* Project Image */}
+                <FormField
+                    name="image"
+                    //eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    render={({field: {value, onChange, ...fieldProps}}) => (
+                        <FormItem>
+                            <FormLabel>Project Image</FormLabel>
+                            <FormControl>
+                                <Input
+                                    {...fieldProps}
+                                    placeholder="Image"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(event) =>
+                                        onChange(event.target.files && event.target.files[0])
+                                    }
+                                />
+                            </FormControl>
+                            <FormDescription>
+                                The project image.
+                            </FormDescription>
+                            <FormMessage>{state?.errors?.image}</FormMessage>
                         </FormItem>
                     )}
                 />
