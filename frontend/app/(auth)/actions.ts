@@ -27,7 +27,9 @@ export async function login(prevState: any, formData: FormData) {
             body: JSON.stringify(validatedFields.data),
         });
         cookieStore.set('access_token', data.access_token, {
-            maxAge: 1000 * 60 * 15
+            maxAge: 1000 * 60 * 15,
+            secure: true,
+            httpOnly: true,
         })
         success = true;
     } catch (e: unknown) {

@@ -1,4 +1,5 @@
 import {cookies} from "next/headers";
+import {redirect} from "next/navigation";
 
 export type FetchOptions = Omit<RequestInit, "headers"> & {
     headers?: Record<string, string>;
@@ -25,6 +26,9 @@ export const fetchWrapper = async <T>(
     });
 
     if (!response.ok) {
+        if (response.status === 401){
+            redirect('/login');
+        }
         const error = await response.json();
         throw new Error(error.message || "Fetch error");
     }
