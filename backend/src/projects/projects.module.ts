@@ -10,8 +10,8 @@ import {MulterConfigService} from '../shared/multer-config-service';
 @Module({
     imports: [TypeOrmModule.forFeature([Project]), UsersModule,
         MulterModule.registerAsync({
-            useClass: MulterConfigService
-        })
+            useClass: MulterConfigService,
+        }),
     ],
     controllers: [ProjectsController],
     providers: [ProjectsService],
