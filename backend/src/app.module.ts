@@ -9,6 +9,7 @@ import {User} from "./users/entities/user.entity";
 import {Project} from "./projects/entities/project.entity";
 import {Feedback} from "./feedbacks/entities/feedback.entity";
 import { AuthModule } from './auth/auth.module';
+import {ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
     imports: [UsersModule, ProjectsModule, FeedbacksModule
@@ -21,7 +22,12 @@ import { AuthModule } from './auth/auth.module';
             database: 'postgres',
             entities: [User,Project,Feedback],
             synchronize: true,
-        }), AuthModule
+        }),
+        ServeStaticModule.forRoot({
+            rootPath: './upload-images',
+            serveRoot: '/uploads'
+        }),
+        AuthModule
     ],
     controllers: [AppController],
     providers: [AppService],
