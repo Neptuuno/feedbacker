@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button";
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import {Input} from "@/components/ui/input";
 import AccountMenu from "@/components/AccountMenu";
-import {NavLink} from "@/components/NavLink";
+import {NavLink} from "@/components/navigation/NavLink";
 
 export default function Header() {
     return (

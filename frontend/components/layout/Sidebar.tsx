@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {Bell, Home, MessageSquareDiff, PanelsTopLeft} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import {NavLink} from "@/components/NavLink";
+import {NavLink} from "@/components/navigation/NavLink";
 
 export default function Sidebar() {
 
