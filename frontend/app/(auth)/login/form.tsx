@@ -27,7 +27,7 @@ const initialState = {
 
 export function LoginForm() {
     const [state, formAction, pending] = useActionState(login, initialState)
-    
+
     const initialValues = {
         email: "",
         password: "",
@@ -57,7 +57,15 @@ export function LoginForm() {
                             <FormControl>
                                 <Input placeholder="jan.novak@seznam.cz" {...field} />
                             </FormControl>
-                            <FormMessage>{state?.errors?.email}</FormMessage>
+                            {Array.isArray(state?.errors?.email) ? (
+                                state.errors.email.map((error, index) => (
+                                    <FormMessage key={index}>
+                                        {error}
+                                    </FormMessage>
+                                ))
+                            ) : (
+                                <FormMessage className="text-red-500 text-sm">{state?.errors?.email}</FormMessage>
+                            )}
                         </FormItem>
                     )}
                 />
