@@ -20,7 +20,7 @@ async function getProjectData(): Promise<Project[]> {
 export default async function Projects() {
     const projects = await getProjectData()
     return (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
             {
                 projects.map((project: Project) => (
                     <Card key={project.id} className="w-[350px]">
