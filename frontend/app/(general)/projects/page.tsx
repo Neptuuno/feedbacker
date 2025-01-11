@@ -80,7 +80,7 @@ export default async function Projects() {
                 <TableCaption>A list of all your projects.</TableCaption>
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">Name</TableHead>
+                        <TableHead>Name</TableHead>
                         <TableHead>Description</TableHead>
                         <TableHead>Image</TableHead>
                     </TableRow>
@@ -95,12 +95,17 @@ export default async function Projects() {
                                     <Image className="rounded-full" src={`${process.env.API_URL}/${project.imagePath}`}
                                            alt="project image" width={32} height={32}/>
                                 </TableCell>}
+                                <TableCell>
+                                    <div className="flex gap-2 justify-end">
+                                        <Button variant="outline">Edit</Button>
+                                        <Link href={"/projects/" + project.id}><Button>View</Button></Link>
+                                    </div>
+                                </TableCell>
                             </TableRow>
                         ))
                     }
                 </TableBody>
             </Table>
-
         </div>
     )
 }
