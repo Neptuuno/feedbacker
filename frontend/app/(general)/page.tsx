@@ -16,6 +16,7 @@ export default function Dashboard() {
                 <p className="text-sm text-muted-foreground">
                     You can start collecting feedback as soon as you add a project.
                 </p>
+
                 <Link href="/projects/create/" className={`${buttonVariants({ variant: "default" })} mt-4`}>Add Project</Link>
             </div>
         </div>

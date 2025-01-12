@@ -11,41 +11,44 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea"
-import {useActionState} from "react";
-import {createProject} from "@/app/(general)/projects/create/action";
+import {Textarea} from "@/components/ui/textarea";
+import {useActionState, useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
-import {createProjectFormSchema} from "@/lib/definitions";
+import {createFormFormSchema} from "@/lib/definitions";
+import {ColorPicker} from "@/components/ui/color-picker";
+import {createForm} from "@/app/(general)/forms/create/action";
 
 const initialState = {
     errors: {
         name: undefined,
+        title: undefined,
         description: undefined,
-        image: undefined
+        color: undefined,
     },
-    message: undefined
+    message: undefined,
 };
 
 export function CreateFormForm() {
-    const [state, formAction, pending] = useActionState(createProject, initialState)
+    const [state, formAction, pending] = useActionState(createForm, initialState);
 
     const initialValues = {
         name: "",
+        title: "",
         description: "",
-        image: undefined,
+        color: "#0f0f0f",
     };
 
-    const form = useForm<z.infer<typeof createProjectFormSchema>>({
-        resolver: zodResolver(createProjectFormSchema),
+    const form = useForm<z.infer<typeof createFormFormSchema>>({
+        resolver: zodResolver(createFormFormSchema),
         defaultValues: initialValues,
     });
 
     return (
-        <Form {...form} >
+        <Form {...form}>
             <form action={formAction} className="space-y-8">
-                {/* Project Name */}
+                {/* Form Name */}
                 <FormField
                     name="name"
                     render={({field}) => (
@@ -62,7 +65,24 @@ export function CreateFormForm() {
                     )}
                 />
 
-                {/* Project Description */}
+                {/* Form Title */}
+                <FormField
+                    name="title"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Project Title</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter project title" {...field} />
+                            </FormControl>
+                            <FormDescription>
+                                The title of your project.
+                            </FormDescription>
+                            <FormMessage>{state?.errors?.title}</FormMessage>
+                        </FormItem>
+                    )}
+                />
+
+                {/* Form Description */}
                 <FormField
                     name="description"
                     render={({field}) => (
@@ -79,28 +99,23 @@ export function CreateFormForm() {
                     )}
                 />
 
-                {/* Project Image */}
+                {/* Color Picker */}
                 <FormField
-                    name="image"
-                    //eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    render={({field: {value, onChange, ...fieldProps}}) => (
+                    name="color"
+                    render={({field}) => (
                         <FormItem>
-                            <FormLabel>Project Image</FormLabel>
+                            <FormLabel>Project Color</FormLabel>
                             <FormControl>
-                                <Input
-                                    {...fieldProps}
-                                    placeholder="Image"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={(event) =>
-                                        onChange(event.target.files && event.target.files[0])
-                                    }
-                                />
+                                <Input type="hidden" {...field} />
                             </FormControl>
+                            <ColorPicker
+                                onChange={(v) => field.onChange(v)}
+                                value={field.value}
+                            />
                             <FormDescription>
-                                The project image.
+                                Select a color for your form.
                             </FormDescription>
-                            <FormMessage>{state?.errors?.image}</FormMessage>
+                            <FormMessage>{state?.errors?.color}</FormMessage>
                         </FormItem>
                     )}
                 />
@@ -108,7 +123,9 @@ export function CreateFormForm() {
                 {state?.message && <p className="text-red-500 text-sm">{state?.message}</p>}
 
                 {/* Submit Button */}
-                <Button disabled={pending} type="submit">Create Project</Button>
+                <Button disabled={pending} type="submit">
+                    Create Project
+                </Button>
             </form>
         </Form>
     );

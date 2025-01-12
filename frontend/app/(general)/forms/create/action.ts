@@ -1,16 +1,17 @@
 'use server';
 
-import {createProjectFormSchema} from "@/lib/definitions";
+import {createFormFormSchema} from "@/lib/definitions";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
 import {Project} from "@/lib/Entities/Project";
 
-export async function createProject(prevState: any, formData: FormData) {
-    const validatedFields = createProjectFormSchema.safeParse({
+export async function createForm(prevState: any, formData: FormData) {
+    const validatedFields = createFormFormSchema.safeParse({
         name: formData.get('name'),
+        title: formData.get('title'),
         description: formData.get('description'),
-        image: formData.get('image'),
+        color: formData.get('color'),
     })
 
     if (!validatedFields.success) {
@@ -20,19 +21,14 @@ export async function createProject(prevState: any, formData: FormData) {
         }
     }
 
-    const newFormData = new FormData();
-    newFormData.append("name",validatedFields.data.name)
-    newFormData.append("description",validatedFields.data.description)
-    newFormData.append("file",validatedFields.data.image)
-
-    let projectId: number | null = null;
+    let formId: number | null = null;
     try {
-        const url = `${process.env.API_URL}/projects`;
+        const url = `${process.env.API_URL}/forms`;
         const data: Project = await fetchWrapper(url,{
             method: 'POST',
-            body: newFormData,
+            body: JSON.stringify(validatedFields.data)
         })
-        projectId = data.id;
+        formId = data.id;
     }
     catch (e: unknown) {
         let errorMessage = "An unexpected error occurred.";
@@ -49,9 +45,9 @@ export async function createProject(prevState: any, formData: FormData) {
         };
     }
 
-    if (projectId) {
-        revalidatePath('projects');
-        redirect(`/projects/${projectId}`);
+    if (formId) {
+        revalidatePath('forms');
+        redirect(`/forms/${formId}`);
     }
 
 }
