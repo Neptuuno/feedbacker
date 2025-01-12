@@ -1,5 +1,6 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
 import { Project } from "../../projects/entities/project.entity";
+import {Form} from "../../forms/entities/form.entity";
 
 @Entity()
 export class Feedback {
@@ -20,4 +21,7 @@ export class Feedback {
 
   @ManyToOne(() => Project, (project) => project.feedbacks)
   project: Project;
+
+  @ManyToOne(() => Form, (form) => form.feedbacks)
+  form: Form;
 }
