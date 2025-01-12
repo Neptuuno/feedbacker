@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea";
-import {useActionState, useState} from "react";
+import {useActionState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
@@ -53,12 +53,12 @@ export function CreateFormForm() {
                     name="name"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Project Name</FormLabel>
+                            <FormLabel>Form Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter project name" {...field} />
+                                <Input placeholder="Enter form name" {...field} />
                             </FormControl>
                             <FormDescription>
-                                The name of your project.
+                                The name of your form that is visible only for you in Feedbacker.
                             </FormDescription>
                             <FormMessage>{state?.errors?.name}</FormMessage>
                         </FormItem>
@@ -70,12 +70,12 @@ export function CreateFormForm() {
                     name="title"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Project Title</FormLabel>
+                            <FormLabel>Form Title</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter project title" {...field} />
+                                <Input placeholder="Enter form title" {...field} />
                             </FormControl>
                             <FormDescription>
-                                The title of your project.
+                                The title of your form for responders.
                             </FormDescription>
                             <FormMessage>{state?.errors?.title}</FormMessage>
                         </FormItem>
@@ -87,12 +87,12 @@ export function CreateFormForm() {
                     name="description"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Project Description</FormLabel>
+                            <FormLabel>Form Description</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Enter project description" {...field} />
+                                <Textarea placeholder="Enter form description" {...field} />
                             </FormControl>
                             <FormDescription>
-                                A detailed description of your project.
+                                A detailed description of your form for responders.
                             </FormDescription>
                             <FormMessage>{state?.errors?.description}</FormMessage>
                         </FormItem>
@@ -104,7 +104,7 @@ export function CreateFormForm() {
                     name="color"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Project Color</FormLabel>
+                            <FormLabel>Form Color</FormLabel>
                             <FormControl>
                                 <Input type="hidden" {...field} />
                             </FormControl>
@@ -124,7 +124,7 @@ export function CreateFormForm() {
 
                 {/* Submit Button */}
                 <Button disabled={pending} type="submit">
-                    Create Project
+                    Create form
                 </Button>
             </form>
         </Form>
