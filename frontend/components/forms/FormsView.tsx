@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import {useState} from "react";
+import {Button} from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -29,14 +29,13 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
-import Image from "next/image";
-import { Project } from "@/lib/Entities/Project";
+import {Form} from "@/lib/Entities/Form";
 
 interface FormsViewProps {
-    forms: Project[];
+    forms: Form[];
 }
 
-export default function FormsView({ forms }: FormsViewProps) {
+export default function FormsView({forms}: FormsViewProps) {
     const [view, setView] = useState<"grid" | "table">("grid");
 
     return (
@@ -51,7 +50,7 @@ export default function FormsView({ forms }: FormsViewProps) {
                     onValueChange={(value) => setView(value as "grid" | "table")}
                 >
                     <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select view" />
+                        <SelectValue placeholder="Select view"/>
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
@@ -66,26 +65,21 @@ export default function FormsView({ forms }: FormsViewProps) {
             {/* Grid View */}
             {view === "grid" && (
                 <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-                    {forms.map((project) => (
-                        <Card key={project.id} className="w-[350px]">
+                    {forms.map((form) => (
+                        <Card key={form.id} className="w-[350px]">
                             <CardHeader>
-                                <CardTitle>{project.name}</CardTitle>
-                                <CardDescription>{project.description}</CardDescription>
+                                <div className="flex justify-between">
+                                    <CardTitle>{form.name}</CardTitle>
+                                    <div style={{backgroundColor: form.color}} className="w-8 h-8 rounded-full"></div>
+                                </div>
                             </CardHeader>
-                            {project?.imagePath && (
-                                <CardContent>
-                                    <Image
-                                        className="rounded-xl"
-                                        src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
-                                        alt="project image"
-                                        width={500}
-                                        height={300}
-                                    />
-                                </CardContent>
-                            )}
+                            <CardContent>
+                                <h3>{form.title}</h3>
+                                <p>{form.description}</p>
+                            </CardContent>
                             <CardFooter className="flex justify-between">
                                 <Button variant="outline">Edit</Button>
-                                <Link href={`/projects/${project.id}`}>
+                                <Link href={`/projects/${form.id}`}>
                                     <Button>View</Button>
                                 </Link>
                             </CardFooter>
@@ -97,34 +91,28 @@ export default function FormsView({ forms }: FormsViewProps) {
             {/* Table View */}
             {view === "table" && (
                 <Table>
-                    <TableCaption>A list of all your projects.</TableCaption>
+                    <TableCaption>A list of all your forms.</TableCaption>
                     <TableHeader>
                         <TableRow>
                             <TableHead>Name</TableHead>
+                            <TableHead>Title</TableHead>
                             <TableHead>Description</TableHead>
-                            <TableHead>Image</TableHead>
+                            <TableHead>Color</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {forms.map((project) => (
-                            <TableRow key={project.id}>
-                                <TableCell className="font-medium">{project.name}</TableCell>
-                                <TableCell>{project.description}</TableCell>
-                                {project?.imagePath && (
-                                    <TableCell>
-                                        <Image
-                                            className="rounded-full"
-                                            src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
-                                            alt="project image"
-                                            width={32}
-                                            height={32}
-                                        />
-                                    </TableCell>
-                                )}
+                        {forms.map((form) => (
+                            <TableRow key={form.id}>
+                                <TableCell className="font-medium">{form.name}</TableCell>
+                                <TableCell>{form.title}</TableCell>
+                                <TableCell>{form.description}</TableCell>
+                                <TableCell>
+                                    <div style={{backgroundColor: form.color}} className="w-8 h-8 rounded-full"></div>
+                                </TableCell>
                                 <TableCell>
                                     <div className="flex gap-2 justify-end">
                                         <Button variant="outline">Edit</Button>
-                                        <Link href={`/projects/${project.id}`}>
+                                        <Link href={`/projects/${form.id}`}>
                                             <Button>View</Button>
                                         </Link>
                                     </div>
