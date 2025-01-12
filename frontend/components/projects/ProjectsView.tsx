@@ -76,7 +76,7 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                 <CardContent>
                                     <Image
                                         className="rounded-xl"
-                                        src={`${process.env.API_URL}/${project.imagePath}`}
+                                        src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
                                         alt="project image"
                                         width={500}
                                         height={300}
@@ -114,7 +114,7 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                     <TableCell>
                                         <Image
                                             className="rounded-full"
-                                            src={`${process.env.API_URL}/${project.imagePath}`}
+                                            src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
                                             alt="project image"
                                             width={32}
                                             height={32}
