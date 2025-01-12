@@ -19,6 +19,21 @@ export const createProjectFormSchema = z.object({
         )
 });
 
+export const createFormFormSchema = z.object({
+    name: z.string().min(2, {
+        message: "Name must be at least 2 characters.",
+    }),
+    title: z.string().min(2, {
+        message: "Title must be at least 2 characters.",
+    }),
+    description: z.string().min(10, {
+        message: "Description must be at least 10 characters.",
+    }),
+    color: z.string().regex(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i, {
+        message: "Color must be a valid hex color code (e.g., #ffffff).",
+    }),
+});
+
 export const loginFormSchema = z.object({
     email: z.string().email({
         message: "Enter an email"

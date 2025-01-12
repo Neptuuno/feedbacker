@@ -28,7 +28,7 @@ const initialState = {
     message: undefined
 };
 
-export function CreateProjectForm() {
+export function CreateFormForm() {
     const [state, formAction, pending] = useActionState(createProject, initialState)
 
     const initialValues = {
