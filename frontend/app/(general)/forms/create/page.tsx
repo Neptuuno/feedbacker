@@ -1,7 +1,7 @@
-import { CreateProjectForm } from "./form";
-export default function CreateProject() {
+import { CreateFormForm } from "./form";
+export default function CreateForm() {
     return <div className="lg:max-w-[50%]">
-        <h1>Create project</h1>
-        <CreateProjectForm/>
+        <h1>Create form</h1>
+        <CreateFormForm/>
     </div>
 }
