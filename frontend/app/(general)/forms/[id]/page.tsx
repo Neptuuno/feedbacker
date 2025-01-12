@@ -1,4 +1,4 @@
-import {Project} from "@/lib/Entities/Project";
+import {Form} from "@/lib/Entities/Project";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import Image from "next/image";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
@@ -6,7 +6,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {Separator} from "@/components/ui/separator";
 
 
-async function getData(params: { id: number }): Promise<Project> {
+async function getData(params: { id: number }): Promise<Form> {
     const url = `${process.env.API_URL}/projects/${(params).id}`;
     return await fetchWrapper(url);
 }
@@ -17,7 +17,7 @@ export default async function ProjectDetail(
     }
 ) {
     const params = await props.params;
-    const project: Project = await getData(params);
+    const project: Form = await getData(params);
 
     return (
         <Tabs defaultValue="overview" className="">

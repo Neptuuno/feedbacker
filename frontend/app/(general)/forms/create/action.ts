@@ -4,7 +4,7 @@ import {createFormFormSchema} from "@/lib/definitions";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
-import {Project} from "@/lib/Entities/Project";
+import {Form} from "@/lib/Entities/Project";
 
 export async function createForm(prevState: any, formData: FormData) {
     const validatedFields = createFormFormSchema.safeParse({
@@ -24,7 +24,7 @@ export async function createForm(prevState: any, formData: FormData) {
     let formId: number | null = null;
     try {
         const url = `${process.env.API_URL}/forms`;
-        const data: Project = await fetchWrapper(url,{
+        const data: Form = await fetchWrapper(url,{
             method: 'POST',
             body: JSON.stringify(validatedFields.data)
         })

@@ -1,15 +1,15 @@
-import {Project} from "@/lib/Entities/Project";
+import {Form} from "@/lib/Entities/Form";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import FormsView from "@/components/forms/FormsView";
 
-async function getProjectData(): Promise<Project[]> {
-    const url = `${process.env.API_URL}/projects`;
+async function getFormData(): Promise<Form[]> {
+    const url = `${process.env.API_URL}/forms`;
     return await fetchWrapper(url);
 }
 
-export default async function Projects() {
-    const projects = await getProjectData()
+export default async function Forms() {
+    const forms = await getFormData()
     return (
-        <FormsView forms={projects}/>
+        <FormsView forms={forms}/>
     )
 }
