@@ -2,6 +2,7 @@ import {Entity, Column, PrimaryGeneratedColumn, OneToMany, BeforeInsert, Unique}
 import {Project} from "../../projects/entities/project.entity";
 import {IsEmail} from "class-validator";
 import {Exclude} from "class-transformer";
+import {Form} from "../../forms/entities/form.entity";
 
 @Entity()
 export class User {
@@ -21,6 +22,9 @@ export class User {
 
     @OneToMany(() => Project, (project) => project.user)
     projects: Project[]
+
+    @OneToMany(() => Form, (form) => form.user)
+    forms: Form[]
 
     @BeforeInsert()
     setUsername() {

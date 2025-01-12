@@ -10,6 +10,8 @@ import {Project} from "./projects/entities/project.entity";
 import {Feedback} from "./feedbacks/entities/feedback.entity";
 import { AuthModule } from './auth/auth.module';
 import {ServeStaticModule } from '@nestjs/serve-static';
+import { FormsModule } from './forms/forms.module';
+import {Form} from "./forms/entities/form.entity";
 
 @Module({
     imports: [UsersModule, ProjectsModule, FeedbacksModule
@@ -20,14 +22,15 @@ import {ServeStaticModule } from '@nestjs/serve-static';
             username: 'postgres',
             password: 'postgres',
             database: 'postgres',
-            entities: [User,Project,Feedback],
+            entities: [User,Project,Form,Feedback],
             synchronize: true,
         }),
         ServeStaticModule.forRoot({
             rootPath: './upload-images',
             serveRoot: '/upload-images'
         }),
-        AuthModule
+        AuthModule,
+        FormsModule
     ],
     controllers: [AppController],
     providers: [AppService],
