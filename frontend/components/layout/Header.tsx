@@ -1,6 +1,6 @@
 
 import Link from "next/link";
-import {Home, Menu, MessageSquareDiff, PanelsTopLeft, Search} from "lucide-react";
+import {Home, Menu, MessageSquareDiff, NotepadText, PanelsTopLeft, Search} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import {Input} from "@/components/ui/input";
@@ -39,6 +39,11 @@ export default function Header() {
                             href={"/projects"}
                             name={"Projects"}
                             icon={<PanelsTopLeft className="h-5 w-5"/>}
+                        />
+                        <NavLink
+                            href={"/forms"}
+                            name={"Forms"}
+                            icon={<NotepadText className="h-5 w-5"/>}
                         />
                     </nav>
                     <div className="mt-auto">

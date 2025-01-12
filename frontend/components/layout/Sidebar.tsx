@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {Bell, Home, MessageSquareDiff, PanelsTopLeft} from "lucide-react";
+import {Bell, Home, MessageSquareDiff, NotepadText, PanelsTopLeft} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {NavLink} from "@/components/navigation/NavLink";
 
@@ -29,6 +29,11 @@ export default function Sidebar() {
                             href={"/projects"}
                             name={"Projects"}
                             icon={<PanelsTopLeft className="h-5 w-5"/>}
+                        />
+                        <NavLink
+                        href={"/forms"}
+                        name={"Forms"}
+                        icon={<NotepadText className="h-5 w-5"/>}
                         />
                     </nav>
                 </div>
