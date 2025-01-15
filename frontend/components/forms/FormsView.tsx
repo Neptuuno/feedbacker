@@ -5,7 +5,6 @@ import {Button} from "@/components/ui/button";
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -79,7 +78,7 @@ export default function FormsView({forms}: FormsViewProps) {
                             </CardContent>
                             <CardFooter className="flex justify-between">
                                 <Button variant="outline">Edit</Button>
-                                <Link href={`/projects/${form.id}`}>
+                                <Link href={`/forms/${form.id}`}>
                                     <Button>View</Button>
                                 </Link>
                             </CardFooter>
@@ -112,7 +111,7 @@ export default function FormsView({forms}: FormsViewProps) {
                                 <TableCell>
                                     <div className="flex gap-2 justify-end">
                                         <Button variant="outline">Edit</Button>
-                                        <Link href={`/projects/${form.id}`}>
+                                        <Link href={`/forms/${form.id}`}>
                                             <Button>View</Button>
                                         </Link>
                                     </div>

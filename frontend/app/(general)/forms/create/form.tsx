@@ -19,6 +19,9 @@ import {z} from "zod";
 import {createFormFormSchema} from "@/lib/definitions";
 import {ColorPicker} from "@/components/ui/color-picker";
 import {createForm} from "@/app/(general)/forms/create/action";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {Project} from "@/lib/Entities/Project";
+import Image from "next/image";
 
 const initialState = {
     errors: {
@@ -30,7 +33,11 @@ const initialState = {
     message: undefined,
 };
 
-export function CreateFormForm() {
+interface CreateFormFormProps {
+    projects: Project[];
+}
+
+export function CreateFormForm({projects}: CreateFormFormProps) {
     const [state, formAction, pending] = useActionState(createForm, initialState);
 
     const initialValues = {
@@ -38,6 +45,7 @@ export function CreateFormForm() {
         title: "",
         description: "",
         color: "#0f0f0f",
+        projectId: 0,
     };
 
     const form = useForm<z.infer<typeof createFormFormSchema>>({
@@ -66,6 +74,43 @@ export function CreateFormForm() {
                 />
 
                 {/* Form Title */}
+                <FormField
+                    name="title"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Project</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select project associated with the form."/>
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {projects.map((project) => (
+                                        <SelectItem key={project.id} value={project.id.toString()}>
+                                            <div className="flex gap-2 items-center">
+                                                <p>{project.name}</p>
+                                                {project.imagePath &&
+                                                    <Image className="rounded-full w-6 h-6"
+                                                        width={32} height={32}
+                                                           src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
+                                                           alt="project image"/>
+                                                }
+                                            </div>
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <FormDescription>
+                                Select project associated with the form.
+                            </FormDescription>
+                            <FormMessage>{state?.errors?.projectId}</FormMessage>
+                            <FormMessage/>
+                        </FormItem>
+                    )}
+                />
+
+                {/* Form ProjectId */}
                 <FormField
                     name="title"
                     render={({field}) => (

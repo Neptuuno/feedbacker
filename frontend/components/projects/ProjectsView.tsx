@@ -30,10 +30,10 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import Image from "next/image";
-import { Form } from "@/lib/Entities/Project";
+import { Project } from "@/lib/Entities/Project";
 
 interface ProjectsViewProps {
-    projects: Form[];
+    projects: Project[];
 }
 
 export default function ProjectsView({ projects }: ProjectsViewProps) {

@@ -1,6 +1,6 @@
 import {User} from "@/lib/Entities/User";
 
-export interface Form {
+export interface Project {
     id: number
     name: string
     description: string
