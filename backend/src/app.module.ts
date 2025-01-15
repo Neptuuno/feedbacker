@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import {ServeStaticModule } from '@nestjs/serve-static';
 import { FormsModule } from './forms/forms.module';
 import {Form} from "./forms/entities/form.entity";
+import { LinksModule } from './links/links.module';
 
 @Module({
     imports: [UsersModule, ProjectsModule, FeedbacksModule
@@ -30,7 +31,8 @@ import {Form} from "./forms/entities/form.entity";
             serveRoot: '/upload-images'
         }),
         AuthModule,
-        FormsModule
+        FormsModule,
+        LinksModule
     ],
     controllers: [AppController],
     providers: [AppService],

@@ -2,6 +2,7 @@ import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "type
 import {Feedback} from "../../feedbacks/entities/feedback.entity";
 import {User} from "../../users/entities/user.entity";
 import {Project} from "../../projects/entities/project.entity";
+import {Link} from "../../links/entities/link.entity";
 
 @Entity()
 export class Form {
@@ -20,11 +21,7 @@ export class Form {
     @Column()
     color: string
 
-    @Column({
-        type: "text",
-        array: true,
-        default: []
-    })
+    @OneToMany(() => Link, (link) => link.form)
     links: string[]
 
     @ManyToOne(() => User, (user) => user.forms)
