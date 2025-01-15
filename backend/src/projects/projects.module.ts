@@ -15,6 +15,7 @@ import {MulterConfigService} from '../shared/multer-config-service';
     ],
     controllers: [ProjectsController],
     providers: [ProjectsService],
+    exports:[ProjectsService]
 })
 export class ProjectsModule {
 }
