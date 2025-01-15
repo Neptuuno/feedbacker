@@ -35,6 +35,8 @@ export const createFormFormSchema = z.object({
     projectId: z.preprocess((val) => Number(val), z.number().int().positive("Invalid project ID")),
 });
 
+ex
+
 export const loginFormSchema = z.object({
     email: z.string().email({
         message: "Enter an email"
