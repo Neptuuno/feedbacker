@@ -13,6 +13,7 @@ import {ServeStaticModule } from '@nestjs/serve-static';
 import { FormsModule } from './forms/forms.module';
 import {Form} from "./forms/entities/form.entity";
 import { LinksModule } from './links/links.module';
+import {Link} from "./links/entities/link.entity";
 
 @Module({
     imports: [UsersModule, ProjectsModule, FeedbacksModule
@@ -23,7 +24,7 @@ import { LinksModule } from './links/links.module';
             username: 'postgres',
             password: 'postgres',
             database: 'postgres',
-            entities: [User,Project,Form,Feedback],
+            entities: [User,Project,Form,Feedback,Link],
             synchronize: true,
         }),
         ServeStaticModule.forRoot({

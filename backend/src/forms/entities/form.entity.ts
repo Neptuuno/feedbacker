@@ -22,7 +22,7 @@ export class Form {
     color: string
 
     @OneToMany(() => Link, (link) => link.form)
-    links: string[]
+    links: Link[]
 
     @ManyToOne(() => User, (user) => user.forms)
     user: User

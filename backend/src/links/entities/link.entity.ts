@@ -1,6 +1,5 @@
 import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Form} from "../../forms/entities/form.entity";
-
 @Entity()
 export class Link {
     @PrimaryGeneratedColumn()
@@ -8,6 +7,9 @@ export class Link {
 
     @Column()
     name: string
+
+    @Column({unique: true})
+    slug: string
 
     @Column()
     isActive: boolean
