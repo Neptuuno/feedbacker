@@ -20,6 +20,13 @@ export class Form {
     @Column()
     color: string
 
+    @Column({
+        type: "text",
+        array: true,
+        default: []
+    })
+    links: string[]
+
     @ManyToOne(() => User, (user) => user.forms)
     user: User
 

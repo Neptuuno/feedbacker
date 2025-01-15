@@ -7,4 +7,5 @@ export interface Form {
     description: string
     color: string,
     user: User
+    link: string
 }
