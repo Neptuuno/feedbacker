@@ -1,4 +1,4 @@
-import {Matches, MinLength} from "class-validator";
+import {IsNumber, Matches, MinLength} from "class-validator";
 
 export class CreateFormDto {
     @MinLength(2)
@@ -9,4 +9,6 @@ export class CreateFormDto {
     description: string;
     @Matches(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i)
     color: string;
+    @IsNumber()
+    projectId: number;
 }

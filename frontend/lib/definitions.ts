@@ -32,6 +32,9 @@ export const createFormFormSchema = z.object({
     color: z.string().regex(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i, {
         message: "Color must be a valid hex color code (e.g., #ffffff).",
     }),
+    projectId: z.number({
+        message: "ProjectId must be a number",
+    }),
 });
 
 export const loginFormSchema = z.object({
