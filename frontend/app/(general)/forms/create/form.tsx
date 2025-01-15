@@ -29,6 +29,7 @@ const initialState = {
         title: undefined,
         description: undefined,
         color: undefined,
+        projectId: undefined,
     },
     message: undefined,
 };
@@ -73,15 +74,17 @@ export function CreateFormForm({projects}: CreateFormFormProps) {
                     )}
                 />
 
-                {/* Form Title */}
+                {/* Form ProjectId */}
                 <FormField
-                    name="title"
+                    control={form.control}
+                    name="projectId"
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>Project</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select onValueChange={field.onChange}>
                                 <FormControl>
                                     <SelectTrigger>
+                                        <Input type="hidden" {...field} />
                                         <SelectValue placeholder="Select project associated with the form."/>
                                     </SelectTrigger>
                                 </FormControl>
@@ -110,7 +113,7 @@ export function CreateFormForm({projects}: CreateFormFormProps) {
                     )}
                 />
 
-                {/* Form ProjectId */}
+                {/* Form Title */}
                 <FormField
                     name="title"
                     render={({field}) => (

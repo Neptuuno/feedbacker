@@ -1,6 +1,7 @@
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import { User } from "../../users/entities/user.entity";
 import { Feedback } from "../../feedbacks/entities/feedback.entity";
+import {Form} from "../../forms/entities/form.entity";
 
 @Entity()
 export class Project {
@@ -21,4 +22,7 @@ export class Project {
 
   @OneToMany(() => Feedback, (feedback) => feedback.project)
   feedbacks: Feedback[];
+
+  @OneToMany(() => Form, (form) => form.project)
+  forms: Form[];
 }
