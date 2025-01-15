@@ -5,6 +5,8 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {Separator} from "@/components/ui/separator";
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import {Button} from "@/components/ui/button";
+import Link from "next/link";
 
 
 async function getData(params: { id: number }): Promise<Form> {
@@ -49,6 +51,7 @@ export default async function FormDetail(
                 {/*}*/}
             </div>
             <Separator className="my-8"/>
+            <Link className="mb-2" href={`/links/create?formId=${form.id}`}><Button>Add new link</Button></Link>
             <TabsContent value="links">
                 <Table>
                     <TableCaption>A list of your recent invoices.</TableCaption>
