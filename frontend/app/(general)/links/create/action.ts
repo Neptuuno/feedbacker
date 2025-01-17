@@ -4,7 +4,6 @@ import {createLinkFormSchema} from "@/lib/definitions";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
-import {Project} from "@/lib/Entities/Project";
 
 export async function createLink(prevState: any, formData: FormData) {
     const validatedFields = createLinkFormSchema.safeParse({

@@ -5,18 +5,25 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Link} from "./entities/link.entity";
 import {Repository} from "typeorm";
 import { v4 as uuidv4 } from 'uuid';
+import {FormsService} from "../forms/forms.service";
 
 @Injectable()
 export class LinksService {
     constructor(
         @InjectRepository(Link)
-        private linksRepository: Repository<Link>
+        private linksRepository: Repository<Link>,
+        private formsService: FormsService,
     ) {
     }
 
     async create(createLinkDto: CreateLinkDto) {
         const slug = uuidv4();
-        const link = this.linksRepository.create({...createLinkDto, slug});
+        const form = await this.formsService.findOne(createLinkDto.formId);
+        if (!form){
+            throw new NotFoundException(`Link with ID ${createLinkDto.formId} not found`);
+        }
+
+        const link = this.linksRepository.create({...createLinkDto, slug, form: form});
         return this.linksRepository.save(link);
     }
 
