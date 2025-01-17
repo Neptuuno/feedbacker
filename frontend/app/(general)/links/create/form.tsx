@@ -11,19 +11,22 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea"
 import {useActionState} from "react";
-import {createProject} from "@/app/(general)/projects/create/action";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
-import {createProjectFormSchema} from "@/lib/definitions";
+import {createLinkFormSchema} from "@/lib/definitions";
+import {Checkbox} from "@/components/ui/checkbox";
+import {createLink} from "@/app/(general)/links/create/action";
+import Link from "next/link";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import Image from "next/image";
 
 const initialState = {
     errors: {
         name: undefined,
-        description: undefined,
-        image: undefined
+        isActive: undefined,
+        formId: undefined
     },
     message: undefined
 };
@@ -31,23 +34,23 @@ const initialState = {
 export function CreateLinkForm({searchParams}: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-    const [state, formAction, pending] = useActionState(createProject, initialState)
+    const [state, formAction, pending] = useActionState(createLink, initialState)
 
     const initialValues = {
         name: "",
-        description: "",
-        image: undefined,
+        IsActive: false,
+        formId: undefined,
     };
 
-    const form = useForm<z.infer<typeof createProjectFormSchema>>({
-        resolver: zodResolver(createProjectFormSchema),
+    const form = useForm<z.infer<typeof createLinkFormSchema>>({
+        resolver: zodResolver(createLinkFormSchema),
         defaultValues: initialValues,
     });
 
     return (
         <Form {...form} >
             <form action={formAction} className="space-y-8">
-                {/* Project Name */}
+                {/* Link Name */}
                 <FormField
                     name="name"
                     render={({field}) => (
@@ -64,45 +67,65 @@ export function CreateLinkForm({searchParams}: {
                     )}
                 />
 
-                {/* Project Description */}
+                {/* Islink Active */}
                 <FormField
-                    name="description"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Project Description</FormLabel>
+                    control={form.control}
+                    name="isActive"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                             <FormControl>
-                                <Textarea placeholder="Enter project description" {...field} />
+                                <Checkbox
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
                             </FormControl>
-                            <FormDescription>
-                                A detailed description of your project.
-                            </FormDescription>
-                            <FormMessage>{state?.errors?.description}</FormMessage>
+                            <div className="space-y-1 leading-none">
+                                <FormLabel>
+                                    Is link active?
+                                </FormLabel>
+                                <FormDescription>
+                                    By default links are active, therefore responders can fill your forms as soon as you create a link.
+                                </FormDescription>
+                            </div>
                         </FormItem>
                     )}
                 />
 
-                {/* Project Image */}
+                {/* Link formId */}
                 <FormField
-                    name="image"
-                    //eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    render={({field: {value, onChange, ...fieldProps}}) => (
+                    control={form.control}
+                    name="formId"
+                    render={({field}) => (
                         <FormItem>
-                            <FormLabel>Project Image</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...fieldProps}
-                                    placeholder="Image"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={(event) =>
-                                        onChange(event.target.files && event.target.files[0])
-                                    }
-                                />
-                            </FormControl>
+                            <FormLabel>Form</FormLabel>
+                            <Select onValueChange={field.onChange}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <Input type="hidden" {...field} />
+                                        <SelectValue placeholder="Select form associated with the link."/>
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {projects.map((form) => (
+                                        <SelectItem key={form.id} value={form.id.toString()}>
+                                            <div className="flex gap-2 items-center">
+                                                <p>{form.name}</p>
+                                                {form.imagePath &&
+                                                    <Image className="rounded-full w-6 h-6"
+                                                           width={32} height={32}
+                                                           src={`${process.env.NEXT_PUBLIC_API_URL}/${form.imagePath}`}
+                                                           alt="project image"/>
+                                                }
+                                            </div>
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                             <FormDescription>
-                                The project image.
+                                Select form associated with the link.
                             </FormDescription>
-                            <FormMessage>{state?.errors?.image}</FormMessage>
+                            <FormMessage>{state?.errors?.projectId}</FormMessage>
+                            <FormMessage/>
                         </FormItem>
                     )}
                 />

@@ -35,7 +35,15 @@ export const createFormFormSchema = z.object({
     projectId: z.preprocess((val) => Number(val), z.number().int().positive("Invalid project ID")),
 });
 
-ex
+export const createLinkFormSchema = z.object({
+    name: z.string().min(2, {
+        message: "Name must be at least 2 characters.",
+    }),
+    isActive: z.boolean({
+        message: "You have to choose if link is active or not.",
+    }),
+    formId: z.preprocess((val) => Number(val), z.number().int().positive("Invalid form ID")),
+})
 
 export const loginFormSchema = z.object({
     email: z.string().email({
