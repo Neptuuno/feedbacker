@@ -32,7 +32,7 @@ export const createFormFormSchema = z.object({
     color: z.string().regex(/^#([0-9A-F]{3}|[0-9A-F]{6})$/i, {
         message: "Color must be a valid hex color code (e.g., #ffffff).",
     }),
-    projectId: z.preprocess((val) => Number(val), z.number().int().positive("Invalid project ID")),
+    projectId: z.number().int().positive("Invalid project ID"),
 });
 
 export const createLinkFormSchema = z.object({
@@ -42,7 +42,7 @@ export const createLinkFormSchema = z.object({
     isActive: z.boolean({
         message: "You have to choose if link is active or not.",
     }),
-    formId: z.preprocess((val) => Number(val), z.number().int().positive("Invalid form ID")),
+    formId: z.number().int().positive("Invalid form ID"),
 })
 
 export const loginFormSchema = z.object({

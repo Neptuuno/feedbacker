@@ -16,11 +16,11 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {createLinkFormSchema} from "@/lib/definitions";
-import {Checkbox} from "@/components/ui/checkbox";
 import {createLink} from "@/app/(general)/links/create/action";
-import Link from "next/link";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import Image from "next/image";
+import {Form as EntityForm} from "@/lib/Entities/Form";
+import {Checkbox} from "@/components/ui/checkbox";
+import {useSearchParams} from "next/navigation";
 
 const initialState = {
     errors: {
@@ -31,10 +31,14 @@ const initialState = {
     message: undefined
 };
 
-export function CreateLinkForm({searchParams}: {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
+interface CreateFormFormProps {
+    forms: EntityForm[];
+}
+
+export function CreateLinkForm({forms}: CreateFormFormProps) {
     const [state, formAction, pending] = useActionState(createLink, initialState)
+    const params = useSearchParams()
+    console.log(params)
 
     const initialValues = {
         name: "",
@@ -71,12 +75,14 @@ export function CreateLinkForm({searchParams}: {
                 <FormField
                     control={form.control}
                     name="isActive"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    render={({field}) => (
+                        <FormItem className="flex flex-row items-start gap-2 space-y-0 rounded-md border p-4">
                             <FormControl>
+                                {/*<Input className="hidden" type="hidden" {...field} value={field.value ? "true" : "false"} />*/}
                                 <Checkbox
                                     checked={field.value}
                                     onCheckedChange={field.onChange}
+                                    {...{ ...field, value: field.value ? "true" : "false" }}
                                 />
                             </FormControl>
                             <div className="space-y-1 leading-none">
@@ -84,8 +90,10 @@ export function CreateLinkForm({searchParams}: {
                                     Is link active?
                                 </FormLabel>
                                 <FormDescription>
-                                    By default links are active, therefore responders can fill your forms as soon as you create a link.
+                                    By default links are active, therefore responders can fill your forms as soon as you
+                                    create a link.
                                 </FormDescription>
+                                <FormMessage>{state?.errors?.isActive}</FormMessage>
                             </div>
                         </FormItem>
                     )}
@@ -98,25 +106,20 @@ export function CreateLinkForm({searchParams}: {
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>Form</FormLabel>
-                            <Select onValueChange={field.onChange}>
+                            <Select
+                                defaultValue={params.get('formId')}
+                                onValueChange={field.onChange}
+                                {...{ ...field, value: field.value?.toString()}}>
                                 <FormControl>
                                     <SelectTrigger>
-                                        <Input type="hidden" {...field} />
-                                        <SelectValue placeholder="Select form associated with the link."/>
+                                        <SelectValue
+                                            placeholder="Select form associated with the link."/>
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    {projects.map((form) => (
+                                    {forms.map((form) => (
                                         <SelectItem key={form.id} value={form.id.toString()}>
-                                            <div className="flex gap-2 items-center">
-                                                <p>{form.name}</p>
-                                                {form.imagePath &&
-                                                    <Image className="rounded-full w-6 h-6"
-                                                           width={32} height={32}
-                                                           src={`${process.env.NEXT_PUBLIC_API_URL}/${form.imagePath}`}
-                                                           alt="project image"/>
-                                                }
-                                            </div>
+                                            <p>{form.name}</p>
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
@@ -124,7 +127,7 @@ export function CreateLinkForm({searchParams}: {
                             <FormDescription>
                                 Select form associated with the link.
                             </FormDescription>
-                            <FormMessage>{state?.errors?.projectId}</FormMessage>
+                            <FormMessage>{state?.errors?.formId}</FormMessage>
                             <FormMessage/>
                         </FormItem>
                     )}
