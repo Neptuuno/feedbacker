@@ -9,7 +9,7 @@ async function getProjectsData(): Promise<Project[]> {
 }
 
 export default async function CreateForm() {
-    const projects = await getProjectsData()
+    const projects = await getProjectsData();
     return <div className="lg:max-w-[50%]">
         <h1>Create form</h1>
         <CreateFormForm projects={projects}/>

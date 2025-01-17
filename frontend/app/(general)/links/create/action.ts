@@ -9,9 +9,11 @@ import {Project} from "@/lib/Entities/Project";
 export async function createLink(prevState: any, formData: FormData) {
     const validatedFields = createLinkFormSchema.safeParse({
         name: formData.get('name'),
-        isActive: formData.get('isActive'),
-        formId: formData.get('formId'),
+        isActive: (formData.get('isActive') as string | null) === "true",
+        formId: parseInt(formData.get('formId') as string | "") || undefined,
     })
+
+    console.log(formData.get('formId'))
 
     if (!validatedFields.success) {
         return {
@@ -20,14 +22,16 @@ export async function createLink(prevState: any, formData: FormData) {
         }
     }
 
-    let linkId: number | null = null;
+    console.log(JSON.stringify(validatedFields.data))
+
+    let success = false
     try {
-        const url = `${process.env.API_URL}/projects`;
-        const data: Project = await fetchWrapper(url,{
+        const url = `${process.env.API_URL}/links`;
+        await fetchWrapper(url,{
             method: 'POST',
             body: JSON.stringify(validatedFields.data),
         })
-        linkId = data.id;
+        success = true;
     }
     catch (e: unknown) {
         let errorMessage = "An unexpected error occurred.";
@@ -44,9 +48,9 @@ export async function createLink(prevState: any, formData: FormData) {
         };
     }
 
-    if (linkId) {
-        revalidatePath('projects');
-        redirect(`/projects/${linkId}`);
+    if (success) {
+        revalidatePath('forms');
+        redirect(`/forms/${validatedFields.data.formId}`);
     }
 
 }
