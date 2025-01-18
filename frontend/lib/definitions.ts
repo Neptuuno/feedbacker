@@ -41,7 +41,7 @@ export const createLinkFormSchema = z.object({
     }),
     isActive: z.boolean({
         message: "You have to choose if link is active or not.",
-    }),
+    }).default(true),
     formId: z.number().int().positive("Invalid form ID"),
 })
 
