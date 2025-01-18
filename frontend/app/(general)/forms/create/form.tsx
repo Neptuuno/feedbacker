@@ -22,6 +22,7 @@ import {createForm} from "@/app/(general)/forms/create/action";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {Project} from "@/lib/Entities/Project";
 import Image from "next/image";
+import {useSearchParams} from "next/navigation";
 
 const initialState = {
     errors: {
@@ -40,6 +41,7 @@ interface CreateFormFormProps {
 
 export function CreateFormForm({projects}: CreateFormFormProps) {
     const [state, formAction, pending] = useActionState(createForm, initialState);
+    const params = useSearchParams()
 
     const initialValues = {
         name: "",
@@ -81,7 +83,10 @@ export function CreateFormForm({projects}: CreateFormFormProps) {
                     render={({field}) => (
                         <FormItem>
                             <FormLabel>Project</FormLabel>
-                            <Select onValueChange={field.onChange}>
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={params.get('projectId') ? params.get('projectId')?.toString() : projects[0].id.toString()}
+                                {...{ ...field, value: field.value?.toString()}}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <Input type="hidden" {...field} />

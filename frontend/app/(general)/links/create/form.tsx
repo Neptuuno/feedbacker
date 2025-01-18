@@ -58,12 +58,12 @@ export function CreateLinkForm({forms}: CreateFormFormProps) {
                     name="name"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Project Name</FormLabel>
+                            <FormLabel>Link Name</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter project name" {...field} />
+                                <Input placeholder="Enter link name" {...field} />
                             </FormControl>
                             <FormDescription>
-                                The name of your project.
+                                The name of your Link.
                             </FormDescription>
                             <FormMessage>{state?.errors?.name}</FormMessage>
                         </FormItem>
@@ -106,7 +106,7 @@ export function CreateLinkForm({forms}: CreateFormFormProps) {
                             <FormLabel>Form</FormLabel>
                             <Select
                                 onValueChange={field.onChange}
-                                defaultValue={(params.get('formId') as string | "")}
+                                defaultValue={params.get('formId') ? params.get('formId')?.toString() : forms[0].id.toString()}
                                 {...{ ...field, value: field.value?.toString()}}>
                                 <FormControl>
                                     <SelectTrigger>
@@ -134,7 +134,7 @@ export function CreateLinkForm({forms}: CreateFormFormProps) {
                 {state?.message && <p className="text-red-500 text-sm">{state?.message}</p>}
 
                 {/* Submit Button */}
-                <Button disabled={pending} type="submit">Create Project</Button>
+                <Button disabled={pending} type="submit">Create Link</Button>
             </form>
         </Form>
     );
