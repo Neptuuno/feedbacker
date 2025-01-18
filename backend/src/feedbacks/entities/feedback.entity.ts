@@ -1,6 +1,7 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
 import { Project } from "../../projects/entities/project.entity";
 import {Form} from "../../forms/entities/form.entity";
+import {Link} from "../../links/entities/link.entity";
 
 @Entity()
 export class Feedback {
@@ -11,16 +12,19 @@ export class Feedback {
   identification: string;
 
   @Column('text')
-  comment: string;
+  message: string;
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
   createdAt: Date;
 
-  @Column()
+  @Column({nullable: true})
   platform: string;
 
   @Column()
-  linkSlug: string;
+  rating: number;
+
+  @ManyToOne(() => Link, (link) => link.feedbacks)
+  link: Link;
 
   @ManyToOne(() => Project, (project) => project.feedbacks)
   project: Project;

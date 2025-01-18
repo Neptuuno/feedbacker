@@ -5,7 +5,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {Feedback} from "./entities/feedback.entity";
 
 @Module({
-  imports: [],
+  imports: [TypeOrmModule.forFeature([Feedback])],
   controllers: [FeedbacksController],
   providers: [FeedbacksService],
 })

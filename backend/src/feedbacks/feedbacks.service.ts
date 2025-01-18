@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFeedbackDto } from './dto/create-feedback.dto';
 import { UpdateFeedbackDto } from './dto/update-feedback.dto';
+import {InjectRepository} from "@nestjs/typeorm";
+import {Repository} from "typeorm";
+import {Feedback} from "./entities/feedback.entity";
 
 @Injectable()
 export class FeedbacksService {
+  constructor(
+      @InjectRepository(Feedback)
+      private feedbacksRepository: Repository<Feedback>,
+  ) {
+  }
+
   create(createFeedbackDto: CreateFeedbackDto) {
-    return 'This action adds a new feedback';
+    const feedback = this.feedbacksRepository.create(createFeedbackDto);
+    return this.feedbacksRepository.save(feedback);
   }
 
   findAll() {
-    return `This action returns all feedbacks`;
+    return this.feedbacksRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} feedback`;
+    return this.feedbacksRepository.findOneBy({id});
   }
 
-  update(id: number, updateFeedbackDto: UpdateFeedbackDto) {
-    return `This action updates a #${id} feedback`;
+  async update(id: number, updateFeedbackDto: UpdateFeedbackDto) {
+    const feedback = await this.findOne(id);
+    return this.feedbacksRepository.save({...feedback, ...updateFeedbackDto});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} feedback`;
+  async remove(id: number) {
+    const feedback = await this.findOne(id);
+    return await this.feedbacksRepository.remove(feedback);
   }
 }

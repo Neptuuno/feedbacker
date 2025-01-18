@@ -3,7 +3,6 @@ import {CreateProjectDto} from './dto/create-project.dto';
 import {UpdateProjectDto} from './dto/update-project.dto';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {User} from "../users/entities/user.entity";
 import {Project} from "./entities/project.entity";
 import {UsersService} from "../users/users.service";
 

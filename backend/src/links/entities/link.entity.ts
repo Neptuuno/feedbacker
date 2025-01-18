@@ -1,5 +1,6 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Form} from "../../forms/entities/form.entity";
+import {Feedback} from "../../feedbacks/entities/feedback.entity";
 @Entity()
 export class Link {
     @PrimaryGeneratedColumn()
@@ -16,4 +17,7 @@ export class Link {
 
     @ManyToOne(() => Form, (form) => form.links)
     form: Form
+
+    @OneToMany(() => Feedback, (feedback) => feedback.link)
+    feedbacks: Feedback[];
 }
