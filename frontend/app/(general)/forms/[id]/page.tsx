@@ -1,15 +1,16 @@
 import {Form} from "@/lib/Entities/Form";
+import {Link as EntityLink} from "@/lib/Entities/Link";
 import {fetchWrapper} from "@/lib/fetchwrapper";
-import Image from "next/image";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {Separator} from "@/components/ui/separator";
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
+import {Checkbox} from "@/components/ui/checkbox";
 
 
-async function getData(params: { id: number }): Promise<Form> {
+async function getFormData(params: { id: number }): Promise<Form> {
     const url = `${process.env.API_URL}/forms/${(params).id}`;
     return await fetchWrapper(url);
 }
@@ -20,7 +21,7 @@ export default async function FormDetail(
     }
 ) {
     const params = await props.params;
-    const form: Form = await getData(params);
+    const form: Form = await getFormData(params)
 
     return (
         <Tabs defaultValue="links" className="">
@@ -53,25 +54,39 @@ export default async function FormDetail(
             <Separator className="my-8"/>
             <Link className="mb-2" href={`/links/create?formId=${form.id}`}><Button>Add new link</Button></Link>
             <TabsContent value="links">
-                <Table>
-                    <TableCaption>A list of your recent invoices.</TableCaption>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[100px]">Invoice</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Method</TableHead>
-                            <TableHead className="text-right">Amount</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell className="font-medium">INV001</TableCell>
-                            <TableCell>Paid</TableCell>
-                            <TableCell>Credit Card</TableCell>
-                            <TableCell className="text-right">$250.00</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+                {form.links &&
+                    <Table>
+                        <TableCaption>A list of your links for form.</TableCaption>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="w-[100px]">Name</TableHead>
+                                <TableHead>Is Active</TableHead>
+                                <TableHead>Slug</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {form.links.map((link) => (
+                                <TableRow key={link.id}>
+                                    <TableCell className="font-medium">{link.name}</TableCell>
+                                    <TableCell>
+                                        <Checkbox
+                                            checked={link.isActive}
+                                        />
+                                    </TableCell>
+                                    <TableCell>{link.slug}</TableCell>
+                                    <TableCell>
+                                        <div className="flex gap-2 justify-end">
+                                            <Button variant="outline">Edit</Button>
+                                            <Link href={`/forms/${link.id}`}>
+                                                <Button>View</Button>
+                                            </Link>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                }
             </TabsContent>
             <TabsContent value="forms">Change your password here.</TabsContent>
             <TabsContent value="feedback">feedback.</TabsContent>
