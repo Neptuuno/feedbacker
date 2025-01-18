@@ -78,7 +78,7 @@ export default async function FormDetail(
                                     <TableCell>{link.slug}</TableCell>
                                     <TableCell>
                                         <div className="flex gap-2 justify-end">
-                                            <QrCodeDialog/>
+                                            <QrCodeDialog slug={link.slug}/>
                                             <Button variant="outline">Edit</Button>
                                             <Link href={`/forms/render/${link.slug}`}>
                                                 <Button>View</Button>
