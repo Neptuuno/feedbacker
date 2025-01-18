@@ -19,6 +19,9 @@ export class Feedback {
   @Column()
   platform: string;
 
+  @Column()
+  linkSlug: string;
+
   @ManyToOne(() => Project, (project) => project.feedbacks)
   project: Project;
 
