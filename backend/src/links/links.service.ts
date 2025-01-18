@@ -4,7 +4,7 @@ import {UpdateLinkDto} from './dto/update-link.dto';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Link} from "./entities/link.entity";
 import {Repository} from "typeorm";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import {FormsService} from "../forms/forms.service";
 
 @Injectable()
@@ -19,7 +19,7 @@ export class LinksService {
     async create(createLinkDto: CreateLinkDto) {
         const slug = uuidv4();
         const form = await this.formsService.findOne(createLinkDto.formId);
-        if (!form){
+        if (!form) {
             throw new NotFoundException(`Link with ID ${createLinkDto.formId} not found`);
         }
 
@@ -33,6 +33,19 @@ export class LinksService {
 
     findOne(id: number) {
         return this.linksRepository.findOneBy({id});
+    }
+
+  async findBySlug(slug: string) {
+        const link = await this.linksRepository.findOne({
+            where: {slug},
+            relations: ['form'],
+        });
+
+        if (!link) {
+            throw new NotFoundException(`Link with slug "${slug}" not found`);
+        }
+
+        return link;
     }
 
     update(id: number, updateLinkDto: UpdateLinkDto) {

@@ -4,6 +4,8 @@ import { FormsController } from './forms.controller';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {Form} from "./entities/form.entity";
 import {ProjectsModule} from "../projects/projects.module";
+import {LinksService} from "../links/links.service";
+import {LinksModule} from "../links/links.module";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Form]),ProjectsModule],
