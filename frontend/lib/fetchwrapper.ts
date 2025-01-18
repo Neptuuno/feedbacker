@@ -27,7 +27,14 @@ export const fetchWrapper = async <T>(
 
     if (!response.ok) {
         if (response.status === 401){
-            redirect('/login');
+            //TODO implement refresh tokens
+            const lastPathname = (await cookies()).get("last_pathname");
+
+            if (lastPathname?.value){
+                const redirectUrl = new URL('/login', process.env.BASE_URL);
+                redirectUrl.searchParams.set('redirect', lastPathname.value);
+                redirect(redirectUrl.toString());
+            }
         }
         const error = await response.json();
         throw new Error(error.message || "Fetch error");
