@@ -1,3 +1,5 @@
+"use client";
+
 import {
     Dialog,
     DialogContent,
@@ -5,14 +7,15 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-    DialogFooter,
-    DialogClose,
+    DialogClose, DialogFooter,
 } from "@/components/ui/dialog"
 import {Button} from "@/components/ui/button";
-import {QrCode} from "lucide-react";
-import Link from "next/link";
+import {QrCode, Share, Download} from "lucide-react";
+import {useQRCode} from "next-qrcode";
 
-export default function QrCodeDialog({slug}: {slug: string}) {
+export default function QrCodeDialog({slug}: { slug: string }) {
+    const {SVG} = useQRCode();
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -20,28 +23,32 @@ export default function QrCodeDialog({slug}: {slug: string}) {
                     variant="outline" size="icon"><QrCode/>
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-sm">
                 <DialogHeader>
                     <DialogTitle>QR Code</DialogTitle>
                     <DialogDescription>
                         Anyone who has this link will be able to view this.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="flex items-center space-x-2">
-                    <div className="grid flex-1 gap-2">
-                        <h1>{slug}</h1>
-                        <Link target="_blank" href={`${process.env.BASE_URL}/forms/render/${slug}`}>{`${process.env.BASE_URL}/forms/render/${slug}`}</Link>
-                    </div>
+                <div className="flex justify-center">
+                    <SVG
+                        text={`${process.env.NEXT_PUBLIC_BASE_URL}/forms/render/${slug}`}
+                        options={{
+                            margin: 2,
+                            width: 200,
+                            color: {
+                                dark: '#000000',
+                                light: '#ffffff',
+                            },
+                        }}
+                    />
                 </div>
-                <DialogFooter className="flex justify-between">
+                <DialogFooter className="sm:justify-start">
                     <DialogClose asChild>
                         <Button type="button" variant="secondary">
                             Close
                         </Button>
                     </DialogClose>
-                    <Button type="button" variant="secondary">
-                        Close
-                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
