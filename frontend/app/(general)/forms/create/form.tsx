@@ -89,7 +89,6 @@ export function CreateFormForm({projects}: CreateFormFormProps) {
                                 {...{ ...field, value: field.value?.toString()}}>
                                 <FormControl>
                                     <SelectTrigger>
-                                        <Input type="hidden" {...field} />
                                         <SelectValue placeholder="Select project associated with the form."/>
                                     </SelectTrigger>
                                 </FormControl>
