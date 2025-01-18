@@ -41,14 +41,14 @@ interface CreateFormFormProps {
 
 export function CreateFormForm({projects}: CreateFormFormProps) {
     const [state, formAction, pending] = useActionState(createForm, initialState);
-    const params = useSearchParams()
+    const params = useSearchParams();
 
     const initialValues = {
         name: "",
         title: "",
         description: "",
         color: "#0f0f0f",
-        projectId: 0,
+        projectId: undefined,
     };
 
     const form = useForm<z.infer<typeof createFormFormSchema>>({
