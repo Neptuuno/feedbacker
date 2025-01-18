@@ -20,6 +20,7 @@ export async function login(prevState: any, formData: FormData) {
     }
 
     let success = false;
+    let redirectUrl = '/';
     try {
         const url = `${process.env.API_URL}/auth/login`;
         const data: { access_token: string } = await fetchWrapper(url, {
@@ -32,6 +33,12 @@ export async function login(prevState: any, formData: FormData) {
             httpOnly: true,
         })
         success = true;
+
+        const redirectParam = formData.get('redirect');
+        if (redirectParam && typeof redirectParam === 'string') {
+            redirectUrl = redirectParam;
+        }
+
     } catch (e: unknown) {
         let errorMessage = "An unexpected error occurred.";
 
@@ -46,7 +53,7 @@ export async function login(prevState: any, formData: FormData) {
             message: errorMessage,
         };
     }
-    if (success) redirect('/')
+    if (success) redirect(redirectUrl)
 }
 
 export async function logout() {

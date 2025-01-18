@@ -16,6 +16,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {loginFormSchema} from "@/lib/definitions";
 import {login} from "@/app/(auth)/actions";
+import {useSearchParams} from "next/navigation";
 
 const initialState = {
     errors: {
@@ -27,6 +28,7 @@ const initialState = {
 
 export function LoginForm() {
     const [state, formAction, pending] = useActionState(login, initialState)
+    const searchParams = useSearchParams();
 
     const initialValues = {
         email: "",
@@ -48,6 +50,8 @@ export function LoginForm() {
                         Enter your email below to login to your account
                     </p>
                 </div>
+
+                <input type="hidden" name="redirect" value={searchParams.get('redirect') ?? '/'}/>
 
                 <FormField
                     name="email"
