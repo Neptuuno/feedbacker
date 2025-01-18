@@ -38,11 +38,10 @@ interface CreateFormFormProps {
 export function CreateLinkForm({forms}: CreateFormFormProps) {
     const [state, formAction, pending] = useActionState(createLink, initialState)
     const params = useSearchParams()
-    console.log(params)
 
     const initialValues = {
         name: "",
-        IsActive: false,
+        isActive: true,
         formId: undefined,
     };
 
@@ -78,7 +77,6 @@ export function CreateLinkForm({forms}: CreateFormFormProps) {
                     render={({field}) => (
                         <FormItem className="flex flex-row items-start gap-2 space-y-0 rounded-md border p-4">
                             <FormControl>
-                                {/*<Input className="hidden" type="hidden" {...field} value={field.value ? "true" : "false"} />*/}
                                 <Checkbox
                                     checked={field.value}
                                     onCheckedChange={field.onChange}
@@ -107,8 +105,8 @@ export function CreateLinkForm({forms}: CreateFormFormProps) {
                         <FormItem>
                             <FormLabel>Form</FormLabel>
                             <Select
-                                defaultValue={params.get('formId')}
                                 onValueChange={field.onChange}
+                                defaultValue={(params.get('formId') as string | "")}
                                 {...{ ...field, value: field.value?.toString()}}>
                                 <FormControl>
                                     <SelectTrigger>

@@ -12,16 +12,12 @@ export async function createLink(prevState: any, formData: FormData) {
         formId: parseInt(formData.get('formId') as string | "") || undefined,
     })
 
-    console.log(formData.get('formId'))
-
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
             message: undefined
         }
     }
-
-    console.log(JSON.stringify(validatedFields.data))
 
     let success = false
     try {
