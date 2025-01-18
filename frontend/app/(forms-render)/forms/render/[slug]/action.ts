@@ -1,6 +1,6 @@
 'use server';
 
-import {createFeedbackFormSchema, createFormFormSchema} from "@/lib/definitions";
+import {createFeedbackFormSchema,} from "@/lib/definitions";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import {redirect} from "next/navigation";
 import {revalidatePath} from "next/cache";
@@ -9,11 +9,11 @@ import {Project} from "@/lib/Entities/Project";
 export async function createFeedback(prevState: any, formData: FormData) {
     const validatedFields = createFeedbackFormSchema.safeParse({
         message: formData.get('message'),
-        rating: formData.get('rating'),
         slug: formData.get('slug'),
+        rating: parseInt(formData.get('rating') as string | "") || undefined,
     })
 
-    console.log(formData.get('rating'))
+    console.log(JSON.stringify(validatedFields.data))
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,

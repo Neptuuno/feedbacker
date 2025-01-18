@@ -6,7 +6,7 @@ interface RatingProps {
     onChange?: (value: number) => void;
 }
 
-
+//src: https://github.com/shadcn-ui/ui/issues/1107#issuecomment-2277871058
 export default function Rating({ value = 0, onChange}: RatingProps) {
     const [rating, setRating] = useState(0);
 

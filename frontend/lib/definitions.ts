@@ -47,7 +47,9 @@ export const createLinkFormSchema = z.object({
 
 export const createFeedbackFormSchema = z.object({
     message: z.string().optional(),
-    rating: z.number().min(1, {
+    rating: z.number({
+        message: 'Rating is required.'
+    }).min(1, {
         message: 'Rating must be between 1 and 5'
     }).max(5, {
         message: 'Rating must be between 1 and 5'
