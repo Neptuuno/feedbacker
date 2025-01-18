@@ -6,7 +6,7 @@ import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
 
 export async function login(prevState: any, formData: FormData) {
-    const cookieStore = await cookies()
+    const cookieStore = await cookies();
     const validatedFields = loginFormSchema.safeParse({
         email: formData.get('email'),
         password: formData.get('password'),
