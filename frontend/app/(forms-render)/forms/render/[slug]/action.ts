@@ -13,6 +13,7 @@ export async function createFeedback(prevState: any, formData: FormData) {
         slug: formData.get('slug'),
     })
 
+    console.log(formData.get('rating'))
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,

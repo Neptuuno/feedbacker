@@ -19,6 +19,8 @@ import {createFeedbackFormSchema} from "@/lib/definitions";
 import {ColorPicker} from "@/components/ui/color-picker";
 import {createFeedback} from "@/app/(forms-render)/forms/render/[slug]/action";
 import {Separator} from "@/components/ui/separator";
+import {Textarea} from "@/components/ui/textarea";
+import Rating from "@/components/forms/Rating";
 
 const initialState = {
     errors: {
@@ -30,12 +32,12 @@ const initialState = {
 };
 
 
-export function CreateFeedbackForm({slug}: {slug: string}) {
+export function CreateFeedbackForm({slug}: { slug: string }) {
     const [state, formAction, pending] = useActionState(createFeedback, initialState);
 
     const initialValues = {
         message: undefined,
-        rating: undefined,
+        rating: 0,
         slug: undefined,
     };
 
@@ -51,40 +53,38 @@ export function CreateFeedbackForm({slug}: {slug: string}) {
                     className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                     <Separator/>
                 </div>
-                {/* Feedback Message */}
-                <FormField
-                    name="message"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Form Name</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Enter form name" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                                The name of your form that is visible only for you in Feedbacker.
-                            </FormDescription>
-                            <FormMessage>{state?.errors?.message}</FormMessage>
-                        </FormItem>
-                    )}
-                />
 
                 {/* Feedback Rating */}
                 <FormField
                     name="rating"
                     render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Form Color</FormLabel>
+                        <FormItem className="flex flex-col items-center gap-2">
+                            <FormLabel>Rating</FormLabel>
                             <FormControl>
                                 <Input type="hidden" {...field} />
                             </FormControl>
-                            <ColorPicker
-                                onChange={(v) => field.onChange(v)}
-                                value={field.value}
-                            />
+                            <Rating value={field.value} onChange={field.onChange}/>
                             <FormDescription>
-                                Select a color for your form.
+                                Select rating.
                             </FormDescription>
                             <FormMessage>{state?.errors?.rating}</FormMessage>
+                        </FormItem>
+                    )}
+                />
+
+                {/* Feedback Message */}
+                <FormField
+                    name="message"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormLabel>Message</FormLabel>
+                            <FormControl>
+                                <Textarea className="h-32" placeholder="Enter message for form owner" {...field} />
+                            </FormControl>
+                            <FormDescription>
+                                The name of your form that is visible only for you in Feedbacker.
+                            </FormDescription>
+                            <FormMessage>{state?.errors?.message}</FormMessage>
                         </FormItem>
                     )}
                 />
