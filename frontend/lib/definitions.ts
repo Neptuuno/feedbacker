@@ -43,7 +43,17 @@ export const createLinkFormSchema = z.object({
         message: "You have to choose if link is active or not.",
     }).default(true),
     formId: z.number().int().positive("Invalid form ID"),
-})
+});
+
+export const createFeedbackFormSchema = z.object({
+    message: z.string().optional(),
+    rating: z.number().min(1, {
+        message: 'Rating must be between 1 and 5'
+    }).max(5, {
+        message: 'Rating must be between 1 and 5'
+    }),
+    slug: z.string(),
+});
 
 export const loginFormSchema = z.object({
     email: z.string().email({
