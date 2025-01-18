@@ -1,4 +1,5 @@
 import {User} from "@/lib/Entities/User";
+import {Link} from "@/lib/Entities/Link";
 
 export interface Form {
     id: number
@@ -7,5 +8,5 @@ export interface Form {
     description: string
     color: string,
     user: User
-    link: string
+    links: Link[]
 }

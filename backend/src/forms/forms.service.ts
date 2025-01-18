@@ -26,11 +26,16 @@ export class FormsService {
   }
 
   findAll() {
-    return this.formsRepository.find();
+    return this.formsRepository.find({
+      relations: ["links"]
+    });
   }
 
   findOne(id: number) {
-    return this.formsRepository.findOneBy({id});
+    return this.formsRepository.findOne({
+      where: {id},
+      relations: ["links"]
+    });
   }
 
   update(id: number, updateFormDto: UpdateFormDto) {
