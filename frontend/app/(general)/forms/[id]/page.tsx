@@ -8,6 +8,8 @@ import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Table
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {Checkbox} from "@/components/ui/checkbox";
+import {QrCode} from "lucide-react";
+import QrCodeDialog from "@/components/forms/QrCodeDialog";
 
 
 async function getFormData(params: { id: number }): Promise<Form> {
@@ -76,8 +78,9 @@ export default async function FormDetail(
                                     <TableCell>{link.slug}</TableCell>
                                     <TableCell>
                                         <div className="flex gap-2 justify-end">
+                                            <QrCodeDialog/>
                                             <Button variant="outline">Edit</Button>
-                                            <Link href={`/frontend/app/(forms-render)/forms/render/${link.slug}`}>
+                                            <Link href={`/forms/render/${link.slug}`}>
                                                 <Button>View</Button>
                                             </Link>
                                         </div>
