@@ -9,7 +9,9 @@ export async function middleware(request: NextRequest) {
     const accessToken = cookie?.value;
 
     if (!accessToken) {
-        return NextResponse.redirect(new URL('/login', request.url));
+        const redirectUrl = new URL('/login', request.url);
+        redirectUrl.searchParams.set('redirect', request.nextUrl.pathname);
+        return NextResponse.redirect(redirectUrl);
     }
 }
 
