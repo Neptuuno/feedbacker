@@ -2,9 +2,6 @@
 
 import {createFeedbackFormSchema,} from "@/lib/definitions";
 import {fetchWrapper} from "@/lib/fetchwrapper";
-import {redirect} from "next/navigation";
-import {revalidatePath} from "next/cache";
-import {Project} from "@/lib/Entities/Project";
 
 export async function createFeedback(prevState: any, formData: FormData) {
     const validatedFields = createFeedbackFormSchema.safeParse({
@@ -21,16 +18,13 @@ export async function createFeedback(prevState: any, formData: FormData) {
         }
     }
 
-    let formId: number | null = null;
     try {
-        const url = `${process.env.API_URL}/forms`;
-        const data: Project = await fetchWrapper(url,{
+        const url = `${process.env.API_URL}/feedbacks`;
+        await fetchWrapper(url, {
             method: 'POST',
             body: JSON.stringify(validatedFields.data)
         })
-        formId = data.id;
-    }
-    catch (e: unknown) {
+    } catch (e: unknown) {
         let errorMessage = "An unexpected error occurred.";
 
         if (e instanceof Error) {
@@ -43,11 +37,6 @@ export async function createFeedback(prevState: any, formData: FormData) {
             errors: undefined,
             message: errorMessage,
         };
-    }
-
-    if (formId) {
-        revalidatePath('forms');
-        redirect(`/forms/${formId}`);
     }
 
 }

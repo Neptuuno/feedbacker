@@ -1,4 +1,4 @@
-import {IsPositive, Max, Min} from "class-validator";
+import {IsPositive, IsString, Max, Min} from "class-validator";
 
 export class CreateFeedbackDto {
     message: string;
@@ -6,4 +6,6 @@ export class CreateFeedbackDto {
     @Min(1)
     @Max(5)
     rating: number;
+    @IsString()
+    slug: string;
 }
