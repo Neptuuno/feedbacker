@@ -77,7 +77,7 @@ export default async function FormDetail(
                                     <TableCell>
                                         <div className="flex gap-2 justify-end">
                                             <Button variant="outline">Edit</Button>
-                                            <Link href={`/forms/render/${link.slug}`}>
+                                            <Link href={`/frontend/app/(forms-render)/forms/render/${link.slug}`}>
                                                 <Button>View</Button>
                                             </Link>
                                         </div>
