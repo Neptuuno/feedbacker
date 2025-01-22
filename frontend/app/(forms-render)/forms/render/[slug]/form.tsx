@@ -11,12 +11,11 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {useActionState} from "react";
+import {useActionState, useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {createFeedbackFormSchema} from "@/lib/definitions";
-import {ColorPicker} from "@/components/ui/color-picker";
 import {createFeedback} from "@/app/(forms-render)/forms/render/[slug]/action";
 import {Separator} from "@/components/ui/separator";
 import {Textarea} from "@/components/ui/textarea";
@@ -27,6 +26,7 @@ const initialState = {
         message: undefined,
         rating: undefined,
         slug: undefined,
+        userAgent: undefined,
     },
     message: undefined,
 };
@@ -34,17 +34,25 @@ const initialState = {
 
 export function CreateFeedbackForm({slug}: { slug: string }) {
     const [state, formAction, pending] = useActionState(createFeedback, initialState);
+    const [userAgent, setUserAgent] = useState('unknown');
+
+    useEffect(() => {
+        setUserAgent(navigator.userAgent);
+    }, []);
+
 
     const initialValues = {
         message: undefined,
         rating: 0,
         slug: undefined,
+        userAgent: undefined
     };
 
     const form = useForm<z.infer<typeof createFeedbackFormSchema>>({
         resolver: zodResolver(createFeedbackFormSchema),
         defaultValues: initialValues,
     });
+
 
     return (
         <Form {...form}>
@@ -96,6 +104,18 @@ export function CreateFeedbackForm({slug}: { slug: string }) {
                         <FormItem>
                             <FormControl>
                                 <Input type="hidden" {...{...field, value: slug}} />
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+
+                {/* User Agent */}
+                <FormField
+                    name="userAgent"
+                    render={({field}) => (
+                        <FormItem>
+                            <FormControl>
+                                <Input type="hidden" {...{...field, value: userAgent}} />
                             </FormControl>
                         </FormItem>
                     )}

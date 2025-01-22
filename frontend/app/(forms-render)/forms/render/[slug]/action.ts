@@ -8,9 +8,9 @@ export async function createFeedback(prevState: any, formData: FormData) {
         message: formData.get('message'),
         slug: formData.get('slug'),
         rating: parseInt(formData.get('rating') as string | "") || undefined,
+        userAgent: formData.get('userAgent'),
     })
 
-    console.log(JSON.stringify(validatedFields.data))
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
@@ -22,7 +22,10 @@ export async function createFeedback(prevState: any, formData: FormData) {
         const url = `${process.env.API_URL}/feedbacks`;
         await fetchWrapper(url, {
             method: 'POST',
-            body: JSON.stringify(validatedFields.data)
+            body: JSON.stringify(validatedFields.data),
+            headers: {
+                'User-Agent': validatedFields.data.userAgent
+            }
         })
     } catch (e: unknown) {
         let errorMessage = "An unexpected error occurred.";

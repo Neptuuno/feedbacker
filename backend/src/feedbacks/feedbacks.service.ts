@@ -20,6 +20,7 @@ export class FeedbacksService {
 
   async create(createFeedbackDto: CreateFeedbackDto, headers: {'user-agent': string }) {
     const userAgent = headers['user-agent'];
+    console.log('user-agent',userAgent);
     const device = this.deviceDetector.parse(userAgent);
     console.log(device);
     const link = await this.linksService.findBySlug(createFeedbackDto.slug);
@@ -27,7 +28,7 @@ export class FeedbacksService {
       throw new NotFoundException(`Link with slug ${createFeedbackDto.slug} not found`);
     }
 
-    const feedback = this.feedbacksRepository.create({...createFeedbackDto,link: link,form: link.form});
+    const feedback = this.feedbacksRepository.create({...createFeedbackDto,link: link,form: link.form, platform: device.os.name});
     return this.feedbacksRepository.save(feedback);
   }
 

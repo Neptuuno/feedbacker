@@ -55,6 +55,7 @@ export const createFeedbackFormSchema = z.object({
         message: 'Rating must be between 1 and 5'
     }),
     slug: z.string(),
+    userAgent: z.string().min(1)
 });
 
 export const loginFormSchema = z.object({
