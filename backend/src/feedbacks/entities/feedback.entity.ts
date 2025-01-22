@@ -8,17 +8,17 @@ export class Feedback {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: true })
-  identification: string;
-
   @Column('text')
   message: string;
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })
   createdAt: Date;
 
-  @Column({nullable: true})
+  @Column()
   platform: string;
+
+  @Column()
+  device: string;
 
   @Column()
   rating: number;

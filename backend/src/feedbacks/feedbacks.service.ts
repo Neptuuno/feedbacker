@@ -28,7 +28,7 @@ export class FeedbacksService {
       throw new NotFoundException(`Link with slug ${createFeedbackDto.slug} not found`);
     }
 
-    const feedback = this.feedbacksRepository.create({...createFeedbackDto,link: link,form: link.form, platform: device.os.name});
+    const feedback = this.feedbacksRepository.create({...createFeedbackDto,link: link,form: link.form, platform: device.os.name, device: device.device.type });
     return this.feedbacksRepository.save(feedback);
   }
 
