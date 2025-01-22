@@ -1,5 +1,4 @@
 import {Form} from "@/lib/Entities/Form";
-import {Link as EntityLink} from "@/lib/Entities/Link";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import {Card, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
@@ -8,7 +7,6 @@ import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Table
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
 import {Checkbox} from "@/components/ui/checkbox";
-import {QrCode} from "lucide-react";
 import QrCodeDialog from "@/components/forms/QrCodeDialog";
 
 
@@ -75,7 +73,7 @@ export default async function FormDetail(
                                             checked={link.isActive}
                                         />
                                     </TableCell>
-                                    <TableCell>{link.slug}</TableCell>
+                                    <TableCell><Link className="underline" target="_blank" href={`${process.env.BASE_URL}/forms/render/${link.slug}`}>{link.slug}</Link></TableCell>
                                     <TableCell>
                                         <div className="flex gap-2 justify-end">
                                             <QrCodeDialog slug={link.slug}/>

@@ -5,9 +5,12 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
 import {Feedback} from "./entities/feedback.entity";
 import {LinksService} from "../links/links.service";
+import DeviceDetector = require("device-detector-js");
 
 @Injectable()
 export class FeedbacksService {
+  private readonly deviceDetector = new DeviceDetector();
+
   constructor(
       @InjectRepository(Feedback)
       private feedbacksRepository: Repository<Feedback>,
@@ -17,7 +20,8 @@ export class FeedbacksService {
 
   async create(createFeedbackDto: CreateFeedbackDto, headers: {'user-agent': string }) {
     const userAgent = headers['user-agent'];
-    console.log(userAgent)
+    const device = this.deviceDetector.parse(userAgent);
+    console.log(device);
     const link = await this.linksService.findBySlug(createFeedbackDto.slug);
     if (!link) {
       throw new NotFoundException(`Link with slug ${createFeedbackDto.slug} not found`);
