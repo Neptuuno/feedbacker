@@ -8,7 +8,7 @@ export class Feedback {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('text')
+  @Column('text',{nullable: true})
   message: string;
 
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP(6)" })

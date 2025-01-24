@@ -34,7 +34,7 @@ export class FormsService {
   findOne(id: number) {
     return this.formsRepository.findOne({
       where: {id},
-      relations: ["links"]
+      relations: ["links","feedbacks"]
     });
   }
 

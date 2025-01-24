@@ -1,8 +1,6 @@
 import {Form} from "@/lib/Entities/Form";
 import {fetchWrapper} from "@/lib/fetchwrapper";
 import {GalleryVerticalEnd} from "lucide-react";
-import {cn} from "@/lib/utils"
-import {Button} from "@/components/ui/button"
 import {
     Card,
     CardContent,
@@ -12,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import {CreateFeedbackForm} from "@/app/(forms-render)/forms/render/[slug]/form";
 import {Link} from "@/lib/Entities/Link";
+import {Metadata} from "next";
 
 
 async function getData(slug: string): Promise<Link> {
@@ -19,10 +18,13 @@ async function getData(slug: string): Promise<Link> {
     return await fetchWrapper(url);
 }
 
+export const metadata: Metadata = {}
+
 export default async function FormRender({params}: { params: Promise<{ slug: string }> }) {
     const slug = (await params).slug;
     const link: Link = await getData(slug);
-    const form: Form = link.form
+    const form: Form = link.form;
+    metadata.title = form.title;
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
