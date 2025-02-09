@@ -11,164 +11,112 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea";
-import {useActionState} from "react";
+import {useActionState, useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
-import {createFormFormSchema} from "@/lib/definitions";
-import {ColorPicker} from "@/components/ui/color-picker";
-import {createForm} from "@/app/(general)/forms/create/action";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {Project} from "@/lib/Entities/Project";
-import Image from "next/image";
-import {useSearchParams} from "next/navigation";
+import {createFeedbackFormSchema} from "@/lib/definitions";
+import {createFeedback} from "@/app/(forms-render)/forms/render/[slug]/action";
+import {Separator} from "@/components/ui/separator";
+import {Textarea} from "@/components/ui/textarea";
+import Rating from "@/components/forms/Rating";
 
 const initialState = {
     errors: {
-        name: undefined,
-        title: undefined,
-        description: undefined,
-        color: undefined,
-        projectId: undefined,
+        message: undefined,
+        rating: undefined,
+        slug: undefined,
+        userAgent: undefined,
     },
     message: undefined,
 };
 
-interface CreateFeedbackFormProps {
-    projects: Project[];
-}
 
-export function CreateFormForm({projects}: CreateFeedbackFormProps) {
-    const [state, formAction, pending] = useActionState(createForm, initialState);
-    const params = useSearchParams();
+export function CreateFeedbackForm({slug}: { slug: string }) {
+    const [state, formAction, pending] = useActionState(createFeedback, initialState);
+    const [userAgent, setUserAgent] = useState('unknown');
+
+    useEffect(() => {
+        setUserAgent(navigator.userAgent);
+    }, []);
+
 
     const initialValues = {
-        name: "",
-        title: "",
-        description: "",
-        color: "#0f0f0f",
-        projectId: undefined,
+        message: undefined,
+        rating: 0,
+        slug: undefined,
+        userAgent: undefined
     };
 
-    const form = useForm<z.infer<typeof createFormFormSchema>>({
-        resolver: zodResolver(createFormFormSchema),
+    const form = useForm<z.infer<typeof createFeedbackFormSchema>>({
+        resolver: zodResolver(createFeedbackFormSchema),
         defaultValues: initialValues,
     });
+
 
     return (
         <Form {...form}>
             <form action={formAction} className="space-y-8">
-                {/* Form Name */}
+                <div
+                    className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                    <Separator/>
+                </div>
+
+                {/* Feedback Rating */}
                 <FormField
-                    name="name"
+                    name="rating"
+                    render={({field}) => (
+                        <FormItem className="flex flex-col items-center gap-2">
+                            <FormLabel>Rating</FormLabel>
+                            <FormControl>
+                                <Input type="hidden" {...field} />
+                            </FormControl>
+                            <Rating value={field.value} onChange={field.onChange}/>
+                            <FormDescription>
+                                Select rating.
+                            </FormDescription>
+                            <FormMessage>{state?.errors?.rating}</FormMessage>
+                        </FormItem>
+                    )}
+                />
+
+                {/* Feedback Message */}
+                <FormField
+                    name="message"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Form Name</FormLabel>
+                            <FormLabel>Message</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter form name" {...field} />
+                                <Textarea className="h-32" placeholder="Enter message for form owner" {...field} />
                             </FormControl>
                             <FormDescription>
                                 The name of your form that is visible only for you in Feedbacker.
                             </FormDescription>
-                            <FormMessage>{state?.errors?.name}</FormMessage>
+                            <FormMessage>{state?.errors?.message}</FormMessage>
                         </FormItem>
                     )}
                 />
 
-                {/* Form ProjectId */}
+                {/* Feedback Slug */}
                 <FormField
-                    control={form.control}
-                    name="projectId"
+                    name="slug"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Project</FormLabel>
-                            <Select
-                                onValueChange={field.onChange}
-                                defaultValue={params.get('projectId') ? params.get('projectId')?.toString() : projects[0].id.toString()}
-                                {...{ ...field, value: field.value?.toString()}}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <Input type="hidden" {...field} />
-                                        <SelectValue placeholder="Select project associated with the form."/>
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {projects.map((project) => (
-                                        <SelectItem key={project.id} value={project.id.toString()}>
-                                            <div className="flex gap-2 items-center">
-                                                <p>{project.name}</p>
-                                                {project.imagePath &&
-                                                    <Image className="rounded-full w-6 h-6"
-                                                        width={32} height={32}
-                                                           src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
-                                                           alt="project image"/>
-                                                }
-                                            </div>
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <FormDescription>
-                                Select project associated with the form.
-                            </FormDescription>
-                            <FormMessage>{state?.errors?.projectId}</FormMessage>
-                            <FormMessage/>
-                        </FormItem>
-                    )}
-                />
-
-                {/* Form Title */}
-                <FormField
-                    name="title"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Form Title</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter form title" {...field} />
+                                <Input type="hidden" {...{...field, value: slug}} />
                             </FormControl>
-                            <FormDescription>
-                                The title of your form for responders.
-                            </FormDescription>
-                            <FormMessage>{state?.errors?.title}</FormMessage>
                         </FormItem>
                     )}
                 />
 
-                {/* Form Description */}
+                {/* User Agent */}
                 <FormField
-                    name="description"
+                    name="userAgent"
                     render={({field}) => (
                         <FormItem>
-                            <FormLabel>Form Description</FormLabel>
                             <FormControl>
-                                <Textarea placeholder="Enter form description" {...field} />
+                                <Input type="hidden" {...{...field, value: userAgent}} />
                             </FormControl>
-                            <FormDescription>
-                                A detailed description of your form for responders.
-                            </FormDescription>
-                            <FormMessage>{state?.errors?.description}</FormMessage>
-                        </FormItem>
-                    )}
-                />
-
-                {/* Color Picker */}
-                <FormField
-                    name="color"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Form Color</FormLabel>
-                            <FormControl>
-                                <Input type="hidden" {...field} />
-                            </FormControl>
-                            <ColorPicker
-                                onChange={(v) => field.onChange(v)}
-                                value={field.value}
-                            />
-                            <FormDescription>
-                                Select a color for your form.
-                            </FormDescription>
-                            <FormMessage>{state?.errors?.color}</FormMessage>
                         </FormItem>
                     )}
                 />
@@ -176,8 +124,8 @@ export function CreateFormForm({projects}: CreateFeedbackFormProps) {
                 {state?.message && <p className="text-red-500 text-sm">{state?.message}</p>}
 
                 {/* Submit Button */}
-                <Button disabled={pending} type="submit">
-                    Create form
+                <Button className="w-full" disabled={pending} type="submit">
+                    Submit Feedback
                 </Button>
             </form>
         </Form>

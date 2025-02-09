@@ -1,5 +1,6 @@
 import {User} from "@/lib/Entities/User";
 import {Link} from "@/lib/Entities/Link";
+import { Feedback } from "./Feedback";
 
 export interface Form {
     id: number
@@ -9,4 +10,5 @@ export interface Form {
     color: string,
     user: User
     links: Link[]
+    feedbacks: Feedback[]
 }
