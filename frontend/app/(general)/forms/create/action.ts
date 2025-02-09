@@ -21,7 +21,6 @@ export async function createForm(prevState: any, formData: FormData) {
             message: undefined
         }
     }
-
     let formId: number | null = null;
     try {
         const url = `${process.env.API_URL}/forms`;

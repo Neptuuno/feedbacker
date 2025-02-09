@@ -125,7 +125,7 @@ export function CreateFeedbackForm({slug}: { slug: string }) {
 
                 {/* Submit Button */}
                 <Button className="w-full" disabled={pending} type="submit">
-                    Create form
+                    Submit Feedback
                 </Button>
             </form>
         </Form>

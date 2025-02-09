@@ -1,6 +1,6 @@
 import {Form} from "@/lib/Entities/Form";
 import {fetchWrapper} from "@/lib/fetchwrapper";
-import {GalleryVerticalEnd} from "lucide-react";
+import {FileCheck, GalleryVerticalEnd} from "lucide-react";
 import {
     Card,
     CardContent,
@@ -11,6 +11,7 @@ import {
 import {CreateFeedbackForm} from "@/app/(forms-render)/forms/render/[slug]/form";
 import {Link} from "@/lib/Entities/Link";
 import {Metadata} from "next";
+import {cookies} from "next/headers";
 
 
 async function getData(slug: string): Promise<Link> {
@@ -25,6 +26,7 @@ export default async function FormRender({params}: { params: Promise<{ slug: str
     const link: Link = await getData(slug);
     const form: Form = link.form;
     metadata.title = form.title;
+    const feedbackSubmitted = !!(await cookies()).get(`form_submitted_${form.id}`);
 
     return (
         <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
@@ -46,14 +48,23 @@ export default async function FormRender({params}: { params: Promise<{ slug: str
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <CreateFeedbackForm slug={slug}/>
+                                {
+                                    feedbackSubmitted ?
+                                        <div className="flex justify-center">
+                                            <div className="flex flex-col items-center gap-4">
+                                                <FileCheck size={128}/>
+                                                <h3 className="text-3xl text-center">Form was successfully submitted</h3>
+                                            </div>
+                                        </div>
+                                        : <CreateFeedbackForm slug={slug}/>
+                                }
                             </CardContent>
                         </Card>
-                        <div
+                        { !feedbackSubmitted && <div
                             className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
                             By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
                             and <a href="#">Privacy Policy</a>.
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </div>
