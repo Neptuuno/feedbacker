@@ -23,6 +23,8 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {Project} from "@/lib/Entities/Project";
 import Image from "next/image";
 import {useSearchParams} from "next/navigation";
+import Link from "next/link";
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 
 const initialState = {
     errors: {
@@ -59,6 +61,17 @@ export function CreateFormForm({projects}: CreateFormFormProps) {
     return (
         <Form {...form}>
             <form action={formAction} className="space-y-8">
+
+                {projects.length === 0 &&
+                    <Alert variant="destructive" className="mt-4">
+                        <AlertTitle>Warning</AlertTitle>
+                        <AlertDescription>
+                            There are no projects to add form to. You first need to <Link className="underline" href="/projects/create">add new project</Link>.
+                        </AlertDescription>
+                    </Alert>
+                }
+
+
                 {/* Form Name */}
                 <FormField
                     name="name"
@@ -77,6 +90,7 @@ export function CreateFormForm({projects}: CreateFormFormProps) {
                 />
 
                 {/* Form ProjectId */}
+                { projects.length > 0 &&
                 <FormField
                     control={form.control}
                     name="projectId"
@@ -116,6 +130,7 @@ export function CreateFormForm({projects}: CreateFormFormProps) {
                         </FormItem>
                     )}
                 />
+                }
 
                 {/* Form Title */}
                 <FormField
