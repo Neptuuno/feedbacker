@@ -29,7 +29,10 @@ export class ProjectsService {
     }
 
     findOne(id: number): Promise<Project | null> {
-        return this.projectsRepository.findOneBy({id});
+        return this.projectsRepository.findOne({
+            where: { id },
+            relations: ['forms']
+        });
     }
 
     async update(id: number, updateProjectDto: UpdateProjectDto) {

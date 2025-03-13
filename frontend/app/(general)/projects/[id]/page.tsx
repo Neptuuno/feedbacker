@@ -4,6 +4,7 @@ import Image from "next/image";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {Separator} from "@/components/ui/separator";
+import FormsView from "@/components/forms/FormsView";
 
 
 async function getData(params: { id: number }): Promise<Project> {
@@ -31,7 +32,9 @@ export default async function ProjectDetail(
                     </Card>
                     <TabsList className="my-4">
                         <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="forms">Forms</TabsTrigger>
+                        {project.forms &&
+                            <TabsTrigger value="forms">Forms</TabsTrigger>
+                        }
                         <TabsTrigger value="feedback">Feedback</TabsTrigger>
                     </TabsList>
                 </div>
@@ -49,7 +52,11 @@ export default async function ProjectDetail(
             </div>
             <Separator className="my-8"/>
             <TabsContent value="overview">Make changes to your account here.</TabsContent>
-            <TabsContent value="forms">Change your password here.</TabsContent>
+            {project.forms &&
+                <TabsContent value="forms">
+                    <FormsView forms={project.forms}/>
+                </TabsContent>
+            }
             <TabsContent value="feedback">feedback.</TabsContent>
         </Tabs>
     )
