@@ -31,7 +31,7 @@ export class ProjectsService {
     findOne(id: number): Promise<Project | null> {
         return this.projectsRepository.findOne({
             where: {id},
-            relations: ['forms']
+            relations: ['forms','forms.feedbacks']
         });
     }
 

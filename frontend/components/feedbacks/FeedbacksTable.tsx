@@ -15,9 +15,10 @@ import {Feedback} from "@/lib/Entities/Feedback";
 
 interface FeedbacksViewProps {
     feedbacks: Feedback[];
+    formName: string;
 }
 
-export default function FeedbacksTable({feedbacks}: FeedbacksViewProps) {
+export default function FeedbacksTable({feedbacks, formName}: FeedbacksViewProps) {
 
     if (feedbacks.length === 0) {
         return (
@@ -31,8 +32,8 @@ export default function FeedbacksTable({feedbacks}: FeedbacksViewProps) {
 
     return (
         <div>
+            <h3>{formName}</h3>
             <Table>
-                <TableCaption>A list of all your feedback.</TableCaption>
                 <TableHeader>
                     <TableRow>
                         <TableHead>Name</TableHead>
