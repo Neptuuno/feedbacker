@@ -5,6 +5,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 import {Separator} from "@/components/ui/separator";
 import FormsView from "@/components/forms/FormsView";
+import FeedbacksTable from "@/components/feedbacks/FeedbacksTable";
 
 
 async function getData(params: { id: number }): Promise<Project> {
@@ -57,7 +58,16 @@ export default async function ProjectDetail(
                     <FormsView forms={project.forms}/>
                 </TabsContent>
             }
-            <TabsContent value="feedback">feedback.</TabsContent>
+
+            {project.forms &&
+                <TabsContent value="feedback">
+                    {
+                        project.forms.map(form => (
+                            <FeedbacksTable key={form.id} feedbacks={form.feedbacks}/>
+                        ))
+                    }
+                </TabsContent>
+            }
         </Tabs>
     )
 }

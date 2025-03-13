@@ -30,7 +30,7 @@ export class ProjectsService {
 
     findOne(id: number): Promise<Project | null> {
         return this.projectsRepository.findOne({
-            where: { id },
+            where: {id},
             relations: ['forms']
         });
     }
@@ -44,4 +44,5 @@ export class ProjectsService {
         const project = await this.findOne(id);
         return await this.projectsRepository.remove(project);
     }
+
 }
