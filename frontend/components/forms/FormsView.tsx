@@ -37,6 +37,20 @@ interface FormsViewProps {
 export default function FormsView({forms}: FormsViewProps) {
     const [view, setView] = useState<"grid" | "table">("grid");
 
+    if (forms.length === 0) {
+        return (
+            <div className="flex flex-col gap-4 items-center justify-center h-full">
+                <h3 className="text-2xl font-bold tracking-tight">
+                    You have no forms yet
+                </h3>
+                <Link href="/forms/create">
+                    <Button>Add new form</Button>
+                </Link>
+            </div>
+
+        );
+    }
+
     return (
         <div>
             {/* Action Header */}

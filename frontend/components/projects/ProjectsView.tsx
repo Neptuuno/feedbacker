@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import {Button, buttonVariants} from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -38,6 +38,20 @@ interface ProjectsViewProps {
 
 export default function ProjectsView({ projects }: ProjectsViewProps) {
     const [view, setView] = useState<"grid" | "table">("grid");
+
+    if (projects.length === 0) {
+        return (
+            <div className="flex flex-col gap-4 items-center justify-center h-full">
+                <h3 className="text-2xl font-bold tracking-tight">
+                    You have no projects yet
+                </h3>
+                <Link href="/projects/create">
+                    <Button>Add new project</Button>
+                </Link>
+            </div>
+
+        );
+    }
 
     return (
         <div>
