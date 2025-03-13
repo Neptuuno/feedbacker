@@ -12,7 +12,7 @@ export async function createForm(prevState: any, formData: FormData) {
         title: formData.get('title'),
         description: formData.get('description'),
         color: formData.get('color'),
-        projectId: formData.get('projectId'),
+        projectId: parseInt(formData.get('projectId') as string | "") || undefined,
     })
 
     if (!validatedFields.success) {

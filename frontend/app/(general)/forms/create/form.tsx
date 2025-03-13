@@ -190,7 +190,7 @@ export function CreateFormForm({projects}: CreateFormFormProps) {
                 {state?.message && <p className="text-red-500 text-sm">{state?.message}</p>}
 
                 {/* Submit Button */}
-                <Button disabled={pending} type="submit">
+                <Button disabled={pending || projects.length === 0} type="submit">
                     Create form
                 </Button>
             </form>
