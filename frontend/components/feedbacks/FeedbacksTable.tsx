@@ -12,13 +12,14 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import {Feedback} from "@/lib/Entities/Feedback";
+import {Form} from "@/lib/Entities/Form";
 
 interface FeedbacksViewProps {
     feedbacks: Feedback[];
-    formName: string;
+    form: Form;
 }
 
-export default function FeedbacksTable({feedbacks, formName}: FeedbacksViewProps) {
+export default function FeedbacksTable({feedbacks, form}: FeedbacksViewProps) {
 
     if (feedbacks.length === 0) {
         return (
@@ -32,32 +33,24 @@ export default function FeedbacksTable({feedbacks, formName}: FeedbacksViewProps
 
     return (
         <div>
-            <h3>{formName}</h3>
+            <Link target="_blank" href={`/forms/${form.id}`}><h3 className="text-2xl p-2">{form.name}</h3></Link>
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead>Image</TableHead>
-                        <TableHead>Image</TableHead>
-                        <TableHead>Image</TableHead>
+                        <TableHead className="w-[100px]">Message</TableHead>
+                        <TableHead>Rating</TableHead>
+                        <TableHead>Platform</TableHead>
+                        <TableHead>Device</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {feedbacks.map((feedback) => (
                         <TableRow key={feedback.id}>
-                            <TableCell className="font-medium">{feedback.message}</TableCell>
-                            <TableCell>{feedback.device}</TableCell>
-                            <TableCell>{feedback.platform}</TableCell>
+                            <TableCell className="font-medium">{feedback.message ? feedback.message : '-'}</TableCell>
                             <TableCell>{feedback.rating}</TableCell>
-                            <TableCell>
-                                <div className="flex gap-2 justify-end">
-                                    <Button variant="outline">Edit</Button>
-                                    <Link href={`/projects/${feedback.id}`}>
-                                        <Button>View</Button>
-                                    </Link>
-                                </div>
-                            </TableCell>
+                            <TableCell>{feedback.platform}</TableCell>
+                            <TableCell>{feedback.device}</TableCell>
+
                         </TableRow>
                     ))}
                 </TableBody>
