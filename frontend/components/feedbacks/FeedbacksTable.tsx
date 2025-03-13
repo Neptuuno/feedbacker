@@ -17,7 +17,7 @@ interface FeedbacksViewProps {
     feedbacks: Feedback[];
 }
 
-export default function FeedbacksView({feedbacks}: FeedbacksViewProps) {
+export default function FeedbacksTable({feedbacks}: FeedbacksViewProps) {
 
     if (feedbacks.length === 0) {
         return (
@@ -32,7 +32,7 @@ export default function FeedbacksView({feedbacks}: FeedbacksViewProps) {
     return (
         <div>
             <Table>
-                <TableCaption>A list of all your projects.</TableCaption>
+                <TableCaption>A list of all your feedback.</TableCaption>
                 <TableHeader>
                     <TableRow>
                         <TableHead>Name</TableHead>
