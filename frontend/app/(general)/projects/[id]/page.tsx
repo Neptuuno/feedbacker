@@ -63,7 +63,7 @@ export default async function ProjectDetail(
                 <TabsContent value="feedback">
                     {
                         project.forms.map(form => (
-                            <FeedbacksTable key={form.id} formName={form.name} feedbacks={form.feedbacks ?? []}/>
+                            <FeedbacksTable key={form.id} form={form} feedbacks={form.feedbacks ?? []}/>
                         ))
                     }
                 </TabsContent>
