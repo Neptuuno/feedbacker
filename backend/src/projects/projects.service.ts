@@ -23,7 +23,9 @@ export class ProjectsService {
     }
 
     findAll(): Promise<Project[]> {
-        return this.projectsRepository.find();
+        return this.projectsRepository.find({
+            relations: ['forms']
+        });
     }
 
     findOne(id: number): Promise<Project | null> {
