@@ -54,10 +54,7 @@ export default function FeedbacksView({project}: FeedbacksViewProps) {
 
             {/* Grid View */}
             {view === "grid" && (
-                <>
-                <h3>Grid feedback view</h3>
                 <FeedbacksGrid project={project}/>
-                </>
             )}
 
             {/* Table View */}
