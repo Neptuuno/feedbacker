@@ -8,5 +8,11 @@ export interface Project {
     imagePath: string,
     user: User,
     forms: Form[]
-    chartsData? : {}
+    chartsData?: {
+        averageRating: number;
+        totalFeedbacks: number;
+        devices: { name: string; count: number }[];
+        platforms: { name: string; count: number }[];
+    };
+
 }
