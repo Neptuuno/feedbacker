@@ -1,10 +1,8 @@
 "use client";
 
-import {Button} from "@/components/ui/button";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -33,6 +31,7 @@ export default function FeedbacksTable({feedbacks, form}: FeedbacksViewProps) {
 
     return (
         <div>
+
             <Link target="_blank" href={`/forms/${form.id}`}><h3 className="text-2xl p-2">{form.name}</h3></Link>
             <Table>
                 <TableHeader>
