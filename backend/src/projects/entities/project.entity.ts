@@ -22,4 +22,11 @@ export class Project {
 
   @OneToMany(() => Form, (form) => form.project)
   forms: Form[];
+
+  chartsData? : {
+    averageRating: number,
+    totalFeedbacks: number,
+    devices: {},
+    platforms: {}
+  }
 }
