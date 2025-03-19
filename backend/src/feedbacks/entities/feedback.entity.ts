@@ -26,8 +26,6 @@ export class Feedback {
   @ManyToOne(() => Link, (link) => link.feedbacks)
   link: Link;
 
-  @ManyToOne(() => Project, (project) => project.feedbacks)
-  project: Project;
 
   @ManyToOne(() => Form, (form) => form.feedbacks)
   form: Form;
