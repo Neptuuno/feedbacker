@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import FeedbacksTable from "@/components/feedbacks/FeedbacksTable";
 import { Project } from "@/lib/Entities/Project";
+import FeedbacksGrid from "@/components/feedbacks/FeedbacksGrid";
 
 interface FeedbacksViewProps {
     project: Project;
@@ -53,7 +54,10 @@ export default function FormsView({project}: FeedbacksViewProps) {
 
             {/* Grid View */}
             {view === "grid" && (
+                <>
                 <h3>Grid feedback view</h3>
+                <FeedbacksGrid project={project}/>
+                </>
             )}
 
             {/* Table View */}
