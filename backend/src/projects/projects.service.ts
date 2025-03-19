@@ -78,8 +78,6 @@ export class ProjectsService {
             platforms: Object.keys(platforms).map(name => ({ name, count: platforms[name] }))
         };
 
-        console.log(JSON.stringify(project.chartsData));
-        console.log('-----------------');
         return project;
     }
 
