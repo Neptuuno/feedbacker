@@ -24,7 +24,7 @@ export class Project {
   forms: Form[];
 
   chartsData? : {
-    averageRating: number,
+    rating: { [key: string]: number; averageRating: number };
     totalFeedbacks: number,
     devices: {},
     platforms: {}

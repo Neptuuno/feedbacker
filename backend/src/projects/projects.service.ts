@@ -30,8 +30,8 @@ export class ProjectsService {
 
     async findOne(id: number): Promise<Project | null> {
         const project = await this.projectsRepository.findOne({
-            where: {id},
-            relations: ['forms','forms.feedbacks']
+            where: { id },
+            relations: ['forms', 'forms.feedbacks']
         });
 
         if (!project) {
@@ -43,36 +43,42 @@ export class ProjectsService {
             .leftJoin('p.forms', 'form')
             .leftJoin('form.feedbacks', 'feedback')
             .select([
-                'AVG(feedback.rating) as avgRating',
+                'feedback.rating as rating',
                 'feedback.device as device',
                 'feedback.platform as platform',
-                'COUNT(feedback.id) as feedbackCount',
+                'COUNT(feedback.id) as feedbackCount'
             ])
             .where('p.id = :projectId', { projectId: id })
-            .groupBy('feedback.device, feedback.platform')
+            .groupBy('feedback.rating, feedback.device, feedback.platform')
             .getRawMany();
 
         const devices = {};
         const platforms = {};
+        const ratings = {};
         let totalFeedbacks = 0;
         let totalRating = 0;
 
         feedbackData.forEach(data => {
             const device = data.device || 'Unknown';
             const platform = data.platform || 'Unknown';
+            const rating = parseInt(data.rating, 10) || 0;
             const feedbackCount = parseInt(data.feedbackcount, 10);
-            const avgRating = parseFloat(data.avgrating);
 
             devices[device] = (devices[device] || 0) + feedbackCount;
             platforms[platform] = (platforms[platform] || 0) + feedbackCount;
+            ratings[rating] = (ratings[rating] || 0) + feedbackCount;
+
             totalFeedbacks += feedbackCount;
-            totalRating += avgRating * feedbackCount;
+            totalRating += rating * feedbackCount;
         });
 
-        const avgRating = totalFeedbacks ? totalRating / totalFeedbacks : 0;
+        const averageRating = totalFeedbacks ? totalRating / totalFeedbacks : 0;
 
         project.chartsData = {
-            averageRating: avgRating,
+            rating: {
+                ...ratings,
+                averageRating: parseFloat(averageRating.toFixed(1)),
+            },
             totalFeedbacks: totalFeedbacks,
             devices: Object.keys(devices).map(name => ({ name, count: devices[name] })),
             platforms: Object.keys(platforms).map(name => ({ name, count: platforms[name] }))
@@ -80,6 +86,7 @@ export class ProjectsService {
 
         return project;
     }
+
 
     async update(id: number, updateProjectDto: UpdateProjectDto) {
         const project = await this.findOne(id);

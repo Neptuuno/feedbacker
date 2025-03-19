@@ -1,5 +1,4 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import * as React from "react";
 
 export default function DigitWithTextCard({digit, text}: {digit: number, text: string}) {
     return (
