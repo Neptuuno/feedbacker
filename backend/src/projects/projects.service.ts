@@ -28,11 +28,59 @@ export class ProjectsService {
         });
     }
 
-    findOne(id: number): Promise<Project | null> {
-        return this.projectsRepository.findOne({
+    async findOne(id: number): Promise<Project | null> {
+        const project = await this.projectsRepository.findOne({
             where: {id},
             relations: ['forms','forms.feedbacks']
         });
+
+        if (!project) {
+            return null;
+        }
+
+        const feedbackData = await this.projectsRepository
+            .createQueryBuilder('p')
+            .leftJoin('p.forms', 'form')
+            .leftJoin('form.feedbacks', 'feedback')
+            .select([
+                'AVG(feedback.rating) as avgRating',
+                'feedback.device as device',
+                'feedback.platform as platform',
+                'COUNT(feedback.id) as feedbackCount',
+            ])
+            .where('p.id = :projectId', { projectId: id })
+            .groupBy('feedback.device, feedback.platform')
+            .getRawMany();
+
+        const devices = {};
+        const platforms = {};
+        let totalFeedbacks = 0;
+        let totalRating = 0;
+
+        feedbackData.forEach(data => {
+            const device = data.device || 'Unknown';
+            const platform = data.platform || 'Unknown';
+            const feedbackCount = parseInt(data.feedbackcount, 10);
+            const avgRating = parseFloat(data.avgrating);
+
+            devices[device] = (devices[device] || 0) + feedbackCount;
+            platforms[platform] = (platforms[platform] || 0) + feedbackCount;
+            totalFeedbacks += feedbackCount;
+            totalRating += avgRating * feedbackCount;
+        });
+
+        const avgRating = totalFeedbacks ? totalRating / totalFeedbacks : 0;
+
+        project.chartsData = {
+            averageRating: avgRating,
+            totalFeedbacks: totalFeedbacks,
+            devices: Object.keys(devices).map(name => ({ name, count: devices[name] })),
+            platforms: Object.keys(platforms).map(name => ({ name, count: platforms[name] }))
+        };
+
+        console.log(JSON.stringify(project.chartsData));
+        console.log('-----------------');
+        return project;
     }
 
     async update(id: number, updateProjectDto: UpdateProjectDto) {
