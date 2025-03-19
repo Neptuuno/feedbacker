@@ -20,9 +20,6 @@ export class Project {
   @ManyToOne(() => User, (user) => user.projects)
   user: User
 
-  @OneToMany(() => Feedback, (feedback) => feedback.project)
-  feedbacks: Feedback[];
-
   @OneToMany(() => Form, (form) => form.project)
   forms: Form[];
 }
