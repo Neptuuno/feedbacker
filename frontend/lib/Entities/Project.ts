@@ -8,4 +8,5 @@ export interface Project {
     imagePath: string,
     user: User,
     forms: Form[]
+    chartsData? : {}
 }

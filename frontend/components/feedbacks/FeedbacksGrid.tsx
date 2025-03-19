@@ -5,7 +5,7 @@ interface FeedbacksGridProps {
 }
 
 export default function FeedbacksGrid({project}: FeedbacksGridProps) {
-    const feedbacks = project.forms.flatMap((form) => form.feedbacks)
+    console.log(project)
 
     return (
         <div>
