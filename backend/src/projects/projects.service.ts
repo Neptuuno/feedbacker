@@ -58,6 +58,7 @@ export class ProjectsService {
         let totalFeedbacks = 0;
         let totalRating = 0;
 
+        console.log(JSON.stringify(feedbackData))
         feedbackData.forEach(data => {
             const device = data.device || 'Unknown';
             const platform = data.platform || 'Unknown';
