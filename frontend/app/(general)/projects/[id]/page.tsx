@@ -23,7 +23,7 @@ export default async function ProjectDetail(
 
     return (
         <Tabs defaultValue="overview" className="">
-            <div className="flex justify-between">
+            <div className="flex flex-col md:flex-row justify-between">
                 <div>
                     <Card className="w-64">
                         <CardHeader>
@@ -39,9 +39,8 @@ export default async function ProjectDetail(
                         <TabsTrigger value="feedback">Feedback</TabsTrigger>
                     </TabsList>
                 </div>
-                {
-                    project.imagePath &&
-                    <Card className="w-64">
+                {project.imagePath &&
+                    <Card className="w-64 mt-4 md:mt-0">
                         <CardContent className="p-3">
                             <Image className="rounded-xl"
                                    src={`${process.env.API_URL}/${project.imagePath}`}
