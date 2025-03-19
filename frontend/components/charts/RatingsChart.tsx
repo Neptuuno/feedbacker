@@ -34,7 +34,7 @@ export function RatingsChart({rating}: { rating: { [key: string]: number; averag
             .map(key => ({
                 rating: key,
                 count: rating[key],
-                // fill: `var(--color-rating-${key})`
+                fill: `hsl(var(--chart-${key}))`
             }));
     }, [rating]);
 
