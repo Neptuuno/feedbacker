@@ -9,7 +9,10 @@ export interface Project {
     user: User,
     forms: Form[]
     chartsData?: {
-        averageRating: number;
+        rating: {
+            [key: string]: number;
+            averageRating: number;
+        };
         totalFeedbacks: number;
         devices: { name: string; count: number }[];
         platforms: { name: string; count: number }[];
