@@ -19,20 +19,27 @@ import {
 } from "@/components/ui/chart"
 
 
-const colorPalette: { [key: string]: string } = {
-    "phone": "hsl(var(--chart-1))",
-    "desktop": "hsl(var(--chart-2))",
-    "Unknown": "hsl(var(--chart-3))",
-};
 
-export function DevicesChart({ devices }: { devices: { name: string; count: number }[] }) {
+// TODO generateColor only for undefined platforms
+const generateColor = (index: number) => `hsl(${(index * 40) % 360}, 70%, 50%)`;
+
+export function PlatformsChart({ platforms }: { platforms: { name: string; count: number }[] }) {
+    const colorPalette = React.useMemo(() => {
+        const palette: { [key: string]: string } = {};
+        platforms.forEach((platform, index) => {
+            palette[platform.name] = generateColor(index);
+        });
+        return palette;
+    }, [platforms]);
+
     const chartData = React.useMemo(() => {
-        return devices.map(device => ({
-            name: device.name,
-            count: device.count,
-            fill: colorPalette[device.name] || "hsl(var(--chart-4))"
+        return platforms.map((platform, index) => ({
+            name: platform.name,
+            count: platform.count,
+            fill: colorPalette[platform.name]
         }));
-    }, [devices]);
+    }, [platforms, colorPalette]);
+
 
     const chartConfig = React.useMemo(() => {
         const config: ChartConfig = {
@@ -40,17 +47,16 @@ export function DevicesChart({ devices }: { devices: { name: string; count: numb
                 label: "Count",
             }
         };
-        devices.forEach(device => {
-            config[device.name] = {
-                label: device.name,
-                color: colorPalette[device.name] || "hsl(var(--chart-4))"
+        platforms.forEach(platform => {
+            config[platform.name] = {
+                label: platform.name,
+                color: colorPalette[platform.name]
             };
         });
 
         return config;
-    }, [devices]) satisfies ChartConfig;
+    }, [platforms, colorPalette]) satisfies ChartConfig;
 
-    console.log(chartConfig)
 
     return (
         <Card className="flex flex-col">
