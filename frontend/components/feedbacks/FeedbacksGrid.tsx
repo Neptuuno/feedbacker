@@ -2,6 +2,7 @@ import {Project} from "@/lib/Entities/Project";
 import DigitWithTextCard from "@/components/feedbacks/cards/DigitWithTextCard";
 import {RatingsChart} from "@/components/charts/RatingsChart";
 import {DevicesChart} from "@/components/charts/DevicesChart";
+import {PlatformsChart} from "@/components/charts/PlatformsChart";
 
 interface FeedbacksGridProps {
     project: Project;
@@ -24,6 +25,7 @@ export default function FeedbacksGrid({project}: FeedbacksGridProps) {
             {project.chartsData?.totalFeedbacks && <DigitWithTextCard digit={project.chartsData.totalFeedbacks} text={'Total feedbacks'}/>}
             {project.chartsData?.rating && <RatingsChart rating={project.chartsData?.rating}/>}
             {project.chartsData?.devices && <DevicesChart devices={project.chartsData?.devices}/>}
+            {project.chartsData?.platforms && <PlatformsChart platforms={project.chartsData?.platforms}/>}
         </div>
     )
 

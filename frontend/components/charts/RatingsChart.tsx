@@ -1,14 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { TrendingUp } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
 
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
@@ -18,15 +15,6 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-
-const colorPalette = {
-    "1": "hsl(var(--chart-1))",
-    "2": "hsl(var(--chart-2))",
-    "3": "hsl(var(--chart-3))",
-    "4": "hsl(var(--chart-4))",
-    "5": "hsl(var(--chart-5))",
-};
-
 export function RatingsChart({rating}: { rating: { [key: string]: number; averageRating: number } }) {
     const chartData = React.useMemo(() => {
         return Object.keys(rating)
