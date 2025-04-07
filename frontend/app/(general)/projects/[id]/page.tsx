@@ -22,7 +22,7 @@ export default async function ProjectDetail(
     const project: Project = await getData(params);
 
     return (
-        <Tabs defaultValue="overview" className="">
+        <Tabs defaultValue="forms" className="">
             <div className="flex flex-col md:flex-row justify-between">
                 <div>
                     <Card className="w-64">
@@ -32,7 +32,6 @@ export default async function ProjectDetail(
                         </CardHeader>
                     </Card>
                     <TabsList className="my-4">
-                        <TabsTrigger value="overview">Overview</TabsTrigger>
                         {project.forms &&
                             <TabsTrigger value="forms">Forms</TabsTrigger>
                         }
@@ -51,7 +50,6 @@ export default async function ProjectDetail(
                 }
             </div>
             <Separator className="my-8"/>
-            <TabsContent value="overview">Make changes to your account here.</TabsContent>
             {project.forms &&
                 <TabsContent value="forms">
                     <FormsView forms={project.forms}/>
