@@ -31,11 +31,6 @@ export default function Header() {
                             <span className="sr-only">Feedbacker</span>
                         </Link>
                         <NavLink
-                            href={"/"}
-                            name={"Dashboard"}
-                            icon={<Home className="h-5 w-5"/>}
-                        />
-                        <NavLink
                             href={"/projects"}
                             name={"Projects"}
                             icon={<PanelsTopLeft className="h-5 w-5"/>}

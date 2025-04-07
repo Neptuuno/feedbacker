@@ -1,6 +1,5 @@
 import Link from "next/link";
-import {Bell, Home, MessageSquareDiff, NotepadText, PanelsTopLeft} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import {MessageSquareDiff, NotepadText, PanelsTopLeft} from "lucide-react";
 import {NavLink} from "@/components/navigation/NavLink";
 
 export default function Sidebar() {
@@ -13,18 +12,9 @@ export default function Sidebar() {
                         <MessageSquareDiff className="h-6 w-6"/>
                         <span className="">Feedbacker</span>
                     </Link>
-                    <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-                        <Bell className="h-4 w-4"/>
-                        <span className="sr-only">Toggle notifications</span>
-                    </Button>
                 </div>
                 <div className="flex-1">
                     <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                        <NavLink
-                            href={"/"}
-                            name={"Dashboard"}
-                            icon={<Home className="h-5 w-5"/>}
-                        />
                         <NavLink
                             href={"/projects"}
                             name={"Projects"}
