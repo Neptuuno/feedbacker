@@ -9,6 +9,8 @@ import Link from "next/link";
 import {Checkbox} from "@/components/ui/checkbox";
 import QrCodeDialog from "@/components/forms/QrCodeDialog";
 import {SquareArrowOutUpRight} from "lucide-react";
+import FeedbacksTable from "@/components/feedbacks/FeedbacksTable";
+import LinksTable from "@/components/links/LinksTable";
 
 
 async function getFormData(params: { id: number }): Promise<Form> {
@@ -44,72 +46,12 @@ export default async function FormDetail(
             <TabsContent value="links">
                 <Link href={`/links/create?formId=${form.id}`}><Button className="mb-2">Add new link</Button></Link>
                 {form.links &&
-                    <Table>
-                        <TableCaption>A list of your links for form.</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[100px]">Name</TableHead>
-                                <TableHead>Is Active</TableHead>
-                                <TableHead>Slug</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {form.links.map((link) => (
-                                <TableRow key={link.id}>
-                                    <TableCell className="font-medium">{link.name}</TableCell>
-                                    <TableCell>
-                                        <Checkbox
-                                            checked={link.isActive}
-                                        />
-                                    </TableCell>
-                                    <TableCell><Link className="underline" target="_blank" href={`${process.env.BASE_URL}/forms/render/${link.slug}`}>{link.slug}</Link></TableCell>
-                                    <TableCell>
-                                        <div className="flex gap-2 justify-end">
-                                            <QrCodeDialog slug={link.slug}/>
-                                            <Button variant="outline">Edit</Button>
-                                            <Link target="_blank" href={`/forms/render/${link.slug}`}>
-                                                    <Button className="flex gap-2">View<SquareArrowOutUpRight/></Button>
-                                            </Link>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                    <LinksTable links={form.links}/>
                 }
             </TabsContent>
             <TabsContent value="feedback">
                 {form.feedbacks &&
-                    <Table>
-                        <TableCaption>A list of feedbacks for form.</TableCaption>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-[100px]">Message</TableHead>
-                                <TableHead>Rating</TableHead>
-                                <TableHead>Platform</TableHead>
-                                <TableHead>Device</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {form.feedbacks.map((feedback) => (
-                                <TableRow key={feedback.id}>
-                                    <TableCell className="font-medium">{feedback.message ? feedback.message : '-'}</TableCell>
-                                    <TableCell>{feedback.rating}</TableCell>
-                                    <TableCell>{feedback.platform}</TableCell>
-                                    <TableCell>{feedback.device}</TableCell>
-                                    {/*<TableCell>*/}
-                                    {/*    <div className="flex gap-2 justify-end">*/}
-                                    {/*        <QrCodeDialog slug={feedback.slug}/>*/}
-                                    {/*        <Button variant="outline">Edit</Button>*/}
-                                    {/*        <Link target="_blank" href={`/forms/render/${feedback.slug}`}>*/}
-                                    {/*            <Button className="flex gap-2">View<SquareArrowOutUpRight/></Button>*/}
-                                    {/*        </Link>*/}
-                                    {/*    </div>*/}
-                                    {/*</TableCell>*/}
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                    <FeedbacksTable key={form.id} feedbacks={form.feedbacks} form={form}/>
                 }
             </TabsContent>
         </Tabs>
