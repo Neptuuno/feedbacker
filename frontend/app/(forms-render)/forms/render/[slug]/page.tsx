@@ -1,6 +1,6 @@
 import {Form} from "@/lib/Entities/Form";
 import {fetchWrapper} from "@/lib/fetchwrapper";
-import {FileCheck, GalleryVerticalEnd, PenOff} from "lucide-react";
+import {FileCheck, GalleryVerticalEnd, Link2Off, PenOff} from "lucide-react";
 import {
     Card,
     CardContent,
@@ -28,10 +28,9 @@ export default async function FormRender({params}: { params: Promise<{ slug: str
     const form: Form = link.form;
     metadata.title = form.title;
     const feedbackSubmitted = !!(await cookies()).get(`form_submitted_${form.id}`);
-    console.log(link.isActive);
 
     return (
-        <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+        <div className={`flex min-h-svh flex-col items-center justify-center gap-6 bg-[${form.color}] p-6 md:p-10`}>
             <div className="flex w-full max-w-sm flex-col gap-6">
                 <a href="#" className="flex items-center gap-2 self-center font-medium">
                     <div
@@ -51,7 +50,7 @@ export default async function FormRender({params}: { params: Promise<{ slug: str
                             </CardHeader>
                             <CardContent>
                                 {!link?.isActive ? (
-                                    <StatusMessage icon={<PenOff size={128} />} text="Link is not active" />
+                                    <StatusMessage icon={<Link2Off size={128} />} text="Link is not active" />
                                 ) : feedbackSubmitted ? (
                                     <StatusMessage icon={<FileCheck size={128} />} text="Form was successfully submitted" />
                                 ) : (
