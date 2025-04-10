@@ -43,7 +43,7 @@ export default function LinksTable({ links }: {links: LinkEntity[]}) {
                                         checked={link.isActive}
                                     />
                                 </TableCell>
-                                <TableCell><Link className="underline" target="_blank" href={`${process.env.BASE_URL}/forms/render/${link.slug}`}>{link.slug}</Link></TableCell>
+                                <TableCell><Link className="underline" target="_blank" href={`/forms/render/${link.slug}`}>{link.slug}</Link></TableCell>
                                 <TableCell>
                                     <div className="flex gap-2 justify-end">
                                         <QrCodeDialog slug={link.slug}/>
