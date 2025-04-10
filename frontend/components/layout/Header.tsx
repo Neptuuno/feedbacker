@@ -2,7 +2,7 @@
 import Link from "next/link";
 import {Menu, MessageSquareDiff, NotepadText, PanelsTopLeft} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
+import {Sheet, SheetContent, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
 import AccountMenu from "@/components/AccountMenu";
 import {NavLink} from "@/components/navigation/NavLink";
 
@@ -27,7 +27,7 @@ export default function Header() {
                             className="flex items-center gap-2 text-lg font-semibold"
                         >
                             <MessageSquareDiff className="h-6 w-6"/>
-                            <span className="sr-only">Feedbacker</span>
+                            <SheetTitle>Feedbacker</SheetTitle>
                         </Link>
                         <NavLink
                             href={"/projects"}
