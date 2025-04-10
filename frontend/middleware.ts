@@ -26,5 +26,5 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: '/((?!login|register|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    matcher: '/((?!login|register|forms/render/.*|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
 }

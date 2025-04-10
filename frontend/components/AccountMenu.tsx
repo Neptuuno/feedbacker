@@ -31,7 +31,6 @@ export default async function AccountMenu() {
                 <DropdownMenuLabel>{userData.username}</DropdownMenuLabel>
                 <DropdownMenuSeparator/>
                 <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator/>
                 <LogoutMenuItem/>
             </DropdownMenuContent>
