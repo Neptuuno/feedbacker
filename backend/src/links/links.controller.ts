@@ -2,6 +2,7 @@ import {Controller, Get, Post, Body, Patch, Param, Delete, Query} from '@nestjs/
 import { LinksService } from './links.service';
 import { CreateLinkDto } from './dto/create-link.dto';
 import { UpdateLinkDto } from './dto/update-link.dto';
+import {Public} from "../custom-decorators/isPublic";
 
 @Controller('links')
 export class LinksController {
@@ -13,6 +14,7 @@ export class LinksController {
   }
 
   @Get()
+  @Public()
   async findAll(@Query('slug') slug?: string) {
     if (slug) {
       return this.linksService.findBySlug(slug);
