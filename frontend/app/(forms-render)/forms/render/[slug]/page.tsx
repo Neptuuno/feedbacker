@@ -30,7 +30,7 @@ export default async function FormRender({params}: { params: Promise<{ slug: str
     const feedbackSubmitted = !!(await cookies()).get(`form_submitted_${form.id}`);
 
     return (
-        <div className={`flex min-h-svh flex-col items-center justify-center gap-6 bg-[${form.color}] p-6 md:p-10`}>
+        <div style={{ backgroundColor: form.color }} className="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10 grayscale-[0.5]">
             <div className="flex w-full max-w-sm flex-col gap-6">
                 <a href="#" className="flex items-center gap-2 self-center font-medium">
                     <div
