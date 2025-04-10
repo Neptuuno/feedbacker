@@ -20,7 +20,7 @@ export class LinksService {
         const slug = uuidv4();
         const form = await this.formsService.findOne(createLinkDto.formId);
         if (!form) {
-            throw new NotFoundException(`FormId with ID ${createLinkDto.formId} not found`);
+            throw new NotFoundException(`Form with ID ${createLinkDto.formId} not found`);
         }
 
         const link = this.linksRepository.create({...createLinkDto, slug, form: form});
