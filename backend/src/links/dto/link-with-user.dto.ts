@@ -15,8 +15,4 @@ export class LinkWithUserDto {
     @Type(() => RenderFormDto)
     @Expose()
     form: RenderFormDto;
-
-    @Type(() => RenderFormUserDto)
-    @Expose()
-    user: RenderFormUserDto;
 }

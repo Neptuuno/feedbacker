@@ -1,4 +1,5 @@
-import { Expose } from "class-transformer";
+import {Expose, Type} from "class-transformer";
+import {RenderFormUserDto} from "../../users/dto/render-form-user.dto";
 
 export class RenderFormDto {
     @Expose()
@@ -13,4 +14,7 @@ export class RenderFormDto {
     @Expose()
     color: string;
 
+    @Type(() => RenderFormUserDto)
+    @Expose()
+    user: RenderFormUserDto;
 }
