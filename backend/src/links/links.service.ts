@@ -6,6 +6,8 @@ import {Link} from "./entities/link.entity";
 import {Repository} from "typeorm";
 import {v4 as uuidv4} from 'uuid';
 import {FormsService} from "../forms/forms.service";
+import {plainToInstance} from "class-transformer";
+import {LinkWithUserDto} from "./dto/link-with-user.dto";
 
 @Injectable()
 export class LinksService {
@@ -38,14 +40,16 @@ export class LinksService {
   async findBySlug(slug: string) {
         const link = await this.linksRepository.findOne({
             where: {slug},
-            relations: ['form','form.project'],
+            relations: ['form','form.project','form.user'],
         });
 
         if (!link) {
             throw new NotFoundException(`Link with slug "${slug}" not found`);
         }
 
-        return link;
+      console.log(link)
+
+        return plainToInstance(LinkWithUserDto, link, {excludeExtraneousValues: true});
     }
 
     update(id: number, updateLinkDto: UpdateLinkDto) {
