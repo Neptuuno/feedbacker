@@ -29,13 +29,16 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import {Form} from "@/lib/Entities/Form";
+import {Project} from "@/lib/Entities/Project";
 
 interface FormsViewProps {
     forms: Form[];
+    project?: Project;
 }
 
-export default function FormsView({forms}: FormsViewProps) {
+export default function FormsView({forms, project}: FormsViewProps) {
     const [view, setView] = useState<"grid" | "table">("grid");
+    const href = project ? `/forms/create?projectId=${project.id}` : '/forms/create';
 
     if (forms.length === 0) {
         return (
@@ -43,7 +46,7 @@ export default function FormsView({forms}: FormsViewProps) {
                 <h3 className="text-2xl font-bold tracking-tight">
                     You have no forms yet
                 </h3>
-                <Link href="/forms/create">
+                <Link href={href}>
                     <Button>Add new form</Button>
                 </Link>
             </div>
@@ -55,7 +58,7 @@ export default function FormsView({forms}: FormsViewProps) {
         <div>
             {/* Action Header */}
             <div className="mb-4 flex gap-2">
-                <Link href="/forms/create">
+                <Link href={href}>
                     <Button>Add new form</Button>
                 </Link>
                 <Select
