@@ -1,6 +1,5 @@
 import {Expose, Type} from "class-transformer";
 import {RenderFormDto} from "../../forms/dto/render-form.dto";
-import {RenderFormUserDto} from "../../users/dto/render-form-user.dto";
 
 export class LinkWithUserDto {
     @Expose()
