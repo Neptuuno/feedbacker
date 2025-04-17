@@ -52,7 +52,7 @@ export default async function ProjectDetail(
             <Separator className="my-8"/>
             {project.forms &&
                 <TabsContent value="forms">
-                    <FormsView forms={project.forms}/>
+                    <FormsView forms={project.forms} project={project}/>
                 </TabsContent>
             }
 

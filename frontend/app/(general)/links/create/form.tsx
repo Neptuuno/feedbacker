@@ -37,7 +37,7 @@ interface CreateFormFormProps {
 
 export function CreateLinkForm({forms}: CreateFormFormProps) {
     const [state, formAction, pending] = useActionState(createLink, initialState)
-    const params = useSearchParams()
+    const params = useSearchParams();
 
     const initialValues = {
         name: "",
