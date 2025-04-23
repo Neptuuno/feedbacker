@@ -31,14 +31,14 @@ export class ProjectsController {
         @Body() createProjectDto: CreateProjectDto,
         @Request() req
     ) {
-        console.log(file)
         return this.projectsService.create(createProjectDto, req.user.sub, file?.path);
     }
 
     @Get()
-    findAll() {
-        return this.projectsService.findAll();
+    findAll(@Request() req) {
+        return this.projectsService.findAllByUser(req.user.sub);
     }
+
 
     @Get(':id')
     findOne(@Param('id') id: string) {

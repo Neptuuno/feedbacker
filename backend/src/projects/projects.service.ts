@@ -28,6 +28,14 @@ export class ProjectsService {
         });
     }
 
+    async findAllByUser(userId: number): Promise<Project[]> {
+        return this.projectsRepository.find({
+            where: { user: { id: userId } },
+            relations: ['forms']
+        });
+    }
+
+
     async findOne(id: number): Promise<Project | null> {
         const project = await this.projectsRepository.findOne({
             where: { id },

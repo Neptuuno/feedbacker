@@ -14,8 +14,8 @@ export class FormsController {
   }
 
   @Get()
-  findAll() {
-    return this.formsService.findAll();
+  findAll(@Request() req) {
+    return this.formsService.findAllByUser(req.user.sub);
   }
 
   @Get(':id')

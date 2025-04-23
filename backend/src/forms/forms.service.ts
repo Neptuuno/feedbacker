@@ -6,6 +6,7 @@ import {Repository} from "typeorm";
 import {Form} from "./entities/form.entity";
 import {ProjectsService} from "../projects/projects.service";
 import {UsersService} from "../users/users.service";
+import {Project} from "../projects/entities/project.entity";
 
 @Injectable()
 export class FormsService {
@@ -34,6 +35,12 @@ export class FormsService {
     findAll() {
         return this.formsRepository.find({
             relations: ["links"]
+        });
+    }
+    async findAllByUser(userId: number): Promise<Form[]> {
+        return this.formsRepository.find({
+            where: { user: { id: userId } },
+            relations: ['links']
         });
     }
 
