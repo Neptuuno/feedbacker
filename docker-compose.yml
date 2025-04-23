@@ -26,6 +26,7 @@ services:
       - db
     volumes:
       - ./backend/src:/app/src
+      - ./backend/src:/app/upload-images
 
   frontend:
     build:
