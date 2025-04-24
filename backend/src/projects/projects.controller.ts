@@ -17,10 +17,14 @@ import {FileInterceptor} from "@nestjs/platform-express";
 import {ApiBody, ApiConsumes} from "@nestjs/swagger";
 import {CreateProjectWithImageDto} from "./dto/create-project-with-image.dto";
 import {UpdateProjectWithImageDto} from "./dto/update-project-with-image.dto";
+import {CaslAbilityFactory} from "../casl/casl-ability.factory";
+import {checkAbility} from "../casl/checkAbility";
+import {Action} from "../casl/action.enum";
 
 @Controller('projects')
 export class ProjectsController {
-    constructor(private readonly projectsService: ProjectsService) {
+    constructor(private readonly projectsService: ProjectsService,
+                private readonly caslAbilityFactory: CaslAbilityFactory) {
     }
 
     @Post()
@@ -50,10 +54,13 @@ export class ProjectsController {
     @UseInterceptors(FileInterceptor('file'))
     @ApiConsumes('multipart/form-data')
     @ApiBody({type: UpdateProjectWithImageDto})
-    update(@Param('id') id: string,
+   async update(@Param('id') id: string,
            @Body() updateProjectDto: UpdateProjectDto,
-           @UploadedFile() file: Express.Multer.File) {
-        return this.projectsService.update(+id, updateProjectDto, file?.path);
+           @UploadedFile() file: Express.Multer.File,
+           @Request() req) {
+        const project = await this.projectsService.findOne(+id);
+        checkAbility(this.caslAbilityFactory, req.user, Action.Update, project);
+        return this.projectsService.update(project, updateProjectDto, file?.path);
     }
 
     @Delete(':id')

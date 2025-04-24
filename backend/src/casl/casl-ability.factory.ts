@@ -9,10 +9,11 @@ import {
 } from '@casl/ability';
 import { User } from '../users/entities/user.entity';
 import { Action } from './action.enum';
+import {Project} from "../projects/entities/project.entity";
 
 type Subjects =
   | InferSubjects<
-       typeof User
+       typeof User | typeof Project
     >
   | 'all';
 type PossibleAbilities = [Action, Subjects];
@@ -28,6 +29,7 @@ export class CaslAbilityFactory {
     );
     const userId = user.sub;
     can(Action.Read, User, { id: userId});
+    can(Action.Update, Project, { user: { id: userId } });
 
     return build({
       detectSubjectType: (item) =>

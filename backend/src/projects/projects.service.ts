@@ -66,7 +66,6 @@ export class ProjectsService {
         let totalFeedbacks = 0;
         let totalRating = 0;
 
-        console.log(JSON.stringify(feedbackData))
         feedbackData.forEach(data => {
             const device = data.device || 'Unknown';
             const platform = data.platform || 'Unknown';
@@ -97,8 +96,7 @@ export class ProjectsService {
     }
 
 
-    async update(id: number, updateProjectDto: UpdateProjectDto, imagePath: string | undefined) {
-        const project = await this.findOne(id);
+    async update(project: Project, updateProjectDto: UpdateProjectDto, imagePath: string | undefined) {
         return this.projectsRepository.save({...project, ...updateProjectDto, imagePath: imagePath});
     }
 

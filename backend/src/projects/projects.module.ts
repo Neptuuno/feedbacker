@@ -6,12 +6,13 @@ import {Project} from "./entities/project.entity";
 import {UsersModule} from "../users/users.module";
 import {MulterModule} from "@nestjs/platform-express";
 import {MulterConfigService} from '../shared/multer-config-service';
+import {CaslModule} from "../casl/casl.module";
 
 @Module({
     imports: [TypeOrmModule.forFeature([Project]), UsersModule,
         MulterModule.registerAsync({
             useClass: MulterConfigService,
-        }),
+        }), CaslModule
     ],
     controllers: [ProjectsController],
     providers: [ProjectsService],
