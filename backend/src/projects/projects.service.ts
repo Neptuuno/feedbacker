@@ -97,9 +97,9 @@ export class ProjectsService {
     }
 
 
-    async update(id: number, updateProjectDto: UpdateProjectDto) {
+    async update(id: number, updateProjectDto: UpdateProjectDto, imagePath: string | undefined) {
         const project = await this.findOne(id);
-        return this.projectsRepository.save({...project, ...updateProjectDto});
+        return this.projectsRepository.save({...project, ...updateProjectDto, imagePath: imagePath});
     }
 
     async remove(id: number) {

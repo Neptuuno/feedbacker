@@ -16,6 +16,7 @@ import {UpdateProjectDto} from './dto/update-project.dto';
 import {FileInterceptor} from "@nestjs/platform-express";
 import {ApiBody, ApiConsumes} from "@nestjs/swagger";
 import {CreateProjectWithImageDto} from "./dto/create-project-with-image.dto";
+import {UpdateProjectWithImageDto} from "./dto/update-project-with-image.dto";
 
 @Controller('projects')
 export class ProjectsController {
@@ -46,8 +47,13 @@ export class ProjectsController {
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-        return this.projectsService.update(+id, updateProjectDto);
+    @UseInterceptors(FileInterceptor('file'))
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({type: UpdateProjectWithImageDto})
+    update(@Param('id') id: string,
+           @Body() updateProjectDto: UpdateProjectDto,
+           @UploadedFile() file: Express.Multer.File) {
+        return this.projectsService.update(+id, updateProjectDto, file?.path);
     }
 
     @Delete(':id')

@@ -80,7 +80,7 @@ export async function updateProject(prevState: any, formData: FormData) {
     try {
         const url = `${process.env.API_URL}/projects/${validatedFields.data.projectId}`;
         const data: Project = await fetchWrapper(url,{
-            method: 'PUT',
+            method: 'PATCH',
             body: newFormData,
         })
         projectId = data.id;
