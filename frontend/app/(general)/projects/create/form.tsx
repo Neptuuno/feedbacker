@@ -13,11 +13,12 @@ import {
 import {Input} from "@/components/ui/input";
 import {Textarea} from "@/components/ui/textarea"
 import {useActionState} from "react";
-import {createProject} from "@/app/(general)/projects/create/action";
+import {createProject, updateProject} from "@/app/(general)/projects/create/actions";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {createProjectFormSchema} from "@/lib/definitions";
+import {Project} from "@/lib/Entities/Project";
 
 const initialState = {
     errors: {
@@ -28,12 +29,12 @@ const initialState = {
     message: undefined
 };
 
-export function CreateProjectForm() {
-    const [state, formAction, pending] = useActionState(createProject, initialState)
+export function CreateProjectForm({project}: {project?: Project}) {
+    const [state, formAction, pending] = useActionState(project ? updateProject : createProject, initialState)
 
     const initialValues = {
-        name: "",
-        description: "",
+        name: project?.name ?? "",
+        description: project?.description ?? "",
         image: undefined,
     };
 

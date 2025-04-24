@@ -13,7 +13,6 @@ export default async function EditProject({params}: { params: Promise<{ id: numb
     return <div className="lg:max-w-[50%]">
         <h1>Update project <Link className="underline" target="_blank"
                                  href={`/projects/${project.id}`}>{project.name}</Link></h1>
-
-        <CreateProjectForm/>
+        <CreateProjectForm project={project}/>
     </div>
 }
