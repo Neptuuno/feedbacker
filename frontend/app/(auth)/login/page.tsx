@@ -1,5 +1,6 @@
 import Image from "next/image"
 import {LoginForm} from "@/app/(auth)/login/form";
+import authImage from "@/public/auth-image.jpg"
 
 export default function Login() {
   return (
@@ -9,7 +10,7 @@ export default function Login() {
         </div>
         <div className="hidden bg-muted lg:block">
           <Image
-              src="/placeholder.svg"
+              src={authImage}
               alt="Image"
               width="1920"
               height="1080"

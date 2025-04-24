@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import authImage from "@/public/auth-image.jpg"
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -80,7 +81,7 @@ export default function Login() {
         </div>
         <div className="hidden bg-muted lg:block">
           <Image
-              src="/placeholder.svg"
+              src={authImage}
               alt="Image"
               width="1920"
               height="1080"
