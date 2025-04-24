@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import {Button, buttonVariants} from "@/components/ui/button";
+import {useState} from "react";
+import {Button} from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -30,13 +30,13 @@ import {
 } from "@/components/ui/select";
 import Link from "next/link";
 import Image from "next/image";
-import { Project } from "@/lib/Entities/Project";
+import {Project} from "@/lib/Entities/Project";
 
 interface ProjectsViewProps {
     projects: Project[];
 }
 
-export default function ProjectsView({ projects }: ProjectsViewProps) {
+export default function ProjectsView({projects}: ProjectsViewProps) {
     const [view, setView] = useState<"grid" | "table">("grid");
 
     if (projects.length === 0) {
@@ -65,7 +65,7 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                     onValueChange={(value) => setView(value as "grid" | "table")}
                 >
                     <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select view" />
+                        <SelectValue placeholder="Select view"/>
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
@@ -98,7 +98,9 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                 </CardContent>
                             )}
                             <CardFooter className="flex justify-between">
-                                <Button variant="outline">Edit</Button>
+                                <Link href={`/projects/create/${project.id}`}>
+                                    <Button variant="outline">Edit</Button>
+                                </Link>
                                 <Link href={`/projects/${project.id}`}>
                                     <Button>View</Button>
                                 </Link>
@@ -125,8 +127,8 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                             <TableRow key={project.id}>
                                 <TableCell className="font-medium">{project.name}</TableCell>
                                 <TableCell>{project.description}</TableCell>
-                                    <TableCell>
-                                        {project?.imagePath && (
+                                <TableCell>
+                                    {project?.imagePath && (
                                         <Image
                                             className="rounded-full"
                                             src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
@@ -134,11 +136,13 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                             width={32}
                                             height={32}
                                         />
-                                        )}
-                                    </TableCell>
+                                    )}
+                                </TableCell>
                                 <TableCell>
                                     <div className="flex gap-2 justify-end">
-                                        <Button variant="outline">Edit</Button>
+                                        <Link href={`/projects/create/${project.id}`}>
+                                            <Button variant="outline">Edit</Button>
+                                        </Link>
                                         <Link href={`/projects/${project.id}`}>
                                             <Button>View</Button>
                                         </Link>
