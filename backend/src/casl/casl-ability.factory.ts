@@ -10,10 +10,11 @@ import {
 import { User } from '../users/entities/user.entity';
 import { Action } from './action.enum';
 import {Project} from "../projects/entities/project.entity";
+import {Form} from "../forms/entities/form.entity";
 
 type Subjects =
   | InferSubjects<
-       typeof User | typeof Project
+       typeof User | typeof Project | typeof Form
     >
   | 'all';
 type PossibleAbilities = [Action, Subjects];
@@ -30,6 +31,7 @@ export class CaslAbilityFactory {
     const userId = user.sub;
     can(Action.Read, User, { id: userId});
     can<FlatProject>(Action.Manage, Project, { 'user.id': userId });
+    can<FlatForm>(Action.Manage, Form, { 'user.id': userId });
 
     return build({
       detectSubjectType: (item) =>
@@ -39,5 +41,9 @@ export class CaslAbilityFactory {
 }
 
 type FlatProject = Project & {
+  'user.id': number;
+};
+
+type FlatForm = Form & {
   'user.id': number;
 };
