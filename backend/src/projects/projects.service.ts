@@ -39,7 +39,7 @@ export class ProjectsService {
     async findOne(id: number): Promise<Project | null> {
         const project = await this.projectsRepository.findOne({
             where: { id },
-            relations: ['forms', 'forms.feedbacks']
+            relations: ['forms', 'forms.feedbacks','user']
         });
 
         if (!project) {

@@ -29,7 +29,7 @@ export class CaslAbilityFactory {
     );
     const userId = user.sub;
     can(Action.Read, User, { id: userId});
-    can(Action.Update, Project, { user: { id: userId } });
+    can<FlatProject>(Action.Manage, Project, { 'user.id': userId });
 
     return build({
       detectSubjectType: (item) =>
@@ -37,3 +37,7 @@ export class CaslAbilityFactory {
     });
   }
 }
+
+type FlatProject = Project & {
+  'user.id': number;
+};

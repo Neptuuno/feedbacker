@@ -46,8 +46,10 @@ export class ProjectsController {
 
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.projectsService.findOne(+id);
+    async findOne(@Param('id') id: string, @Request() req) {
+        const project = await this.projectsService.findOne(+id);
+        checkAbility(this.caslAbilityFactory, req.user, Action.Read, project);
+        return project;
     }
 
     @Patch(':id')
