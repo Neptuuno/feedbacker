@@ -72,7 +72,7 @@ export function CreateProjectForm({project}: { project?: Project }) {
                         render={({field}) => (
                             <FormItem>
                                 <FormControl>
-                                    <Input type="number" {...field} readOnly/>
+                                    <Input type="number" {...field} hidden/>
                                 </FormControl>
                                 <FormMessage>{state?.errors?.projectId}</FormMessage>
                             </FormItem>
