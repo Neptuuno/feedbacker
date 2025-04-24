@@ -117,6 +117,7 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                             <TableHead>Name</TableHead>
                             <TableHead>Description</TableHead>
                             <TableHead>Image</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -124,8 +125,8 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                             <TableRow key={project.id}>
                                 <TableCell className="font-medium">{project.name}</TableCell>
                                 <TableCell>{project.description}</TableCell>
-                                {project?.imagePath && (
                                     <TableCell>
+                                        {project?.imagePath && (
                                         <Image
                                             className="rounded-full"
                                             src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
@@ -133,8 +134,8 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                                             width={32}
                                             height={32}
                                         />
+                                        )}
                                     </TableCell>
-                                )}
                                 <TableCell>
                                     <div className="flex gap-2 justify-end">
                                         <Button variant="outline">Edit</Button>
