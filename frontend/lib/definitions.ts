@@ -4,6 +4,7 @@ const MAX_FILE_SIZE = 7000000;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 export const createProjectFormSchema = z.object({
+    projectId: z.number().optional(),
     name: z.string().min(2, {
         message: "Name must be at least 2 characters.",
     }),

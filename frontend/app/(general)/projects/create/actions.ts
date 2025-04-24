@@ -61,6 +61,7 @@ export async function updateProject(prevState: any, formData: FormData) {
         name: formData.get('name'),
         description: formData.get('description'),
         image: formData.get('image'),
+        projectId: parseInt(formData.get('projectId') as string | "") || undefined,
     })
 
     if (!validatedFields.success) {
@@ -77,9 +78,9 @@ export async function updateProject(prevState: any, formData: FormData) {
 
     let projectId: number | null = null;
     try {
-        const url = `${process.env.API_URL}/projects`;
+        const url = `${process.env.API_URL}/projects/${validatedFields.data.projectId}`;
         const data: Project = await fetchWrapper(url,{
-            method: 'POST',
+            method: 'PUT',
             body: newFormData,
         })
         projectId = data.id;

@@ -22,6 +22,7 @@ import {Project} from "@/lib/Entities/Project";
 
 const initialState = {
     errors: {
+        projectId: undefined,
         name: undefined,
         description: undefined,
         image: undefined
@@ -29,10 +30,11 @@ const initialState = {
     message: undefined
 };
 
-export function CreateProjectForm({project}: {project?: Project}) {
+export function CreateProjectForm({project}: { project?: Project }) {
     const [state, formAction, pending] = useActionState(project ? updateProject : createProject, initialState)
 
     const initialValues = {
+        projectId: project?.id ?? undefined,
         name: project?.name ?? "",
         description: project?.description ?? "",
         image: undefined,
@@ -62,6 +64,21 @@ export function CreateProjectForm({project}: {project?: Project}) {
                         </FormItem>
                     )}
                 />
+
+                {/* ProjectId (edit) */}
+                {project &&
+                    <FormField
+                        name="projectId"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Input type="number" {...field} readOnly/>
+                                </FormControl>
+                                <FormMessage>{state?.errors?.projectId}</FormMessage>
+                            </FormItem>
+                        )}
+                    />
+                }
 
                 {/* Project Description */}
                 <FormField
