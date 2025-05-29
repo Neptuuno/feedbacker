@@ -13,6 +13,7 @@ import {Link} from "@/lib/Entities/Link";
 import {Metadata} from "next";
 import {cookies} from "next/headers";
 import {StatusMessage} from "@/components/forms/StatusMessage";
+import NextLink from "next/link";
 
 
 async function getData(slug: string): Promise<Link> {
@@ -26,6 +27,7 @@ export default async function FormRender({params}: { params: Promise<{ slug: str
     const slug = (await params).slug;
     const link: Link = await getData(slug);
     const form: Form = link.form;
+    console.log('form log', form)
     metadata.title = form.title;
     const feedbackSubmitted = !!(await cookies()).get(`form_submitted_${form.id}`);
 
@@ -37,7 +39,7 @@ export default async function FormRender({params}: { params: Promise<{ slug: str
                         className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
                         <User className="size-4"/>
                     </div>
-                    { form.user.username }
+                    <NextLink href={`/users/${form.user.id}`}>{ form.user.username }</NextLink>
                 </div>
                 <div>
                     <div className="flex flex-col gap-6">
