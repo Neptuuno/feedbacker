@@ -12,6 +12,9 @@ export class User {
     @Column({unique: true})
     username: string
 
+    @Column({unique: true, nullable: true})
+    chat_app_user_id: number
+
     @Column()
     @Exclude()
     password: string

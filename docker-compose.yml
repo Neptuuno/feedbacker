@@ -6,7 +6,7 @@ services:
     restart: always
     environment:
       - POSTGRES_PASSWORD=postgres
-    container_name: postgres
+    container_name: feedbacker-postgres
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     ports:
@@ -16,7 +16,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: nest-backend
+    container_name: feedbacker-backend
     environment:
       - PORT=3000
       - WATCHPACK_POLLING=true
@@ -32,7 +32,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: next-frontend
+    container_name: feedbacker-frontend
     environment:
       - PORT=4000
       - WATCHPACK_POLLING=true
@@ -45,11 +45,11 @@ services:
 
   feedbacker-adminer:
     image: adminer
-    container_name: adminer
+    container_name: feedbacker-adminer
     restart: always
     depends_on:
       - db
     ports:
-      - "8060:8060"
+      - "8050:8050"
     logging:
       driver: "none"
