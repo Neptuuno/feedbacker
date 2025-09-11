@@ -14,9 +14,10 @@ import { FormsModule } from './forms/forms.module';
 import {Form} from "./forms/entities/form.entity";
 import { LinksModule } from './links/links.module';
 import {Link} from "./links/entities/link.entity";
+import {ConfigModule} from "@nestjs/config";
 
 @Module({
-    imports: [UsersModule, ProjectsModule, FeedbacksModule
+    imports: [ConfigModule.forRoot(), UsersModule, ProjectsModule, FeedbacksModule
         , TypeOrmModule.forRoot({
             type: 'postgres',
             host: 'db',

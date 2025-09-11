@@ -4,11 +4,21 @@ import {JwtService} from "@nestjs/jwt";
 import {CreateUserDto} from "../users/dto/create-user.dto";
 import * as argon2 from "argon2";
 import {Response} from 'express'
+import {User} from "../users/entities/user.entity";
+import {google} from "googleapis";
+import {ConfigService} from "@nestjs/config";
 
 
 @Injectable()
 export class AuthService {
-    constructor(private usersService: UsersService, private jwtService: JwtService) {
+    private readonly oauthClient: any;
+
+    constructor(private usersService: UsersService, private jwtService: JwtService, private configService: ConfigService) {
+        this.oauthClient = new google.auth.OAuth2(
+            this.configService.get<string>('GOOGLE_CLIENT_ID'),
+            this.configService.get<string>('GOOGLE_CLIENT_SECRET'),
+            this.configService.get<string>('GOOGLE_REDIRECT_URI'),
+        );
     }
 
     async signIn(email: string, pass: string, response: Response): Promise<{access_token: string}> {
@@ -51,6 +61,55 @@ export class AuthService {
             ...user,
             access_token: accessToken
         };
+    }
+
+    getGoogleAuthUrl(): string {
+        return this.oauthClient.generateAuthUrl({
+            access_type: 'offline',
+            scope: ['profile', 'email'], // Requesting email and profile info
+            prompt: 'consent', // Force consent screen every time
+        });
+    }
+
+    async googleLogin(code: string): Promise<{ user: User, accessToken: string }> {
+        try {
+            const { tokens } = await this.oauthClient.getToken(code);
+            this.oauthClient.setCredentials(tokens);
+
+            const oauth2 = google.oauth2({
+                auth: this.oauthClient,
+                version: 'v2'
+            });
+
+            // Get user info from Google's API
+            const { data } = await oauth2.userinfo.get();
+            if (!data) {
+                throw new UnauthorizedException('Failed to get user data from Google.');
+            }
+
+            // Find or create the user in your database
+            let user = await this.usersService.findOneByGoogleId(data.id);
+            if (!user) {
+                // If the user doesn't exist, create a new one.
+                const createUserDto: CreateUserDto = {
+                    email: data.email,
+                    googleId: data.id,
+                    // You might want to generate a random password or handle it differently
+                    password: '' // Or some placeholder, as it won't be used for Google login
+                };
+                user = await this.usersService.create(createUserDto);
+            }
+
+            // Generate JWT for your application
+            const payload = { sub: user.id, username: user.email };
+            const accessToken = await this.jwtService.signAsync(payload, { expiresIn: '15m' });
+
+            return { user, accessToken };
+
+        } catch (error) {
+            console.error('Google OAuth failed:', error);
+            throw new UnauthorizedException('Google authentication failed.');
+        }
     }
 
 }

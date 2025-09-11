@@ -30,6 +30,10 @@ export class UsersService {
         return this.usersRepository.findOneBy({username});
     }
 
+    async findOneByGoogleId(googleId: string): Promise<User | null> {
+        return this.usersRepository.findOne({ where: { googleId } });
+    }
+
     update(id: number, updateUserDto: UpdateUserDto) {
         return `This action updates a #${id} user`;
     }

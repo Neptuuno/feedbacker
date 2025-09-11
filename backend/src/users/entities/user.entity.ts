@@ -23,6 +23,9 @@ export class User {
     @IsEmail()
     email: string
 
+    @Column({ nullable: true, unique: true })
+    googleId: string;
+
     @OneToMany(() => Project, (project) => project.user)
     projects: Project[]
 

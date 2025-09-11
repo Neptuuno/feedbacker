@@ -24,7 +24,7 @@ export default async function UserDetail(
                 buttonText="Link account"
                 appSlug="b2e97f6c-416c-46b8-ab71-31756d606335"
                 chatAppBaseUrl="http://localhost:7000/login"
-                redirectUri="http://localhost:4000/projects"
+                redirectUri={`${process.env.BASE_URL}/users/${user.id}`}
             />
         </div>
     )

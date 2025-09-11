@@ -17,6 +17,7 @@ import {z} from "zod";
 import {loginFormSchema} from "@/lib/definitions";
 import {login} from "@/app/(auth)/actions";
 import {useSearchParams} from "next/navigation";
+import {GoogleSignInButton} from "@/components/GoogleSignInButton";
 
 const initialState = {
     errors: {
@@ -91,6 +92,8 @@ export function LoginForm() {
 
                 {/* Submit Button */}
                 <Button disabled={pending} type="submit">Login</Button>
+
+                <GoogleSignInButton/>
             </form>
         </Form>
     );

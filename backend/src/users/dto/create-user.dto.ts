@@ -1,8 +1,9 @@
 import {IsEmail} from "class-validator";
 
 export class CreateUserDto {
-    username?: string
+    username?: string;
     @IsEmail()
-    email: string
-    password: string
+    email: string;
+    password: string;
+    googleId?: string;
 }
