@@ -81,15 +81,15 @@ export default function ProjectsView({projects}: ProjectsViewProps) {
             {view === "grid" && (
                 <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                     {projects.map((project) => (
-                        <Card key={project.id} className="w-[350px]">
+                        <Card key={project.id} className="w-[350px] flex flex-col h-[500px]">
                             <CardHeader>
                                 <CardTitle>{project.name}</CardTitle>
                                 <CardDescription>{project.description}</CardDescription>
                             </CardHeader>
                             {project?.imagePath && (
-                                <CardContent>
+                                <CardContent className="flex-1 flex items-center justify-center overflow-hidden">
                                     <Image
-                                        className="rounded-xl"
+                                        className="rounded-xl object-contain max-h-[300px] w-auto"
                                         src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
                                         alt="project image"
                                         width={500}
@@ -97,7 +97,7 @@ export default function ProjectsView({projects}: ProjectsViewProps) {
                                     />
                                 </CardContent>
                             )}
-                            <CardFooter className="flex justify-between">
+                            <CardFooter className="flex justify-between mt-auto">
                                 <Link href={`/projects/create/${project.id}`}>
                                     <Button variant="outline">Edit</Button>
                                 </Link>
