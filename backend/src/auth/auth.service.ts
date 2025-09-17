@@ -7,7 +7,7 @@ import {Response} from 'express'
 import {User} from "../users/entities/user.entity";
 import {google} from "googleapis";
 import {ConfigService} from "@nestjs/config";
-
+import * as crypto from 'crypto';
 
 @Injectable()
 export class AuthService {
@@ -92,12 +92,12 @@ export class AuthService {
             // Find or create the user in your database
             let user = await this.usersService.findOneByGoogleId(data.id);
             if (!user) {
-                // If the user doesn't exist, create a new one.
+                const randomPassword = crypto.randomBytes(32).toString('hex');
+                const hash = await argon2.hash(randomPassword);
                 const createUserDto: CreateUserDto = {
                     email: data.email,
                     googleId: data.id,
-                    // You might want to generate a random password or handle it differently
-                    password: 'placeholder' // Or some placeholder, as it won't be used for Google login
+                    password: hash,
                 };
                 user = await this.usersService.create(createUserDto);
             }
