@@ -17,7 +17,9 @@ import {Link} from "./links/entities/link.entity";
 import {ConfigModule} from "@nestjs/config";
 
 @Module({
-    imports: [ConfigModule.forRoot(), UsersModule, ProjectsModule, FeedbacksModule
+    imports: [ConfigModule.forRoot({
+        isGlobal: true,
+    }), UsersModule, ProjectsModule, FeedbacksModule
         , TypeOrmModule.forRoot({
             type: 'postgres',
             host: 'db',

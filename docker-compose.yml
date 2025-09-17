@@ -50,6 +50,6 @@ services:
     depends_on:
       - db
     ports:
-      - "8050:8050"
+      - "8080:8080"
     logging:
       driver: "none"

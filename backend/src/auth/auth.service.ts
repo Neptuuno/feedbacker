@@ -71,7 +71,7 @@ export class AuthService {
         });
     }
 
-    async googleLogin(code: string): Promise<{ user: User, accessToken: string }> {
+    async googleLogin(code: string, response: Response): Promise<{ user: User, accessToken: string }> {
         try {
             const { tokens } = await this.oauthClient.getToken(code);
             this.oauthClient.setCredentials(tokens);
@@ -87,6 +87,8 @@ export class AuthService {
                 throw new UnauthorizedException('Failed to get user data from Google.');
             }
 
+            console.log(data);
+
             // Find or create the user in your database
             let user = await this.usersService.findOneByGoogleId(data.id);
             if (!user) {
@@ -95,7 +97,7 @@ export class AuthService {
                     email: data.email,
                     googleId: data.id,
                     // You might want to generate a random password or handle it differently
-                    password: '' // Or some placeholder, as it won't be used for Google login
+                    password: 'placeholder' // Or some placeholder, as it won't be used for Google login
                 };
                 user = await this.usersService.create(createUserDto);
             }
@@ -103,6 +105,12 @@ export class AuthService {
             // Generate JWT for your application
             const payload = { sub: user.id, username: user.email };
             const accessToken = await this.jwtService.signAsync(payload, { expiresIn: '15m' });
+
+            response.cookie('access_token', accessToken, {
+                httpOnly: true,
+                // secure: true,
+                maxAge: 15 * 60 * 1000,
+            });
 
             return { user, accessToken };
 

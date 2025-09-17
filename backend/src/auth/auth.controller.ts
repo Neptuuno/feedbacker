@@ -1,14 +1,17 @@
-import {Body, Controller, Get, HttpCode, HttpStatus, Post, Res, Request, Query} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpStatus, Post, Res, Request, Query, Injectable} from '@nestjs/common';
 import {Response} from 'express'
 import {AuthService} from "./auth.service";
 import {AuthDto} from "./dto/auth.dto";
 import {Public} from "../custom-decorators/isPublic";
 import {ApiBearerAuth} from "@nestjs/swagger";
+import {ConfigService} from "@nestjs/config";
 
 @Controller('auth')
 @ApiBearerAuth()
+@Injectable()
 export class AuthController {
-    constructor(private authService: AuthService) {
+    constructor(private authService: AuthService,
+                private configService: ConfigService) {
     }
 
     @HttpCode(HttpStatus.OK)
@@ -27,31 +30,19 @@ export class AuthController {
 
     @Get('google/login')
     @Public()
-    googleAuth(@Res() res: Response) {
-        res.redirect(this.authService.getGoogleAuthUrl());
+    googleAuth(@Res() response: Response) {
+        response.redirect(this.authService.getGoogleAuthUrl());
     }
 
-    // Handles the Google OAuth callback
-    @Get('google/redirect')
+    @Get('google/callback')
     @Public()
-    async googleAuthRedirect(@Query('code') code: string, @Res() res: Response) {
-        const result = await this.authService.googleLogin(code);
+    async googleAuthRedirect(@Query('code') code: string, @Res({passthrough: true}) response: Response) {
+        const result = await this.authService.googleLogin(code, response);
 
-        // Handle successful login
         if (result.user && result.accessToken) {
-            // Set the JWT token as a cookie
-            res.cookie('access_token', result.accessToken, {
-                httpOnly: true,
-                // secure: true, // Use this in production
-                maxAge: 15 * 60 * 1000,
-            });
-
-            // Redirect to the Next.js frontend after successful authentication.
-            // You can redirect to a specific dashboard or profile page.
-            res.redirect(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard`);
+            response.redirect(`${this.configService.get<string>('FRONTEND_URL')}`);
         } else {
-            // Redirect with an error message or to a dedicated error page
-            res.redirect(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/login?error=oauth_failed`);
+            response.redirect(`${this.configService.get<string>('FRONTEND_URL')}/login?error=oauth_failed`);
         }
     }
 

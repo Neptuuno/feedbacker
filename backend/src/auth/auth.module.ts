@@ -10,7 +10,6 @@ import {ConfigModule} from "@nestjs/config";
 @Module({
     imports: [
         UsersModule,
-        ConfigModule,
         JwtModule.register({
             global: true,
             secret: 'SECRET',
