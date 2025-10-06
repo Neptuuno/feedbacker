@@ -23,7 +23,11 @@ export async function createProject(prevState: any, formData: FormData) {
     const newFormData = new FormData();
     newFormData.append("name",validatedFields.data.name)
     newFormData.append("description",validatedFields.data.description)
-    newFormData.append("file",validatedFields.data.image)
+
+    const imageFile = validatedFields.data.image as File;
+    if (imageFile && imageFile.size > 0 && imageFile.name !== "") {
+        newFormData.append("file", imageFile);
+    }
 
     let projectId: number | null = null;
     try {
@@ -74,7 +78,11 @@ export async function updateProject(prevState: any, formData: FormData) {
     const newFormData = new FormData();
     newFormData.append("name",validatedFields.data.name)
     newFormData.append("description",validatedFields.data.description)
-    newFormData.append("file",validatedFields.data.image)
+
+    const imageFile = validatedFields.data.image as File;
+    if (imageFile && imageFile.size > 0 && imageFile.name !== "") {
+        newFormData.append("file", imageFile);
+    }
 
     let projectId: number | null = null;
     try {

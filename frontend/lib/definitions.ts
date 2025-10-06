@@ -13,11 +13,12 @@ export const createProjectFormSchema = z.object({
     }),
     image: z
         .any()
-        .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 7MB.`)
+        .refine((file) => !file || file.size === 0 || file.size <= MAX_FILE_SIZE, `Max image size is 7MB.`)
         .refine(
-            (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+            (file) => !file || file.size === 0 || ACCEPTED_IMAGE_TYPES.includes(file?.type),
             "Only .jpg, .jpeg, .png and .webp formats are supported."
         )
+        .optional()
 });
 
 export const createFormFormSchema = z.object({

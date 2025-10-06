@@ -92,7 +92,7 @@ export default function ProjectsView({projects}: ProjectsViewProps) {
                                         className="rounded-xl object-contain max-h-[300px] w-auto"
                                         src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
                                         alt="project image"
-                                        width={500}
+                                        width={300}
                                         height={300}
                                     />
                                 </CardContent>

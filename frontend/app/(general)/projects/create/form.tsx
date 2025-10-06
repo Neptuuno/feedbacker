@@ -19,6 +19,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {createProjectFormSchema} from "@/lib/definitions";
 import {Project} from "@/lib/Entities/Project";
+import Image from "next/image";
 
 const initialState = {
     errors: {
@@ -37,7 +38,7 @@ export function CreateProjectForm({project}: { project?: Project }) {
         projectId: project?.id ?? undefined,
         name: project?.name ?? "",
         description: project?.description ?? "",
-        image: undefined,
+        image: project?.imagePath ?? undefined,
     };
 
     const form = useForm<z.infer<typeof createProjectFormSchema>>({
@@ -105,15 +106,30 @@ export function CreateProjectForm({project}: { project?: Project }) {
                         <FormItem>
                             <FormLabel>Project Image</FormLabel>
                             <FormControl>
-                                <Input
-                                    {...fieldProps}
-                                    placeholder="Image"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={(event) =>
-                                        onChange(event.target.files && event.target.files[0])
-                                    }
-                                />
+                                <div className="space-y-4">
+                                    {/* The image preview */}
+                                    {project?.imagePath && (
+                                        <div className="w-64 h-48 relative rounded-md overflow-hidden">
+                                            <Image
+                                                src={`${process.env.NEXT_PUBLIC_API_URL}/${project.imagePath}`}
+                                                alt="Project Image Preview"
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                    )}
+                                    {/* The Shadcn Input for file upload */}
+                                    <Input
+                                        {...fieldProps}
+                                        placeholder="Image"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(event) =>
+                                            onChange(event.target.files && event.target.files[0])
+                                        }
+                                        className="cursor-pointer file:text-foreground file:bg-primary file:rounded-md file:border-none file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-primary/90"
+                                    />
+                                </div>
                             </FormControl>
                             <FormDescription>
                                 The project image.
@@ -126,7 +142,7 @@ export function CreateProjectForm({project}: { project?: Project }) {
                 {state?.message && <p className="text-red-500 text-sm">{state?.message}</p>}
 
                 {/* Submit Button */}
-                <Button disabled={pending} type="submit">Create Project</Button>
+                <Button disabled={pending} type="submit">{project ? 'Edit' : 'Create'} Project</Button>
             </form>
         </Form>
     );
